@@ -1,0 +1,19 @@
+// [master]
+// ユーザー作成
+mysql> create user 'repl'@'192.168.99.12' identified by 'test-password';
+
+// 権限設定
+mysql> grant replication slave on *.* to 'repl'@'192.168.99.12';
+
+// [read_replica]
+// レプリケーション設定
+mysql> change master to
+    -> master_host="192.168.99.11",
+    -> master_user="repl",
+    -> master_password="test-password";
+
+// 開始
+mysql> start slave;
+
+// 確認
+mysql> show slave status\G
