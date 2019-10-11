@@ -1,12 +1,12 @@
 import java.io.*;
 
 public class BufferReader {
-    public static void main(String[] args) {
+    public static void main(StringReplace[] args) {
         System.out.println("Input Your Name");
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         try {
-            String line = reader.readLine();
+            StringReplace line = reader.readLine();
             System.out.println("Hello " + line);
 
             System.out.println("Enter Your Age");

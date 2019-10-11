@@ -2,8 +2,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class While {
-    public static void main(String[] args) {
+public class WhileSimple {
+    public static void main(StringReplace[] args) {
         int i = 0;
         while (i < 3) {
             System.out.println(i);
