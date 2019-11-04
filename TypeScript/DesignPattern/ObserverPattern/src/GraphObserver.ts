@@ -3,11 +3,12 @@ import NumberGenerator from "./NumberGenerator";
 
 export default class GraphObserver implements Observer {
     public update = async (generator: NumberGenerator) => {
-        console.log("GraphObserver: ")
         let count: number = generator.getNumber()
+        let str: string = " "
         for (let i = 0; i < count; i++) {
-            console.log("*")
+            str = str + "*"
         }
+        console.log("GraphObserver: ", str)
         console.log(" ")
         await this.sleep(100)
     }

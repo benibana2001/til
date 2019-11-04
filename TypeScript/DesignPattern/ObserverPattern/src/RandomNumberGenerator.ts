@@ -2,9 +2,8 @@ import NumberGenerator from "./NumberGenerator";
 
 export default class RandomNumberGenerator extends NumberGenerator {
     private random: number = 0
-    private num: number = 0
     public getNumber = (): number => {
-        return this.num
+        return this.random
     }
     public execute = (): void => {
         for (let i = 0; i < 20; i++) {
