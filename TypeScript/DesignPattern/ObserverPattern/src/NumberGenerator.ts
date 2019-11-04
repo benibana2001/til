@@ -8,16 +8,18 @@ export default abstract class NumberGenerator {
         this.observers.appendObserver(observer)
     }
     // public deleteObserver = (observer: Observer): void => {
-        // this.observers.remove(observer)
+    // this.observers.remove(observer)
     // }
-    public notifyObservers = (): void => {
+    public notifyObservers = async (): Promise<any> => {
         let it: Iterator = this.observers.iterator()
         while (it.hasNext()) {
-            let o: Observer = it.next()
-            o.update(this)// Observerへ通知
+            (async () => {
+                let o: Observer = it.next()
+                await o.update(this)// Observerへ通知
+            })()
         }
     }
     // TODO: 抽象クラスの書き方が怪しい numberを返したい
-    public abstract getNumber = (): number => {return}
-    public abstract execute = () => {}
+    public abstract getNumber = (): number => { return }
+    public abstract execute = () => { }
 }

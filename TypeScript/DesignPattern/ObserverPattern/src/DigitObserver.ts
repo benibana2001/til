@@ -3,18 +3,8 @@ import NumberGenerator from "./NumberGenerator";
 
 export default class DigitObserver implements Observer {
     // public update = async (generator: NumberGenerator) => {
-    public update = (generator: NumberGenerator) => {
-        console.log("DigitObserver: ", generator.getNumber())
+    public update = async (generator: NumberGenerator): Promise<any> => {
         // await this.sleep(1000)
-    }
-
-    private sleep = async (milliSec: number): Promise<any> => {
-        return new Promise(
-            (resolve, reject) => {
-                setTimeout(() => {
-                    resolve()
-                }, milliSec)
-            }
-        )
+        console.log("DigitObserver: ", generator.getNumber())
     }
 }
