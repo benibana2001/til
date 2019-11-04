@@ -1,13 +1,15 @@
-import Observer from "./ObserverInterface";
+import Observer from "./ObserverInterface"
+import Observers from "./Observers"
+import Iterator from "./IteratorInterface"
 
 export default abstract class NumberGenerator {
-    private observers: Observer[] = []
+    private observers: Observers = new Observers()
     public addObserver = (observer: Observer): void => {
-        this.observers.add(observer)
+        this.observers.appendObserver(observer)
     }
-    public deleteObserver = (observer: Observer): void => {
-        this.observers.remove(observer)
-    }
+    // public deleteObserver = (observer: Observer): void => {
+        // this.observers.remove(observer)
+    // }
     public notifyObservers = (): void => {
         let it: Iterator = this.observers.iterator()
         while (it.hasNext()) {
@@ -15,6 +17,7 @@ export default abstract class NumberGenerator {
             o.update(this)// Observerへ通知
         }
     }
-    public abstract getNumber = () => {}
+    // TODO: 抽象クラスの書き方が怪しい numberを返したい
+    public abstract getNumber = (): number => {return}
     public abstract execute = () => {}
 }
