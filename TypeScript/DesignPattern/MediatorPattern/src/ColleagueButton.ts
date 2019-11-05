@@ -1,20 +1,20 @@
 import Colleague from "./ColleagueInterface";
 import Mediator from "./MediatorInterface";
+import DOMElement from "./DOMElement";
 
-export default class ColleagueButton implements Colleague {
+export default class ColleagueButton extends DOMElement implements Colleague {
     private mediator: Mediator
-    private elem: Element
-    // public createButton(): void {
-    // this.elem = document.createElement('button')
-    // }
     constructor() {
-        this.elem = document.createElement('button')
+        super('button')
+    }
+    public getState(): boolean {
+        return this.elem.getAttribute("checked") === "checked" ? true : false
     }
     public setMediator(mediator: Mediator): void {
         this.mediator = mediator
     }
-    public setColleagueEnable(enabled: boolean): void {
+    public setColleagueEnabled(enabled: boolean): void {
         // DOM操作 ボタンを有効化する
-        this.elem.setAttribute("disabled", "disabled")
+        this.elem.setAttribute("disabled", "")
     }
 }
