@@ -7,14 +7,19 @@ export default class ColleagueButton extends DOMElement implements Colleague {
     constructor() {
         super('button')
     }
-    public getState(): boolean {
-        return this.elem.getAttribute("checked") === "checked" ? true : false
-    }
     public setMediator(mediator: Mediator): void {
         this.mediator = mediator
     }
+    public setValue(value: string): void {
+        this.elem.setAttribute("value", value)
+        this.elem.textContent = value
+    }
     public setColleagueEnabled(enabled: boolean): void {
         // DOM操作 ボタンを有効化する
-        this.elem.setAttribute("disabled", "")
+        if (enabled) {
+            this.elem.setAttribute("disabled", "")
+        } else {
+            this.elem.setAttribute("disabled", "disabled")
+        }
     }
 }

@@ -4,7 +4,7 @@ export default abstract class DOMElement {
     constructor(tag: string){
         this.elem = document.createElement(tag)
     }
-    protected setParent(parent: Element): void {
+    public setParent(parent: Element): void {
         this.parent = parent
     }
     public appendElem(): void {

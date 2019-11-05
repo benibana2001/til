@@ -12,6 +12,7 @@ export default class LoginFrame implements Mediator {
 
     constructor() {
         this.createColleagues()
+        this.addColleagues()
     }
 
     public createColleagues(): void {
@@ -28,9 +29,38 @@ export default class LoginFrame implements Mediator {
         this.textPass.setMediator(this)
         this.buttonOk.setMediator(this)
         this.buttonCancel.setMediator(this)
+
+        this.checkGuest.setName('name')
+        this.checkLogin.setName('name')
+        this.buttonOk.setValue('OK')
+        this.buttonCancel.setValue('Cancel')
+    }
+
+    public addColleagues(): void {
+        let body: Element = document.getElementById('form')
+        this.checkGuest.setParent(body)
+        this.checkLogin.setParent(body)
+        this.textUser.setParent(body)
+        this.textPass.setParent(body)
+        this.buttonOk.setParent(body)
+        this.buttonCancel.setParent(body)
+
+        this.checkGuest.appendElem()
+        this.checkLogin.appendElem()
+        this.textUser.appendElem()
+        this.textPass.appendElem()
+        this.buttonOk.appendElem()
+        this.buttonCancel.appendElem()
     }
 
     public colleagueChanged(): void {
-        
+        if (this.checkGuest.getState()) {
+            this.textUser.setColleagueEnabled(false)
+            this.textPass.setColleagueEnabled(false)
+            this.buttonOk.setColleagueEnabled(true)
+        } else {
+            this.textUser.setColleagueEnabled(true)
+            // this.userpassChanged()
+        }
     }
 }

@@ -13,7 +13,11 @@ export default class ColleagueTextField extends DOMElement implements Colleague 
     }
     public setColleagueEnabled(enabled: boolean): void {
         // DOM操作 ボタンを有効化する
-        this.elem.setAttribute("disabled", "")
+        if (enabled) {
+            this.elem.setAttribute("disabled", "")
+        } else {
+            this.elem.setAttribute("disabled", "disabled")
+        }
     }
     // 文字列が変化したらMediatorに通知
     public textValueChanged(): void {
