@@ -34,15 +34,27 @@ module.exports = {
 		path: path.resolve(__dirname, 'dist')
 	},
 
-	plugins: [new webpack.ProgressPlugin(), new HtmlWebpackPlugin()],
+	plugins: [
+		new webpack.ProgressPlugin(), 
+		new HtmlWebpackPlugin(
+			{
+				template: './src/html/index.html'
+			}
+		)
+	],
 
 	module: {
 		rules: [
 			{
-				test: /.(ts|tsx)?$/,
+				test: /\.ts$/,
 				loader: 'ts-loader',
 				include: [path.resolve(__dirname, 'src')],
 				exclude: [/node_modules/]
+			},
+			{
+				test: /\.html$/,
+				include: [path.resolve(__dirname, 'src')],
+				loader: "html-loader"
 			}
 		]
 	},
