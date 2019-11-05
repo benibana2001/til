@@ -19,7 +19,6 @@ export default class ColleagueTextField extends DOMElement implements Colleague 
     public setColleagueEnabled = (enabled: boolean): void => {
         // DOM操作 ボタンを有効化する
         if (enabled) {
-            // this.elem.setAttribute("disabled", "");
             this.elem.removeAttribute("disabled");
             (this.elem as HTMLInputElement).style.backgroundColor = "white"
         } else {

@@ -12,7 +12,6 @@ export default class LoginFrame implements Mediator {
 
     constructor() {
         this.createColleagues()
-        // this.addColleagues()
         this.colleagueChanged()
     }
 
@@ -32,46 +31,23 @@ export default class LoginFrame implements Mediator {
         this.buttonCancel.setMediator(this)
     }
 
-    /*
-    public addColleagues(): void {
-        let body: Element = document.getElementById('form')
-        this.checkGuest.setParent(body)
-        this.checkLogin.setParent(body)
-        this.textUser.setParent(body)
-        this.textPass.setParent(body)
-        this.buttonOk.setParent(body)
-        this.buttonCancel.setParent(body)
-
-        this.checkGuest.appendElem()
-        this.checkLogin.appendElem()
-        this.textUser.appendElem()
-        this.textPass.appendElem()
-        this.buttonOk.appendElem()
-        this.buttonCancel.appendElem()
-    }
-    */
-
     public colleagueChanged = (): void => {
-        if (this.checkGuest.getState()) {
-            console.log("checked Guest")
+        if (this.isGuest()) {
             this.textUser.setColleagueEnabled(false)
             this.textPass.setColleagueEnabled(false)
             this.buttonOk.setColleagueEnabled(true)
-        } else {
-            console.log("checked Login")
+        } 
+
+        if (this.isLogin()) {
             this.textUser.setColleagueEnabled(true)
             this.userpassChanged()
         }
     }
 
     private userpassChanged = (): void => {
-        console.log(this.textUser.getText())
-        // TODO: lengthが0になってしまう
-        console.log(this.textUser.getText.length)
-        if (this.textUser.getText.length > 0) {
-            console.log("Pass > 0 です")
+        if (this.isFilledTextUser()) {
             this.textPass.setColleagueEnabled(true)
-            if (this.textPass.getText().length > 0) {
+            if (this.isFilledTextPass()) {
                 this.buttonOk.setColleagueEnabled(true)
             } else {
                 this.buttonOk.setColleagueEnabled(false)
@@ -80,5 +56,21 @@ export default class LoginFrame implements Mediator {
             this.textPass.setColleagueEnabled(false)
             this.buttonOk.setColleagueEnabled(false)
         }
+    }
+
+    private isGuest = (): boolean => {
+        return this.checkGuest.getState()
+    }
+
+    private isLogin = (): boolean => {
+        return this.checkLogin.getState()
+    }
+
+    private isFilledTextUser = (): boolean => {
+        return this.textUser.getText().length > 0
+    }
+
+    private isFilledTextPass = (): boolean => {
+        return this.textPass.getText().length > 0
     }
 }
