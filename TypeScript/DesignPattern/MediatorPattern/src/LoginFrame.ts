@@ -12,16 +12,17 @@ export default class LoginFrame implements Mediator {
 
     constructor() {
         this.createColleagues()
-        this.addColleagues()
+        // this.addColleagues()
+        this.colleagueChanged()
     }
 
-    public createColleagues(): void {
-        this.checkGuest = new ColleagueCheckbox()
-        this.checkLogin = new ColleagueCheckbox()
-        this.textUser = new ColleagueTextField()
-        this.textPass = new ColleagueTextField()
-        this.buttonOk = new ColleagueButton()
-        this.buttonCancel = new ColleagueButton()
+    public createColleagues = (): void => {
+        this.checkGuest = new ColleagueCheckbox('checkGuest')
+        this.checkLogin = new ColleagueCheckbox('checkLogin')
+        this.textUser = new ColleagueTextField('textUser')
+        this.textPass = new ColleagueTextField('textPass')
+        this.buttonOk = new ColleagueButton('buttonOK')
+        this.buttonCancel = new ColleagueButton('buttonCancel')
 
         this.checkGuest.setMediator(this)
         this.checkLogin.setMediator(this)
@@ -29,13 +30,9 @@ export default class LoginFrame implements Mediator {
         this.textPass.setMediator(this)
         this.buttonOk.setMediator(this)
         this.buttonCancel.setMediator(this)
-
-        this.checkGuest.setName('name')
-        this.checkLogin.setName('name')
-        this.buttonOk.setValue('OK')
-        this.buttonCancel.setValue('Cancel')
     }
 
+    /*
     public addColleagues(): void {
         let body: Element = document.getElementById('form')
         this.checkGuest.setParent(body)
@@ -52,15 +49,36 @@ export default class LoginFrame implements Mediator {
         this.buttonOk.appendElem()
         this.buttonCancel.appendElem()
     }
+    */
 
-    public colleagueChanged(): void {
+    public colleagueChanged = (): void => {
         if (this.checkGuest.getState()) {
+            console.log("checked Guest")
             this.textUser.setColleagueEnabled(false)
             this.textPass.setColleagueEnabled(false)
             this.buttonOk.setColleagueEnabled(true)
         } else {
+            console.log("checked Login")
             this.textUser.setColleagueEnabled(true)
-            // this.userpassChanged()
+            this.userpassChanged()
+        }
+    }
+
+    private userpassChanged = (): void => {
+        console.log(this.textUser.getText())
+        // TODO: lengthが0になってしまう
+        console.log(this.textUser.getText.length)
+        if (this.textUser.getText.length > 0) {
+            console.log("Pass > 0 です")
+            this.textPass.setColleagueEnabled(true)
+            if (this.textPass.getText().length > 0) {
+                this.buttonOk.setColleagueEnabled(true)
+            } else {
+                this.buttonOk.setColleagueEnabled(false)
+            }
+        } else {
+            this.textPass.setColleagueEnabled(false)
+            this.buttonOk.setColleagueEnabled(false)
         }
     }
 }

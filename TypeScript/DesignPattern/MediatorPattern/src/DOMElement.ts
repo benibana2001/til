@@ -1,13 +1,14 @@
 export default abstract class DOMElement {
     protected elem: Element
     protected parent: Element
-    constructor(tag: string){
-        this.elem = document.createElement(tag)
+    constructor(id: string){
+        // this.elem = document.createElement(tag)
+        this.elem = document.getElementById(id)
     }
-    public setParent(parent: Element): void {
+    public setParent = (parent: Element): void => {
         this.parent = parent
     }
-    public appendElem(): void {
+    public appendElem = (): void => {
         this.parent.appendChild(this.elem)
     }
 }
