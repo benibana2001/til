@@ -1,0 +1,17 @@
+{
+  "name": "service-worker-tsc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cp html/index.html dist/index.html & tsc",
+    "start": "http-server ./dist -p 8888"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^0.11.1",
+    "typescript": "^3.7.2"
+  }
+}
