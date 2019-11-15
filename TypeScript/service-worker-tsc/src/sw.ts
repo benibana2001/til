@@ -6,10 +6,9 @@ self.addEventListener('install', (event: any) => {
                 '/index.html',
                 '/index.js',
                 '/image-list.js',
-                '/star-wars-logo.jpg',
-                'gallery/bountyHunters.jpg',
-                'gallery/myLittleVader.jpg',
-                'gallery/snowTroopers.jpg'
+                'gallery/korea_blue.jpg',
+                'gallery/korea_bookstore.jpg',
+                'gallery/korea_manhole.jpg'
             ])
         })
     )
