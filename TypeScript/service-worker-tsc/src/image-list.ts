@@ -1,27 +1,29 @@
-export {Path, Gallery}
+export { Path, Gallery }
 let Path: string = 'gallery/';
 
-let Gallery: any = { 'images' : [
-      
-  {
-    'name'  : 'Darth Vader',
-    'alt' : 'A Black Clad warrior lego toy',
-    'url': 'gallery/myLittleVader.jpg',
-    'credit': '<a href="https://www.flickr.com/photos/legofenris/">legOfenris</a>, published under a <a href="https://creativecommons.org/licenses/by-nc-nd/2.0/">Attribution-NonCommercial-NoDerivs 2.0 Generic</a> license.'
-  },
+let Gallery: any = {
+    'images': [
 
-  {
-    'name'  : 'Snow Troopers',
-    'alt' : 'Two lego solders in white outfits walking across an icy plain',
-    'url': 'gallery/snowTroopers.jpg',
-    'credit': '<a href="https://www.flickr.com/photos/legofenris/">legOfenris</a>, published under a <a href="https://creativecommons.org/licenses/by-nc-nd/2.0/">Attribution-NonCommercial-NoDerivs 2.0 Generic</a> license.'
-  },
+        {
+            'name': 'Korean blue wall',
+            'alt': 'Korean blue wall',
+            'url': 'gallery/korean_blue.jpg',
+            'credit': '<a href="https://tomtomtom.ga">wassei</a>'
+        },
 
-  {
-    'name'  : 'Bounty Hunters',
-    'alt' : 'A group of bounty hunters meeting, aliens and humans in costumes.',
-    'url': 'gallery/bountyHunters.jpg',
-    'credit': '<a href="https://www.flickr.com/photos/legofenris/">legOfenris</a>, published under a <a href="https://creativecommons.org/licenses/by-nc-nd/2.0/">Attribution-NonCommercial-NoDerivs 2.0 Generic</a> license.'
-  },
-  
-]};
+        {
+            'name': 'Korean bookstore',
+            'alt': 'Two lego solders in white outfits walking across an icy plain',
+            'url': 'gallery/korean_bookstore.jpg',
+            'credit': '<a href="https://tomtomtom.ga">wassei</a>'
+        },
+
+        {
+            'name': 'Korean manhole',
+            'alt': 'Korean manhole',
+            'url': 'gallery/korean_manhole.jpg',
+            'credit': '<a href="https://tomtomtom.ga">wassei</a>'
+        },
+
+    ]
+};
