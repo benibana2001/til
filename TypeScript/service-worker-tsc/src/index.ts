@@ -64,6 +64,7 @@ window.onload = (): void => {
 
             myImage.src = imageURL
             myImage.setAttribute('alt', arrayResponse[1].alt)
+            myImage.style.maxWidth = '100%'
             myCaption.innerHTML = '<strong>' + arrayResponse[1].name + '</strong>: Taken by ' + arrayResponse[1].credit
 
             imgSection.appendChild(myFigure)
