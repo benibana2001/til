@@ -1,10 +1,10 @@
-import { Gallery, Path } from 'image-list.js'
+import { Gallery, Path } from './image-list.js'
 if ('serviceWorker' in navigator) {
     let n: Navigator = navigator
     let sw: ServiceWorkerContainer = n.serviceWorker
     sw.register('sw.js',
         {
-            scope: './'
+            scope: '/'
         }
     ).then((reg) => {
         if (reg.installing) {
@@ -48,20 +48,23 @@ let imgLoad = (imgJSON: any): Promise<any> => {
 }
 
 let imgSection = document.querySelector('section')
-
+console.log(imgSection)
 window.onload = (): void => {
-    let l: number = Gallery.length
+    let l: number = Gallery.images.length
     for (let i = 0; i <= l - 1; i++) {
-
+        console.log(i)
         imgLoad(Gallery.images[i]).then((arrayResponse) => {
+            console.log(i)
+            console.log(Gallery.images[i])
+            console.log(arrayResponse[0])
             let myImage = document.createElement('img')
             let myFigure = document.createElement('figure')
             let myCaption = document.createElement('caption')
             let imageURL = window.URL.createObjectURL(arrayResponse[0])
 
             myImage.src = imageURL
-            myImage.setAttribute('alt', arrayResponse[i].alt)
-            myCaption.innerHTML = '<strong>' + arrayResponse[i].name + '</strong>: Taken by ' + arrayResponse[i].credit
+            myImage.setAttribute('alt', arrayResponse[1].alt)
+            myCaption.innerHTML = '<strong>' + arrayResponse[1].name + '</strong>: Taken by ' + arrayResponse[1].credit
 
             imgSection.appendChild(myFigure)
             myFigure.appendChild(myImage)
