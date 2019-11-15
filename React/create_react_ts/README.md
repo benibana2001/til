@@ -1,0 +1,1 @@
+[https://ja.reactjs.org/docs/static-type-checking.html#typescript](https://ja.reactjs.org/docs/static-type-checking.html#typescript)
