@@ -31,10 +31,27 @@ let Greet = (): ReactElement => {
         </div>
     )
 }
-class Clock extends React.Component<{}, {date: Date}> {
-    constructor(props: any){
+class Clock extends React.Component<{}, { date: Date }> {
+    private timerID: NodeJS.Timeout | null
+    constructor(props: any) {
         super(props);
-        this.state = {date: new Date()}
+        this.state = { date: new Date() }
+        this.timerID = null
+    }
+    tick() {
+        this.setState({
+            date: new Date()
+        })
+    }
+    componentDidMount() {
+        this.timerID = setInterval(
+            () => {
+                this.tick()
+            }, 1000
+        )
+    }
+    componentWillUnmount() {
+        if (this.timerID !== null) clearInterval(this.timerID)
     }
     render() {
         return <div>{this.state.date.toLocaleTimeString()}</div>
