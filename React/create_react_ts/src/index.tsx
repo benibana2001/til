@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactHTMLElement } from 'react';
+import React, { ReactElement, ReactHTMLElement, ReactComponentElement } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -31,15 +31,17 @@ let Greet = (): ReactElement => {
         </div>
     )
 }
-ReactDOM.render(<Greet />, parent, () => { console.log("Hello world!") });
+class Clock extends React.Component<{}, {date: Date}> {
+    constructor(props: any){
+        super(props);
+        this.state = {date: new Date()}
+    }
+    render() {
+        return <div>{this.state.date.toLocaleTimeString()}</div>
+    }
+}
 
-// let tick = ():void => {
-//     ReactDOM.render(
-//         <div> { new Date().toLocaleTimeString() } </div>,
-//         parent
-//     )
-// }
-// setInterval(tick, 1000)
+ReactDOM.render(<Clock />, parent);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
