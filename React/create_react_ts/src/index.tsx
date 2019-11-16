@@ -58,7 +58,17 @@ class Clock extends React.Component<{}, { date: Date }> {
     }
 }
 
-ReactDOM.render(<Clock />, parent);
+let Clocks = (): ReactElement => {
+    return (
+        <div>
+            <Clock />
+            <Clock />
+            <Clock />
+        </div>
+    )
+}
+
+ReactDOM.render(<Clocks />, parent);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
