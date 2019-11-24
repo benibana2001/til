@@ -1,13 +1,13 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { resolve } from 'q';
 
 export { View }
 
 class Button extends React.Component<{ value: string, name: string }> {
   private log = (): void => {
     console.log(this.props.name)
+    console.log(process.env.NODE_ENV)
   }
 
   getTopStoryJSON = async (): Promise<any> => {
