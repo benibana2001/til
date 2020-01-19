@@ -8,17 +8,30 @@ import {
 
 const { SHOW_ALL } = VisibilityFilters
 
-const visibilityFilter = (state = SHOW_ALL, action) => {
+const visibilityFilter = (state = SHOW_ALL, action: { type: string, filter: string }) => {
     switch (action.type) {
         case SET_VISIBILITY_FILTER:
             return action.filter
-        default: 
+        default:
             return state
     }
 }
 
-const todos = (state = [], action) => {
-    switch(action.type) {
+type action = {
+    type: string,
+    index?: number,
+    text?: string
+}
+type todo = {
+    text: string,
+    completed: boolean
+}
+
+const todos = (
+    state: todo[] = [],
+    action: action
+) => {
+    switch (action.type) {
         case ADD_TODO:
             return [
                 ...state,
@@ -35,7 +48,7 @@ const todos = (state = [], action) => {
                     })
                 }
             })
-        default: 
+        default:
             return state
     }
 }
@@ -45,4 +58,4 @@ const todoApp = combineReducers({
     todos
 })
 
-export default todApp
+export default todoApp
