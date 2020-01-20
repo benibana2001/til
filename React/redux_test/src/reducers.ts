@@ -17,11 +17,20 @@ const visibilityFilter = (state = SHOW_ALL, action: { type: string, filter: stri
     }
 }
 
-type action = {
+// type action = {
+//     type: string,
+//     index?: number,
+//     text?: string
+// }
+type actionText = {
     type: string,
-    index?: number,
-    text?: string
+    text: string
 }
+type actionIndex = {
+    type: string,
+    index: number,
+}
+type action = actionText | actionIndex
 type todo = {
     text: string,
     completed: boolean
@@ -33,21 +42,26 @@ const todos = (
 ) => {
     switch (action.type) {
         case ADD_TODO:
-            return [
-                ...state,
-                {
-                    text: action.text,
-                    completed: false
-                }
-            ]
+            if ('text' in action) {
+                return [
+                    ...state,
+                    {
+                        text: action.text,
+                        completed: false
+                    }
+                ]
+            }
         case TOGGLE_TODO:
-            return state.map((todo, index) => {
-                if (index === action.index) {
-                    return Object.assign({}, todo, {
-                        completed: !todo.completed
-                    })
-                }
-            })
+            if ('index' in action) {
+                return state.map((todo, index) => {
+                    if (index === action.index) {
+                        return Object.assign({}, todo, {
+                            completed: !todo.completed
+                        })
+                    }
+                    return todo
+                })
+            }
         default:
             return state
     }
