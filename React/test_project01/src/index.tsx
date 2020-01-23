@@ -14,6 +14,10 @@ interface IState {
 //
 class Apps extends React.Component<{}, IState> {
     private timer: number = 0
+    public static getDerivedStateFromProps(props: {}, state: IState): null {
+        console.log("getDerivedStateFromProps", props, state)
+        return null
+    }
     //
     constructor(props: {}) {
         super(props)
@@ -21,12 +25,16 @@ class Apps extends React.Component<{}, IState> {
             confirmOpen: false,
             confirmMessage: "Please hit the confirm button",
             confirmVisible: true,
-            countDown: 1000
+            countDown: 10
         }
     }
     //
     public componentDidMount() {
-        this.timer = window.setInterval(() => { this.handleTimerTick() })
+        this.timer = window.setInterval(() => { this.handleTimerTick() }, 1000)
+    }
+    //
+    public componentWillUnmount(){
+        clearInterval(this.timer)
     }
     //
     private handleTimerTick() {
