@@ -15,7 +15,7 @@ interface IState {
 class Apps extends React.Component<{}, IState> {
     private timer: number = 0
     public static getDerivedStateFromProps(props: {}, state: IState): null {
-        console.log("getDerivedStateFromProps", props, state)
+        // console.log("getDerivedStateFromProps", props, state)
         return null
     }
     //
@@ -33,7 +33,7 @@ class Apps extends React.Component<{}, IState> {
         this.timer = window.setInterval(() => { this.handleTimerTick() }, 1000)
     }
     //
-    public componentWillUnmount(){
+    public componentWillUnmount() {
         clearInterval(this.timer)
     }
     //
@@ -71,27 +71,31 @@ class Apps extends React.Component<{}, IState> {
                     )
                 }
 
-                <Confirm
-                    open={this.state.confirmOpen}
-                    title="猫山猫美"
-                    content="NO CAT NO LIFE! ﾆｬｰ"
-                    onOkClick={
-                        () => {
+                {
+                this.state.countDown > 0 &&
+                    (<Confirm
+                        open={this.state.confirmOpen}
+                        title="猫山猫美"
+                        content="NO CAT NO LIFE! ﾆｬｰ"
+                        onOkClick={
+                            () => {
+                                this.setState({
+                                    confirmOpen: false,
+                                    confirmMessage: "Cool, carry on readint!"
+                                })
+                                clearInterval(this.timer)
+                            }
+                        }
+                        onCancelClick={() => {
                             this.setState({
                                 confirmOpen: false,
-                                confirmMessage: "Cool, carry on readint!"
+                                confirmMessage: "Take a break, I'm sure you will later"
                             })
                             clearInterval(this.timer)
                         }
-                    }
-                    onCancelClick={() => {
-                        this.setState({
-                            confirmOpen: false,
-                            confirmMessage: "Take a break, I'm sure you will later"
-                        })
-                        clearInterval(this.timer)
-                    }
-                    } />
+                        } />
+                    )
+                }
             </div>
         )
     }
