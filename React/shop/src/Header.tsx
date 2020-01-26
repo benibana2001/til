@@ -8,7 +8,7 @@ const Header: React.SFC = () => {
                 猫の宴
             </h1>
             <nav>
-                <NavLink to="products" className="header-link"
+                <NavLink to="/products" className="header-link"
                     activeClassName="header-link-active">
                     Products
                 </NavLink>
