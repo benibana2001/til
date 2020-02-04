@@ -1,37 +1,38 @@
-const ROW = 8
-const COLUMN = 8
-const TEST_BOARD = [[0, 0, 0], [1, 1, 1], [2, 2, 2]]
-const funcTimes = (func: Function) => {
-    return (n: number) => {
-        return () => {
-            for (let i = 0; i < n; i++) {
-                func()
-            }
-        }
-    }
+// Utility Function
+const funcTimes = (func: Function) => (n: number) => () => {
+    for (let i = 0; i < n; i++) func()
 }
 
-const initBoard = (ary: any[]) => {
-    const push = () => ary.push(new Array(COLUMN).fill(0))
-    funcTimes(push)(ROW)()
-}
-
+// Migration Array
 const getRow = (ary: number[][]) => (n: number) => ary[n]
-
 const getColumn = (ary: number[][]) => (n: number) => {
-    let newAry: any[] = []
+    let newAry: number[] = []
     ary.forEach((elem) => newAry.push(elem[n]))
     return newAry
 }
-
 const getSquare = (ary: number[][]) => (r: number) => (c: number) => (getRow(ary)(r))[c]
+// 破壊的
+const setSquare = (ary: number[][]) => (n: number) => (r: number) => (c: number) => ary[r][c] = n
+const abs = (n: number) => n < 0 ? - n : n
+const toggle0and1 = (n: 1 | 0) => abs(n - 1)
 
-let board: any[] = []
+// Domain Specific
+const ROW = 8
+const COLUMN = 8
+let board: number[][] = []
+const putWhite = setSquare(board)(1)
+const putBlack = setSquare(board)(-1)
+const initBoard = (ary: any[]) => {
+    const push = () => ary.push(new Array(COLUMN).fill(0))
+    funcTimes(push)(ROW)()
+    // Put Initial Token
+    putWhite(3)(3)
+    putWhite(4)(4)
+    putBlack(3)(4)
+    putBlack(4)(3)
+}
+
 initBoard(board)
+console.log(board)
 
-console.log(TEST_BOARD)
-console.log(getRow(TEST_BOARD)(2))
-console.log(getColumn(TEST_BOARD)(2))
-console.log(getSquare(TEST_BOARD)(0)(0))
-
-export {getSquare, getRow, getColumn}
+export { getSquare, getRow, getColumn, abs, toggle0and1, setSquare }
