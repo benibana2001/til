@@ -1,20 +1,30 @@
-initBoard = lambda row: lambda column: ( [[0] * column] * row)
+# We have to use 'def' declare when use Statement
+# because 'lamda' doesn't support statment only expression.
+def funcTimes(f):
+    def times(n):
+        for i in range(n):
+            f(i)
+    return times
+# setNum function is destructive !
+def setNum(ary, i):
+    def setAry(v):
+        ary[i] = v
+    return setAry
+initBoard = lambda ary: lambda row: lambda column: funcTimes(lambda x: ary.append(list(map(lambda x : 0, range(column)))))(row)
 getRow = lambda ary: lambda row: ary[row]
 getColumn = lambda ary: lambda n: list(map(lambda elem: elem[n], ary))
 getSquare = lambda ary: lambda row: lambda column: (getRow(ary)(row))[column]
-# def setSquare(n):
-    
-# setSquare = lambda ary: lambda n: lambda row: lambda column: ary[row][column] = n
+funcSquare = lambda ary: lambda f: lambda row: lambda column: f(ary[row], column)
 reverse = lambda x: - x
-
 # Under the hear, We write domain specific
 ROW = 8
 COLUMN = 8
-BOARD = initBoard(8)(8)
-TEST_BOARD = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-# print(BOARD)
-print(getSquare(TEST_BOARD)(1)(2))
-# print(getColumn(BOARD)(0))
-# getColumn = lambda ary: lambda n: list(map(lambda elem: elem[n], ary))
-# def f(): x = 1; y = 2; return x + y
-def g(): x = 1; y = 2; return lambda z: x + y + z
+BOARD = []
+initBoard(BOARD)(8)(8)
+putWhite = lambda row: lambda column : funcSquare(BOARD)(setNum)(row)(column)(1)
+putBlack = lambda row: lambda column : funcSquare(BOARD)(setNum)(row)(column)(-1)
+putWhite(4)(4)
+putWhite(5)(5)
+putBlack(4)(5)
+putBlack(5)(4)
+print(BOARD)
