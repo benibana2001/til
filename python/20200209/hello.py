@@ -1,53 +1,60 @@
 import sqlite3
 import json
-#
-# Check the document:
-#   https://docs.python.org/2/library/sqlite3.html
-#
-# Connect db
-#   Create Row Instance:
-#       https://docs.python.org/ja/3/library/sqlite3.html?highlight=sql#row-objects
-#   Create Cursor Object to call SQL.
-#
-# Create View
-#   We cannnot use placefolder to create view statement.
-#
-# Throw SELECT
-#
-# Parse to JSON
-#
-# Close Connection
-#
+
 DB_NAME = 'vocab.db'
-conn = sqlite3.connect(DB_NAME)
-conn.row_factory = sqlite3.Row
-c = conn.cursor()
-c.execute('DROP VIEW IF EXISTS UNIQUE_ENGLISH_WORD')
-c.execute('CREATE VIEW UNIQUE_ENGLISH_WORD\
-	AS SELECT word_key, book_key, usage, timestamp\
-		    FROM LOOKUPS\
-	    WHERE word_key LIKE "en:%"\
-	    GROUP BY word_key;')
-c.execute('SELECT * FROM UNIQUE_ENGLISH_WORD')
-rows = c.fetchall()
-#
-# print(rows)
-# print(rows[0])
-#
-# Iterate Date
-# 
-LOOK_UPS = {}
-def addDictionary(row):
+STTMT = {
+    "DDL": {
+        "CREATE_VIEW_WORD": 
+            'CREATE VIEW UNIQUE_ENGLISH_WORD\
+	            AS SELECT word_key, book_key, usage, timestamp\
+		                FROM LOOKUPS\
+	                WHERE word_key LIKE "en:%"\
+	                GROUP BY word_key;',
+        "DROP_VIEW_WORD":
+            'DROP VIEW IF EXISTS UNIQUE_ENGLISH_WORD',
+    },
+    "DML": {
+        "SELECT_WORD": 'SELECT * FROM UNIQUE_ENGLISH_WORD',
+        "SELECT_BOOK": 'SELECT id, title, authors FROM BOOK_INFO WHERE lang = "en"',
+    }}
+# Manipulate Dictionary
+def addDictionary(accumlator, row):
     l = list()
     for i, v in enumerate(row.keys()):
         l.append((v, row[i]))
-    LOOK_UPS[l[0][1]] = dict(l)
+    from collections import OrderedDict
+    accumlator[l[0][1]] = dict(l)
     return None
-L = list(map(addDictionary, rows))
-f = open("output.json", "w")
-json.dump(LOOK_UPS, f, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
 #
-# c.execute('SELECT id, title, authors FROM BOOK_INFO WHERE lang = "en"')
-# books = c.fetchall()
+look_ups = {}
+books = {}
+conn = sqlite3.connect(DB_NAME)
+conn.row_factory = sqlite3.Row
+c = conn.cursor()
+c.execute(STTMT["DDL"]["DROP_VIEW_WORD"])
+c.execute(STTMT["DDL"]["CREATE_VIEW_WORD"])
+c.execute(STTMT["DML"]["SELECT_WORD"])
+rows = c.fetchall()
+for row in rows:
+    addDictionary(look_ups, row)
+c.execute(STTMT["DML"]["SELECT_BOOK"])
+rows_books = c.fetchall()
+for row_book in rows_books:
+    addDictionary(books, row_book)
+f1 = open("look_ups.json", "w")
+json.dump(look_ups, f1, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
+f1.close()
+f2 = open("books.json", "w")
+json.dump(books, f2, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
+f2.close()
 #
 conn.close()
+#
+#
+# Check the document:
+#   11.13. sqlite3 — DB-API 2.0 interface for SQLite databases — Python 2.7.17 documentation:
+#       https://docs.python.org/2/library/sqlite3.html
+#
+# Create View:
+#   We cannnot use placefolder with a create view statement.
+#
