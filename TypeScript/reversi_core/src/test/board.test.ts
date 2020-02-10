@@ -3,7 +3,9 @@ import { getRow, abs, toggle0and1, setSquare } from '../board'
 const TEST_BOARD = [[0, 0, 0], [1, 1, 1], [2, 2, 2]]
 
 test('getRow()', () => {
+    expect(getRow(TEST_BOARD)(0)).toEqual([0, 0, 0])
     expect(getRow(TEST_BOARD)(1)).toEqual([1, 1, 1])
+    expect(getRow(TEST_BOARD)(2)).toEqual([2, 2, 2])
 })
 
 test('abs()', () => {
