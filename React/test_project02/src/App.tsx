@@ -68,7 +68,7 @@ function App() {
             {confirmVisible && (
                 <button onClick={() => setOpen(true)}>Confirm</button>
             )}
-            <Confirm
+            {count < 3 && <Confirm
                 open={open}
                 title="React and TypeScript"
                 content="Are you sure you want to learn React and TypeScript?"
@@ -76,9 +76,8 @@ function App() {
                 okCaption="Okay"
                 onCancelClick={handleCancelClick}
                 onOkClick={handleOkClick}
-            />
+            />}
         </div>
     );
 }
-
 export default App;

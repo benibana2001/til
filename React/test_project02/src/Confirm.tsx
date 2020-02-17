@@ -9,36 +9,14 @@ interface IProps {
     onOkClick: () => void
     onCancelClick: () => void
 }
-// class Confirm extends React.Component<IProps> {
-//     private handleOkClick = () => {
-//         this.props.onOkClick()
-//     }
-//     private handleCancelClick = () => {
-//         this.props.onCancelClick()
-//     }
-//     public render() {
-//         return (
-//             // Check state open or not
-//             <div className={this.props.open ? "confirm-wrapper confirm-visible" : "confirm-wrapper"}>
-//                 <div className="confirm-container">
-//                     {/* Title */}
-//                     <div className="confirm-title-container">
-//                         <span>{this.props.title}</span></div>
-//                     {/* Content */}
-//                     <div className="confirm-content-container">
-//                         <p>{this.props.content}</p></div>
-//                     {/* Button */}
-//                     <div className="confirm-buttons-container">
-//                         <button className="confirm-cancel" onClick={this.handleCancelClick}>{this.props.cancelCaption}</button>
-//                         <button className="confirm-ok" onClick={this.handleOkClick}>{this.props.okCaption}</button></div>
-//                 </div>
-//             </div>
-//         )
-//     }
-// }
-
 const Confirm: React.SFC<IProps> = props => {
     const [cancelCount, setCancelCount] = React.useState(0)
+    // The function takes in a second parameter, which determines when our arrow function is called.
+    //   This parameter is an array of values that, when changed, will cause the arrow function to be invoked. 
+    React.useEffect(() => {
+        console.log("open changed")
+        return () => console.log("Confirm unmounted")
+    }, [props.open])
     const handleOkClick = () => {
         props.onOkClick()
     }
@@ -69,5 +47,5 @@ Confirm.defaultProps = {
     cancelCaption: "Cancel",
     okCaption: "Okay"
 }
-
+// const ConfirmMemo = React.memo(Confirm)
 export default Confirm
