@@ -65,3 +65,12 @@ code {
 .header-link-active {
     border-bottom: #ebebeb solid 2px;
 }
+
+.product-list-item a {
+    text-decoration: none;
+}
+
+.search-container {
+    text-align: right;
+    margin-bottom: -25px;
+}
