@@ -1,5 +1,5 @@
 import * as React from "react"
-import { RouteComponentProps } from "react-router-dom"
+import { Prompt, RouteComponentProps } from "react-router-dom"
 import { IProduct, products } from "./ProductsData"
 
 // RouteComponentProps only allows us to have Route parameters of type string or undefined.
@@ -30,11 +30,15 @@ class ProductPage extends React.Component<Props, IState> {
     private handleAddClick = () => {
         this.setState({ added: true })
     }
+    private navAwayMessage = () =>
+        "Are you sure you leave without buying this product?";
     public render() {
         // To save a few keystorokes
         const product = this.state.product
         return (
             <div className="page-container">
+                {/* The Prompt component invokes a confirmation dialog during navigation when a certain condition is met.  */}
+                <Prompt when={!this.state.added} message={this.navAwayMessage} />
                 {product ? (
                     <React.Fragment>
                         <h1>{product.name}</h1>
