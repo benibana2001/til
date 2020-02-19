@@ -108,3 +108,35 @@ code {
 .animate-exit {
     display: none;
 }
+
+/* Product review */
+.product-reviews {
+    list-style: none;
+    padding: 0px;
+}
+
+.product-reviews .product-reviews-item {
+    display: block;
+    padding: 8px 0px;
+}
+
+/* Tabs at Product page */
+.tabs {
+    list-style: none;
+    padding: 0;
+}
+
+.tabs li {
+    display: inline-block;
+    padding: 5px;
+    margin: 0px 5px 0px 5px;
+    cursor: pointer;
+}
+
+.tabs li:focus {
+    outline: none;
+}
+
+.tabs li.active {
+    border-bottom: #222 solid 2px;
+}

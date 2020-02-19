@@ -1,6 +1,8 @@
 import * as React from "react"
 import { Prompt, RouteComponentProps } from "react-router-dom"
+
 import { IProduct, products } from "./ProductsData"
+import Product  from "./Product"
 
 // RouteComponentProps only allows us to have Route parameters of type string or undefined.
 type Props = RouteComponentProps<{ id: string }>
@@ -40,20 +42,25 @@ class ProductPage extends React.Component<Props, IState> {
                 {/* The Prompt component invokes a confirmation dialog during navigation when a certain condition is met.  */}
                 <Prompt when={!this.state.added} message={this.navAwayMessage} />
                 {product ? (
-                    <React.Fragment>
-                        <h1>{product.name}</h1>
-                        <p>{product.description}</p>
-                        {/* We use Intl.NumberFormat to format the product price as currency with a currency symbol. */}
-                        <p className="product-price">
-                            {new Intl.NumberFormat("en-US", {
-                                currency: "USD",
-                                style: "currency"
-                            }).format(product.price)}
-                        </p>
-                        {!this.state.added && (
-                            <button onClick={this.handleAddClick}>Add to basket</button>
-                        )}
-                    </React.Fragment>
+                    <Product
+                        product={product}
+                        inBasket={this.state.added}
+                        onAddToBasket={this.handleAddClick}
+                    />
+                    // <React.Fragment>
+                    //     <h1>{product.name}</h1>
+                    //     <p>{product.description}</p>
+                    //     {/* We use Intl.NumberFormat to format the product price as currency with a currency symbol. */}
+                    //     <p className="product-price">
+                    //         {new Intl.NumberFormat("en-US", {
+                    //             currency: "USD",
+                    //             style: "currency"
+                    //         }).format(product.price)}
+                    //     </p>
+                    //     {!this.state.added && (
+                    //         <button onClick={this.handleAddClick}>Add to basket</button>
+                    //     )}
+                    // </React.Fragment>
                 ) : <p>Product not found!</p>}
             </div>
         )
