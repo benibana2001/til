@@ -17,9 +17,36 @@ const Product: React.SFC<IProps> = props => {
     return (
         <React.Fragment>
             <h1>{product.name}</h1>
-            <Tabs headings={["Description", "Reviews"]} />
-            <p>{product.description}</p>
-            <div>
+
+            {/* Tabs */}
+            {/* <Tabs headings={["Description", "Reviews"]} /> */}
+            <Tabs>
+                {/* heaing means the title which is viewed at head of each Tab */}
+                <Tabs.Tab
+                    name="Description" 
+                    initialActive={true}
+                    heading={() => <b>Description</b>}>
+                        <p>{product.description}</p>
+                </Tabs.Tab>
+
+                <Tabs.Tab 
+                    name="Reviews"
+                    heading={()=> "Reviews"}>
+                        <ul className="product-reviews">
+                            {product.reviews.map(review => (
+                                <li key={review.reviewer}>
+                                    <i>"{review.comment}</i> - {review.reviewer}
+                                </li>
+                            ))}
+                        </ul>
+                </Tabs.Tab>
+            </Tabs>
+
+            {/* Description */}
+            {/* <p>{product.description}</p> */}
+
+            {/* Review */}
+            {/* <div>
                 <ul className="product-reviews">
                     {product.reviews.map(review => (
                         <li key={review.reviewer} className="product-reviews-item">
@@ -27,7 +54,7 @@ const Product: React.SFC<IProps> = props => {
                         </li>
                     ))}
                 </ul>
-            </div>
+            </div> */}
 
             {/* We use Intl.NumberFormat to format the product price as currency with a currency symbol. */}
             <p className="product-price">

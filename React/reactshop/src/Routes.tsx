@@ -48,6 +48,7 @@ const Routes: React.SFC<RouteComponentProps> = (props) => {
                         {/*       - When use RouteComponentProps, we shoud use component propety in Route statement */}
                         <Route path='/products/:id' component={ProductPage} />
                         <Route path='/admin'>
+                            {/* fallback means 'alternative' or 'substitute' */}
                             {loggedIn ? (<Suspense fallback={<div className="page-container">Loading</div>}>
                                 <AdminPage />
                                 </Suspense>) : (<Redirect to="/login" />)}</Route>
