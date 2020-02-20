@@ -17,7 +17,7 @@ const ContacuUs: React.SFC<IProps> = props => {
     const handleReasonChange = (e: React.ChangeEvent<HTMLSelectElement>) => props.onReasonChange(e.currentTarget.value);
     const handleNotesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => props.onNotesChange(e.currentTarget.value);
     return (
-        <form className="form" noValidate={true} onSubmit={handleSubmit}>
+        <form className="form" noValidate={true} >
             <div className="form-group">
                 <label htmlFor="name">Your name</label>
                 <input type="text" id="name" value={props.name} onChange={handleNameChange} />
