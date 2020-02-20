@@ -1,9 +1,11 @@
 import * as React from "react"
+
 import { IProduct } from "./ProductsData"
 import Tabs from "./Tabs";
+import withLoader from "./withLoader"
 
 interface IProps {
-    product: IProduct
+    product?: IProduct
     inBasket: boolean
     onAddToBasket: () => void
 }
@@ -14,6 +16,7 @@ const Product: React.SFC<IProps> = props => {
     const handleAddClick = () => {
         props.onAddToBasket()
     }
+    if (!product) return null
     return (
         <React.Fragment>
             <h1>{product.name}</h1>
@@ -42,20 +45,6 @@ const Product: React.SFC<IProps> = props => {
                 </Tabs.Tab>
             </Tabs>
 
-            {/* Description */}
-            {/* <p>{product.description}</p> */}
-
-            {/* Review */}
-            {/* <div>
-                <ul className="product-reviews">
-                    {product.reviews.map(review => (
-                        <li key={review.reviewer} className="product-reviews-item">
-                            <i>"{review.comment}"</i> - {review.reviewer}
-                        </li>
-                    ))}
-                </ul>
-            </div> */}
-
             {/* We use Intl.NumberFormat to format the product price as currency with a currency symbol. */}
             <p className="product-price">
                 {new Intl.NumberFormat("en-US", {
@@ -68,4 +57,4 @@ const Product: React.SFC<IProps> = props => {
             )}
         </React.Fragment>)
 }
-export default Product
+export default withLoader(Product)

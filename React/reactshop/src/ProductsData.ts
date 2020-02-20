@@ -6,6 +6,19 @@ export interface IProduct {
     reviews: IReview[]
 }
 
+export interface IReview {
+    comment: string
+    reviewer: string
+}
+
+export const getProduct = async (id: number): Promise<IProduct | null> => {
+    const wait = (ms: number): Promise<void> => new Promise(resolve => setTimeout(resolve, ms))
+    await wait(1000)
+    const foundProducts = products.filter(customer => customer.id === id)
+    return foundProducts.length === 0 ? null : foundProducts[0]
+}
+
+
 export const products: IProduct[] = [
     {
         description:
@@ -31,14 +44,14 @@ export const products: IProduct[] = [
         price: 12,
         reviews: [
             {
-              comment: "I've found this really useful in a large app I'm working on",
-              reviewer: "Billy"
+                comment: "I've found this really useful in a large app I'm working on",
+                reviewer: "Billy"
             },
             {
-              comment: "A bit confusing at first but simple when you get used to it",
-              reviewer: "Sally"
+                comment: "A bit confusing at first but simple when you get used to it",
+                reviewer: "Sally"
             }
-          ]
+        ]
     },
     {
         description: "A library that helps you interact with a GraphQL backend",
@@ -47,18 +60,13 @@ export const products: IProduct[] = [
         price: 12,
         reviews: [
             {
-              comment: "I'll never work with a REST API again!",
-              reviewer: "Billy"
+                comment: "I'll never work with a REST API again!",
+                reviewer: "Billy"
             },
             {
-              comment: "It makes working with GraphQL backends a breeze",
-              reviewer: "Sally"
+                comment: "It makes working with GraphQL backends a breeze",
+                reviewer: "Sally"
             }
-          ]
+        ]
     }
 ]
-
-export interface IReview {
-    comment: string
-    reviewer: string
-}

@@ -9,6 +9,7 @@ import ProductsPage from './ProductsPage'
 import ProductPage from './ProductPage'
 import LoginPage from './LoginPage'
 import NotFoundPage from "./NotFoundPage"
+import ContactUsPage from "./ContactUsPage"
 
 // We use a React function called lazy which takes in a function that returns a dynamic import
 //   , which in turn is assigned to our AdminPage component variable.
@@ -47,6 +48,7 @@ const Routes: React.SFC<RouteComponentProps> = (props) => {
                         {/*   - https://reacttraining.com/react-router/web/api/Route/component */}
                         {/*       - When use RouteComponentProps, we shoud use component propety in Route statement */}
                         <Route path='/products/:id' component={ProductPage} />
+                        <Route path='/contactus' component={ContactUsPage} />
                         <Route path='/admin'>
                             {/* fallback means 'alternative' or 'substitute' */}
                             {loggedIn ? (<Suspense fallback={<div className="page-container">Loading</div>}>
