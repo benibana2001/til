@@ -57,4 +57,4 @@ const Product: React.SFC<IProps> = props => {
             )}
         </React.Fragment>)
 }
-export default withLoader(Product)
+export default Product

@@ -15,19 +15,17 @@ interface IFieldProps {
     options?: string[]
 }
 
+// This is an indexable key/value type that has a string type key and an any type value. 
+//   Could be this:
+//     { name: "", email: "", reason: "Support", notes: "" }
+export interface IValues { [key: string]: any }
+
 interface IFormContext {
     values: IValues
     setValue?: (fieldName: string, value: any) => void
 }
 
-const FormContext = React.createContext<IFormContext>({
-    values: {}
-})
-
-// This is an indexable key/value type that has a string type key and an any type value. 
-//   Could be this:
-//     { name: "", email: "", reason: "Support", notes: "" }
-export interface IValues { [key: string]: any }
+const FormContext = React.createContext<IFormContext>({ values: {} })
 
 export class Form extends React.Component<IFormProps, IState> {
     constructor(props: IFormProps) {
@@ -37,7 +35,8 @@ export class Form extends React.Component<IFormProps, IState> {
         }
     }
 
-    private setValue = (fieldName: string, value: any) =>{
+    private setValue = (fieldName: string, value: any) => {
+        // Use rest parameters to set new value.
         const newValues = { ...this.state.values, [fieldName]: value }
         this.setState({ values: newValues })
     }
@@ -47,12 +46,12 @@ export class Form extends React.Component<IFormProps, IState> {
 
         const handleChange = (
             e:
-            | React.ChangeEvent<HTMLInputElement>
-            | React.ChangeEvent<HTMLTextAreaElement>
-            | React.ChangeEvent<HTMLSelectElement>,
+                | React.ChangeEvent<HTMLInputElement>
+                | React.ChangeEvent<HTMLTextAreaElement>
+                | React.ChangeEvent<HTMLSelectElement>,
             context: IFormContext
         ) => {
-            if(context.setValue) context.setValue(props.name, e.currentTarget.value)
+            if (context.setValue) context.setValue(props.name, e.currentTarget.value)
         }
         return (
             <FormContext.Consumer>
@@ -60,7 +59,7 @@ export class Form extends React.Component<IFormProps, IState> {
                     <div className="form-group">
                         <label htmlFor={name}>{label}</label>
                         {(type === "Text" || type === "Email") && (<input type={type.toLowerCase()} id={name} value={context.values[name]} onChange={e => handleChange(e, context)} />)}
-                        {type === "TextArea" && (<textarea id={name} value={context.values[name]} />)}
+                        {type === "TextArea" && (<textarea id={name} value={context.values[name]} onChange={e => handleChange(e, context)} />)}
                         {type === "Select" && (
                             <select value={context.values[name]} onChange={e => handleChange(e, context)}>
                                 {options &&
@@ -73,6 +72,7 @@ export class Form extends React.Component<IFormProps, IState> {
     }
 
     public render() {
+        //  Create the context value containing the values from the state
         const context: IFormContext = {
             setValue: this.setValue,
             values: this.state.values

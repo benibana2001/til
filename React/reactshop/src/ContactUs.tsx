@@ -1,48 +1,18 @@
 import * as React from "react"
 
-interface IProps {
-    name: string
-    onNameChange: (name: string) => void
-    email: string
-    onEmailChange: (email: string) => void
-    reason: string
-    onReasonChange: (reason: string) => void
-    notes: string
-    onNotesChange: (notes: string) => void
-}
+import { Form } from "./Form"
 
-const ContacuUs: React.SFC<IProps> = props => {
-    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => props.onNameChange(e.currentTarget.value)
-    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => props.onEmailChange(e.currentTarget.value);
-    const handleReasonChange = (e: React.ChangeEvent<HTMLSelectElement>) => props.onReasonChange(e.currentTarget.value);
-    const handleNotesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => props.onNotesChange(e.currentTarget.value);
+const ContacuUs: React.SFC = () => {
     return (
-        <form className="form" noValidate={true} >
-            <div className="form-group">
-                <label htmlFor="name">Your name</label>
-                <input type="text" id="name" value={props.name} onChange={handleNameChange} />
-            </div>
-            <div className="form-group">
-                <label htmlFor="email">Your email address</label>
-                <input type="email" id="email" value={props.email} onChange={handleEmailChange} />
-            </div>
-            <div className="form-group">
-                <label htmlFor="reason">Reason you need to contact us</label>
-                <select id="reason" value={props.reason} onChange={handleReasonChange}>
-                    {/* value attribute doesn't exist in the native selecttag. */}
-                    <option value="Marketing">Marketing</option>
-                    <option value="Support" selected>Support</option>
-                    <option value="Feedback">Feedback</option>
-                    <option value="Jobs">Jobs</option>
-                    <option value="Other">Other</option>
-                </select>
-            </div>
-            <div className="form-group">
-                <label htmlFor="notes">Additional notes</label>
-                <textarea id="notes" value={props.notes} onChange={handleNotesChange} />
-            </div>
-        </form>
-
+        <Form
+            defaultValues={{ name: "", email: "", reason: "Support", notes: "" }}
+        >
+            <Form.Field name="name" label="Your name" />
+            <Form.Field name="email" label="Your email address" type="Email" />
+            <Form.Field name="reason" label="Reaseon you need to contact us" type="Select"
+                options={["Marketing", "Support", "Feedback", "Jobs", "Other"]} />
+            <Form.Field name="notes" label="Additional notes" type="TextArea" />
+        </Form>
     )
 }
 

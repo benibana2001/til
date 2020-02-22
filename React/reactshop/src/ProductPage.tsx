@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Prompt, RouteComponentProps } from "react-router-dom"
 
-import { getProduct, IProduct, products } from "./ProductsData"
+import { getProduct, IProduct } from "./ProductsData"
 import Product from "./Product"
 
 // RouteComponentProps only allows us to have Route parameters of type string or undefined.
@@ -42,9 +42,9 @@ class ProductPage extends React.Component<Props, IState> {
             <div className="page-container">
                 {/* The Prompt component invokes a confirmation dialog during navigation when a certain condition is met.  */}
                 <Prompt when={!this.state.added} message={this.navAwayMessage} />
-                {product || this.state.loading ? (
+                {(product || this.state.loading) ? (
                     <Product
-                        loading={this.state.loading}
+                        // loading={this.state.loading}
                         product={product}
                         inBasket={this.state.added}
                         onAddToBasket={this.handleAddClick}
