@@ -1,11 +1,15 @@
 import * as React from "react"
 
-import { Form } from "./Form"
+import { Form, minLength, required } from "./Form"
 
 const ContacuUs: React.SFC = () => {
     return (
         <Form
             defaultValues={{ name: "", email: "", reason: "Support", notes: "" }}
+            validationRules={{
+                email: {validator: required},
+                name: [{validator: required}, {validator: minLength, args: 2}]
+            }}
         >
             <Form.Field name="name" label="Your name" />
             <Form.Field name="email" label="Your email address" type="Email" />
