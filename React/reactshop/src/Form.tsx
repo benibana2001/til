@@ -38,11 +38,17 @@ interface IValidationProp {
     [key: string]: IValidation | IValidation[]
 }
 
+export interface ISubmitResult {
+    success: boolean,
+    errors?: IErrors
+}
+
 interface IFormProps {
     defaultValues: IValues
     // The validationRules prop is an indexable key/value type,
     //   where the key is the field name and the value is one or more validation rules of type IValidation.
     validationRules: IValidationProp
+    onSubmit: (values: IValues) => Promise<ISubmitResult>
 }
 // The errors state is an indexable key/value type 
 //   where the key is the field name and the value is an array of validation error messages.
@@ -53,6 +59,8 @@ interface IErrors {
 interface IState {
     values: IValues
     errors: IErrors
+    submitting: boolean
+    submitted: boolean
 }
 
 interface IFieldProps {
@@ -88,6 +96,8 @@ export class Form extends React.Component<IFormProps, IState> {
         })
         this.state = {
             errors,
+            submitted: false,
+            submitting: false,
             values: props.defaultValues
         }
     }
@@ -127,6 +137,41 @@ export class Form extends React.Component<IFormProps, IState> {
         // Use rest parameters to set new value.
         const newValues = { ...this.state.values, [fieldName]: value }
         this.setState({ values: newValues })
+    }
+
+    private validateForm(): boolean {
+        const errors: IErrors = {}
+        let haveError: boolean = false
+        Object.keys(this.props.defaultValues).map(fieldName => {
+            errors[fieldName] = this.validate(
+                fieldName,
+                this.state.values[fieldName]
+            )
+            if(errors[fieldName].length > 0) haveError = true
+            // Should return in this block?
+        })
+        this.setState({ errors })
+        // Is reached here?
+        console.log(`!haveError: ${!haveError}`)
+        return !haveError
+    }
+
+    private handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        if (this.validateForm()){
+            this.setState({ submitting: true })
+            const result: ISubmitResult = await this.props.onSubmit(this.state.values)
+            console.log(result)
+            let errors: IErrors = result.errors ? result.errors : {}
+            errors = { ...this.state.errors, ...errors } 
+            console.log(errors)
+            this.setState({
+                // Is it OK not to return all property? in this case, not returning IValues.
+                errors: errors,
+                submitted: result.success,
+                submitting: false
+            })
+        }
     }
 
     public static Field: React.SFC<IFieldProps> = props => {
@@ -184,8 +229,13 @@ export class Form extends React.Component<IFormProps, IState> {
         }
         return (
             <FormContext.Provider value={context}>
-                <form className="form" noValidate={true}>
+                <form className="form" noValidate={true} onSubmit={this.handleSubmit}>
                     {this.props.children}
+                    <div className="form-group">
+                        <button type="submit"
+                            disabled={this.state.submitting || this.state.submitted}
+                        >Submit</button>
+                    </div>
                 </form>
             </FormContext.Provider>
         )
