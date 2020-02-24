@@ -28,7 +28,7 @@ const RoutesWrap: React.SFC = () => {
 }
 
 const Routes: React.SFC<RouteComponentProps> = (props) => {
-    const [loggedIn, setLoggedIn] = React.useState(true)
+    const [loggedIn] = React.useState(true)
     return (
         <div>
             <Header />

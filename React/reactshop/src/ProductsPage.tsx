@@ -1,7 +1,7 @@
 import * as React from "react";
 import "url-search-params-polyfill";
 
-import { RouteComponentProps, Route } from 'react-router-dom'
+import { RouteComponentProps } from 'react-router-dom'
 import { Link } from "react-router-dom";
 import { IProduct, products as productsData } from "./ProductsData";
 

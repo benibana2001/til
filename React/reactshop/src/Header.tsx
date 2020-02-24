@@ -9,7 +9,7 @@ const Header: React.SFC<RouteComponentProps> = props => {
     React.useEffect(() => {
         const searchParms = new URLSearchParams(props.location.search)
         setSearch(searchParms.get('search') || "")
-    }, [])
+    }, [props.location.search])
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(e.currentTarget.value);
     };

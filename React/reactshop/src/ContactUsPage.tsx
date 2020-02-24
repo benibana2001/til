@@ -7,10 +7,10 @@ class ContractUsPage extends React.Component<{}, {}> {
     private handleSubmit = async (values: IValues): Promise<ISubmitResult> => {
         await wait(1000)
         return {
-            errors: {
-                email: ["Some is wrong with this"]
-            },
-            success: false
+            // errors: {
+                // email: ["Some is wrong with this"]
+            // },
+            success: true
         }
     }
     public render() {

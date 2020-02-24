@@ -149,6 +149,7 @@ export class Form extends React.Component<IFormProps, IState> {
             )
             if(errors[fieldName].length > 0) haveError = true
             // Should return in this block?
+            return null
         })
         this.setState({ errors })
         // Is reached here?
@@ -161,10 +162,8 @@ export class Form extends React.Component<IFormProps, IState> {
         if (this.validateForm()){
             this.setState({ submitting: true })
             const result: ISubmitResult = await this.props.onSubmit(this.state.values)
-            console.log(result)
             let errors: IErrors = result.errors ? result.errors : {}
             errors = { ...this.state.errors, ...errors } 
-            console.log(errors)
             this.setState({
                 // Is it OK not to return all property? in this case, not returning IValues.
                 errors: errors,
