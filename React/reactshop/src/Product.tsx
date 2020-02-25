@@ -3,6 +3,7 @@ import * as React from "react"
 import { IProduct } from "./ProductsData"
 import Tabs from "./Tabs";
 import withLoader from "./withLoader"
+import ProductPage from "./ProductPage";
 
 interface IProps {
     product?: IProduct
@@ -57,4 +58,5 @@ const Product: React.SFC<IProps> = props => {
             )}
         </React.Fragment>)
 }
-export default Product
+export default (Product)
+// export default withLoader(Product)
