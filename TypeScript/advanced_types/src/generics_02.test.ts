@@ -102,15 +102,15 @@ test('getProperty', () => {
         hobby: Hobby
     }
     enum Hobby {
-        Kendoh,
-        Sadoh,
-        Kadoh,
-        Judoh
+        Kendoh = "剣道",
+        Sadoh = "茶道",
+        Kadoh = "花道",
+        Judoh = "柔道"
     }
     const Tanaka: Person = { id: 11, age: 24, hobby: Hobby.Judoh }
     const Satou: Person = { id: 103, age: 13, hobby: Hobby.Sadoh }
     expect(getProperty<Person, 'age'>(Tanaka, 'age')).toEqual(24)
-    expect(getProperty<Person, 'hobby'>(Satou, 'hobby')).toEqual(Hobby.Sadoh)
+    expect(getProperty<Person, 'hobby'>(Satou, 'hobby')).toEqual("茶道")
 })
 
 // Usecase as a fetch api
