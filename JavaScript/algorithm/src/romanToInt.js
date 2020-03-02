@@ -8,8 +8,8 @@ const romanToInt = function (s) {
     const result = (list) => {
         let result = 0
         for (let i = 0, len = list.length; i < len; i++) {
-            const current = applyHash(list[i])
-            const next = list[i + 1] ? applyHash(list[i + 1]) : 0
+            const current = hash[(list[i])]
+            const next = list[i + 1] ? hash[(list[i + 1])] : 0
             const doSubtraction = current < next
             doSubtraction ? result -= current : result += current
         }
@@ -29,15 +29,5 @@ const hash = {
     D: 500,
     M: 1000
 }
-/**
- * @param {{string: number}} h 
- * @returns {(s: string) => number} 
-*/
-const convertInt = (h) => (s) => {
-    if (h[s] !== undefined) {
-        return h[s]
-    }
-}
-const applyHash = convertInt(hash)
 
 module.exports = romanToInt
