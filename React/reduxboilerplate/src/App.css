@@ -1,0 +1,14 @@
+body {
+    background: #DDD;
+    font-size: 16px;
+}
+.App {
+  width: 80%;
+  padding: 2em;
+  margin: auto;
+  background: #EEE;
+}
+
+.App > div > div{
+    border-bottom: 1px solid #CCC;
+}
