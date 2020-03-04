@@ -9,3 +9,21 @@
 //   Store is a TypeScript type we can use for the store
 import { applyMiddleware, combineReducers, createStore, Store } from "redux"
 import thunk from "redux-thunk"
+//
+import { productsReducer } from "./ProductsReducer"
+import { IProductsState } from "./ProductsType"
+
+export interface IApplicationState {
+    products: IProductsState
+}
+
+const rootReducer = combineReducers<IApplicationState>({
+    products: productsReducer
+})
+
+const configureStore = (): Store<IApplicationState> => {
+    const store = createStore(rootReducer, undefined, applyMiddleware(thunk))
+    return store
+}
+
+export default configureStore

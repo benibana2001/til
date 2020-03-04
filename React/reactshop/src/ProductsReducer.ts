@@ -24,5 +24,7 @@ export const productsReducer: Reducer<IProductsState, ProductsActions> = (
                 productsLoading: false
             }
         }
+        default:
+            return state
     }
 }
