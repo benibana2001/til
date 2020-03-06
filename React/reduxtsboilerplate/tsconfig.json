@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "allowSyntheticDefaultImports": true,
+        "noImplicitAny": true,
+        "module": "commonjs",
+        "target": "es5",
+        "allowJs": true,
+        "sourceMap": true,
+        "jsx": "react",
+        "baseUrl": ".",
+        "paths": {
+            "quagga": [
+                "node_modules/quagga/type-definitions/quagga.d.ts"
+            ],
+            "import-png": [
+                "types/import-png"
+            ],
+        },
+        "typeRoots": [
+            "types",
+            "node_modules/@types"
+        ],
+    }
+}
