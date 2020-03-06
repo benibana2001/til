@@ -8,8 +8,9 @@ const binarySearch = (ary, target) => {
     let head = 0
     let tail = ary.length - 1
 
+    let counter = 0
+
     while (head <= tail) {
-        var counter = 0
         counter++
         if (counter > 100) return -1
 
