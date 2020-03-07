@@ -7,51 +7,63 @@ interface IBoard {
     putBlack: Function
 }
 
+type State = number[][]
 type Square = {
     row: number,
     col: number
 }
-
+type SquareFunc = (square: Square) => void
 enum Token {
     WHITE = 1,
     BLACK = -1,
     BLANK = 0
 }
 
-type SquareFunc = (square: Square) => void
-
 class BOARD implements IBoard {
     private readonly ROW = 8
     private readonly COLUMN = 8
-    public state: number[][] = []
+    public state: State = []
 
-    public getRow = (ary: number[][]) => (n: number) => ary[n]
-    public getColumn = (ary: number[][]) => (n: number) => {
+    private getRow = (ary: number[][]) => (n: number) => ary[n]
+    private getColumn = (ary: State) => (n: number) => {
         let newAry: number[] = []
         ary.forEach((elem) => newAry.push(elem[n]))
         return newAry
     }
 
-    // public getSquare = (ary: number[][]) => (r: number) => (c: number) => (this.getRow(ary)(r))[c]
-    private setSquare = (ary: number[][]) => (n: number) => (r: number) => (c: number) => ary[r][c] = n
+    static setSquare = (ary: State) => (n: number) => (r: number) => (c: number) => ary[r][c] = n
 
-    private put = this.setSquare(this.state)
-    public putWhite = this.put(Token.WHITE)
-    public putBlack = this.put(Token.BLACK)
+    public putWhite = (row: number, column: number): State => {
+        BOARD.setSquare(this.state)(Token.WHITE)(row)(column)
+        return this.state
+    }
+    public putBlack = (row: number, column: number): State => {
+        BOARD.setSquare(this.state)(Token.BLACK)(row)(column)
+        return this.state
+    }
+    public reverseToken = (row: number, column: number): State => {
+        let square = this.state[row][column]
+        if (square === Token.BLACK) this.putWhite(row, column)
+        if (square === Token.WHITE) this.putBlack(row, column)
+        return this.state
+    }
 
     private abs = (n: number) => n < 0 ? - n : n
-    // private toggleToken = (n: 1 | 0) => this.abs(n - 1)
 
-    constructor() {
+    public initState = (): State => {
+        this.state = []
         const row: number[] = new Array(this.COLUMN).fill(Token.BLANK)
         const pushRow = () => this.state.push(row.slice(0))
-        const init = funcTimes(pushRow)(this.ROW)
-        init()
-        // Put initial token.
-        this.putWhite(3)(3)
-        this.putWhite(4)(4)
-        this.putBlack(3)(4)
-        this.putBlack(4)(3)
+        funcTimes(pushRow)(this.ROW)()
+        this.putWhite(3, 3)
+        this.putWhite(4, 4)
+        this.putBlack(3, 4)
+        this.putBlack(4, 3)
+        return this.state
+    }
+
+    constructor() {
+        this.initState()
     }
 
     public walk = (func: SquareFunc) => {
