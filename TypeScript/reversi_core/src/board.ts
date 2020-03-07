@@ -13,11 +13,21 @@ type Square = {
     col: number
 }
 type SquareFunc = (square: Square) => void
-enum Token {
+export enum Token {
     WHITE = 1,
     BLACK = -1,
     BLANK = 0
 }
+export type DIRECTION = {
+    x: 1 | -1 | 0,
+    y: 1 | -1 | 0
+}
+const DIRECTIONS: DIRECTION[] = [
+    { x: 0, y: 1 }, { x: 0, y: -1 },
+    { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 1, y: -1 },
+    { x: -1, y: 0 }, { x: -1, y: 1 }, { x: -1, y: -1 }
+]
+
 
 class BOARD implements IBoard {
     private readonly ROW = 8
@@ -72,6 +82,48 @@ class BOARD implements IBoard {
                 func({ row, col })
             }
         }
+    }
+
+    // dx, dy: 単位ベクトル
+    public scanLine = (d: DIRECTION) => (x: number, y: number): string => {
+        let patern: string = ''
+        let arr: {
+            x: number
+            y: number
+        }[] = []
+        for (let m = 1; ; m++) {
+            const currentX = x + d.x * m
+            const currentY = y + d.y * m
+            if (this.state[currentX] === undefined || this.state[currentX][currentY] === undefined) break
+            const square = this.state[currentX][currentY]
+            switch (square) {
+                case Token.BLANK:
+                    patern += 'B'
+                    break
+                default:
+                    patern += square
+            }
+            arr.push({ x: currentX, y: currentY })
+        }
+        return patern
+    }
+
+    public enablePutSquares = (t: Token): Square[] => {
+        let res: Square[] = []
+        let player: number = t === Token.WHITE ? Token.WHITE : Token.BLACK
+        let enemy: number = t === Token.WHITE ? Token.BLACK : Token.WHITE
+        const getEnableSquares: SquareFunc = (s: Square) => {
+            if (this.state[s.row][s.col] !== Token.BLANK) return //  Blankでないマスは配置不可
+            for (let j = 0; j < DIRECTIONS.length; j++) {
+                const line = this.scanLine(DIRECTIONS[j])(s.row, s.col)
+                const regExStr = new RegExp('^' + enemy + '+' + player)
+                if(line.match(regExStr)) {
+                    res.push(s)
+                }
+            }
+        }
+        this.walk(getEnableSquares)
+        return res
     }
 }
 
