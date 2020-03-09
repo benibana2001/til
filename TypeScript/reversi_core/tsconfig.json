@@ -5,7 +5,16 @@
         "module": "commonjs",
         "target": "es5",
         "allowJs": true,
-        "baseUrl": "./"
+        "baseUrl": "./",
+        "paths": {
+            "import-svg": [
+                "types/import-svg"
+            ]
+        },
+        "typeRoots": [
+            "types",
+            "node_modules/@types"
+          ]
     },
     "typeRoots": [
         "types",

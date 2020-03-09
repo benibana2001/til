@@ -6,7 +6,7 @@ let t: number = 0
 
 describe('TEST TO BOARD', () => {
     afterEach(() => {
-        b.initState()
+        b.initBoard()
     })
     test('initialize', () => {
         console.log(b.state.board)

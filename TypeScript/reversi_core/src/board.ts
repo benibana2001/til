@@ -7,21 +7,6 @@ export enum Token {
     BLACK = 0,
     BLANK = -1
 }
-type State = {
-    board: BoardState,
-    enablePutSquares: Square[],
-    put: Square | null,
-    reverseToken: Square[],
-    player: Token.WHITE | Token.BLACK
-}
-type BoardState = number[][]
-const initialState: State = {
-    board: [],
-    enablePutSquares: [],
-    put: null,
-    reverseToken: [],
-    player: Token.WHITE
-}
 export type Square = {
     row: number,
     col: number
@@ -36,20 +21,29 @@ const DIRECTIONS: DIRECTION[] = [
     { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 1, y: -1 },
     { x: -1, y: 0 }, { x: -1, y: 1 }, { x: -1, y: -1 }
 ]
-
+type State = {
+    board: BoardState,
+    enablePutSquares: Square[],
+    put: Square | null,
+    reverseToken: Square[],
+    player: Token.WHITE | Token.BLACK,
+    oldPlayer: Token.WHITE | Token.BLACK,
+}
+type BoardState = number[][]
+const initialState: State = {
+    board: [],
+    enablePutSquares: [],
+    put: null,
+    reverseToken: [],
+    player: Token.WHITE,
+    oldPlayer: Token.BLACK,
+}
 class BOARD {
-    private readonly ROW = 8
-    private readonly COLUMN = 8
+    static readonly ROW = 8
+    static readonly COLUMN = 8
     static getEnemy = (player: Token) => player === Token.WHITE ? Token.BLACK : Token.WHITE
     static createSquare = (r: number, c: number): Square => ({ row: r, col: c })
     public state: State = initialState
-
-    private getRow = (ary: BoardState) => (n: number) => ary[n]
-    private getColumn = (ary: BoardState) => (n: number) => {
-        let newAry: number[] = []
-        ary.forEach((elem) => newAry.push(elem[n]))
-        return newAry
-    }
     public getSquare = (s: Square): Token => this.state.board[s.row][s.col]
     public putSquare = (s: Square) => (player: Token): BoardState => {
         this.state.board[s.row][s.col] = player
@@ -70,24 +64,26 @@ class BOARD {
         return this.state.board
     }
 
-    public initState = (): State => {
+    public initBoard = (): State => {
         this.state.board = []
-        const row: number[] = new Array(this.COLUMN).fill(Token.BLANK)
+        const row: number[] = new Array(BOARD.COLUMN).fill(Token.BLANK)
         const pushRow = () => this.state.board.push(row.slice(0))
-        funcTimes(pushRow)(this.ROW)()
+        funcTimes(pushRow)(BOARD.ROW)()
         this.putWhite({ row: 3, col: 3 })
         this.putWhite({ row: 4, col: 4 })
         this.putBlack({ row: 3, col: 4 })
         this.putBlack({ row: 4, col: 3 })
-        this.state.enablePutSquares = this.getEnablePutSquares(Token.WHITE)
         return this.state
     }
 
-    constructor() { this.initState() }
+    constructor() { 
+        this.initBoard() 
+        this.state.enablePutSquares = this.getEnablePutSquares(Token.WHITE)
+    }
 
     public walk = (func: SquareFunc) => {
-        for (let row = 0; row < this.ROW; row++) {
-            for (let col = 0; col < this.COLUMN; col++) {
+        for (let row = 0; row < BOARD.ROW; row++) {
+            for (let col = 0; col < BOARD.COLUMN; col++) {
                 func({ row, col })
             }
         }
@@ -142,14 +138,13 @@ class BOARD {
                 this.state.put = s
                 // reverse process
                 this.execReverse(s, this.state.player)
+                this.next()
                 return true
             }
         }
         return false
     }
-    /**
-     * 石を置いたのちのアクション
-     */
+    // 石を置いたのちのアクション
     public execReverse = (s: Square, player: Token): Square[] => {
         let reversed: Square[] = []
         const enemy = BOARD.getEnemy(player)
@@ -168,6 +163,11 @@ class BOARD {
         this.putSquare(s)(player)
         this.state.reverseToken = reversed
         return this.state.reverseToken 
+    }
+    // 手番を変更
+    private next = () => {
+        this.state.oldPlayer = this.state.player
+        this.state.player = BOARD.getEnemy(this.state.oldPlayer)
     }
 }
 

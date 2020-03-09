@@ -26,48 +26,65 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
  */
 
 module.exports = {
-	mode: 'development',
-	entry: './src/index.ts',
+    mode: 'development',
+    entry: './src/index.ts',
 
-	output: {
-		filename: 'main.js',
-		path: path.resolve(__dirname, 'dist')
-	},
+    output: {
+        filename: 'main.js',
+        path: path.resolve(__dirname, 'dist')
+    },
 
-	plugins: [new webpack.ProgressPlugin(), new HtmlWebpackPlugin()],
+    plugins: [
+        new webpack.ProgressPlugin(),
+        new HtmlWebpackPlugin({
+            template: './src/html/index.html'
+        })
+    ],
+    module: {
+        rules: [
+            {
+                test: /\.ts$/,
+                loader: 'ts-loader',
+                include: [path.resolve(__dirname, 'src')],
+                exclude: [
+                    /node_modules/,
+                    path.resolve(__dirname, 'src/test/'),
+                ]
+            },
+            {
+                test: /\.html$/,
+                include: [path.resolve(__dirname, 'src')],
+                loader: "html-loader"
+            },
+            {
+                test: /\.(gif|png|jpg|eot|wof|woff|woff2|ttf|svg)$/,
+                loader: "url-loader",
+                include: [path.resolve(__dirname, 'src/img')],
+            }
+        ]
+    },
 
-	module: {
-		rules: [
-			{
-				test: /.(ts|tsx)?$/,
-				loader: 'ts-loader',
-				include: [path.resolve(__dirname, 'src')],
-				exclude: [/node_modules/]
-			}
-		]
-	},
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                vendors: {
+                    priority: -10,
+                    test: /[\\/]node_modules[\\/]/
+                }
+            },
 
-	optimization: {
-		splitChunks: {
-			cacheGroups: {
-				vendors: {
-					priority: -10,
-					test: /[\\/]node_modules[\\/]/
-				}
-			},
+            chunks: 'async',
+            minChunks: 1,
+            minSize: 30000,
+            name: true
+        }
+    },
 
-			chunks: 'async',
-			minChunks: 1,
-			minSize: 30000,
-			name: true
-		}
-	},
+    devServer: {
+        open: true
+    },
 
-	devServer: {
-		open: true
-	},
-
-	resolve: {
-		extensions: ['.tsx', '.ts', '.js']
-	}
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js']
+    }
 };
