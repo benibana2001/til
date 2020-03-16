@@ -38,13 +38,13 @@ const initCanvas = () => {
         // 配列を座標に置き換える
         const drawToken = () => {
             const board = b.state.board
-            imgPet.onload = function () {
+            imgPet.onload = () => {
                 b.walk((s: Square) => {
                     if (b.getSquare(s) === Token.WHITE) {
                         // ctx.fillRect(squareSize * s.col, squareSize * s.row, squareSize, squareSize)
                         ctx.drawImage(imgPet, squareSize * s.col, squareSize * s.row, squareSize, squareSize)
                     }
-                    if(b.getSquare(s) === Token.BLACK) {
+                    if (b.getSquare(s) === Token.BLACK) {
                         ctx.drawImage(imgStar, squareSize * s.col, squareSize * s.row, squareSize, squareSize)
                     }
                 })
@@ -56,4 +56,39 @@ const initCanvas = () => {
 }
 
 initCanvas()
+
+const elemBoundPosition = (elem: HTMLElement): any & DOMRect => {
+    let bound: any & DOMRect = elem.getBoundingClientRect()
+    bound['posi'] = {
+        lt: { x: bound.left, y: bound.top },
+        lb: { x: bound.left, y: bound.bottom },
+        rt: { x: bound.right, y: bound.top },
+        rb: { x: bound.right, y: bound.bottom },
+    }
+    return bound
+}
+console.log(elemBoundPosition(canvas))
+
+
+// クリックされた座標を引数にとる
+// クリック位置に対応するboard上の位置を col, row として返す
+const applyXYtoBoardMap = (posi: {x: number, y: number}): { row: number, col: number } => {
+    
+    const squareSize: number = elemBoundPosition(canvas).width / 8
+    const lt: {x: number, y: number} = elemBoundPosition(canvas)
+    const relaXYClicked = {x: posi.x - lt.x, y: posi.y - lt.y}
+    const row = relaXYClicked.y / squareSize
+    const col = relaXYClicked.x / squareSize
+    return { row: Math.floor(row), col: Math.floor(col) }
+}
+
+const clickBoard = (canvas: HTMLCanvasElement): void => {
+    canvas.addEventListener(
+        'click',
+        (e: MouseEvent) => {
+            const posi = {x: e.pageX, y: e.pageY}
+            console.log(applyXYtoBoardMap(posi))
+        })
+}
+clickBoard(canvas)
 
