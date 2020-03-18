@@ -1,7 +1,9 @@
+import { Resources } from './index'
 // Utility Function
 const funcTimes = (func: Function) => (n: number) => () => {
     for (let i = 0; i < n; i++) func()
 }
+//
 export enum Token {
     WHITE = 1,
     BLACK = 0,
@@ -76,8 +78,8 @@ class BOARD {
         return this.state
     }
 
-    constructor() { 
-        this.initBoard() 
+    constructor() {
+        this.initBoard()
         this.state.enablePutSquares = this.getEnablePutSquares(Token.WHITE)
     }
 
@@ -89,6 +91,18 @@ class BOARD {
         }
     }
 
+    // this.board をcanvas に反映する
+    public reflectAllToken = (ctx: CanvasRenderingContext2D, r: Resources, squareSize: number) => {
+        this.walk((s: Square) => {
+            if (this.getSquare(s) === Token.WHITE) {
+                ctx.drawImage(r.getimg('pet'), squareSize * s.col, squareSize * s.row, squareSize, squareSize)
+            }
+            if (this.getSquare(s) === Token.BLACK) {
+                ctx.drawImage(r.getimg('star'), squareSize * s.col, squareSize * s.row, squareSize, squareSize)
+            }
+        })
+    }
+
     // dx, dy: 単位ベクトル
     public scanLine = (d: DIRECTION) => (s: Square): { pattern: string, arr: Square[] } => {
         let pattern: string = ''
@@ -96,7 +110,7 @@ class BOARD {
         for (let m = 1; ; m++) {
             const newSquare: Square = {
                 row: s.row + d.y * m,
-                col: s.col + d.x * m 
+                col: s.col + d.x * m
             }
             if (this.state.board[newSquare.row] === undefined || this.getSquare(newSquare) === undefined) break
             switch (this.getSquare(newSquare)) {
@@ -162,7 +176,7 @@ class BOARD {
         }
         this.putSquare(s)(player)
         this.state.reverseToken = reversed
-        return this.state.reverseToken 
+        return this.state.reverseToken
     }
     // 手番を変更
     private next = () => {
