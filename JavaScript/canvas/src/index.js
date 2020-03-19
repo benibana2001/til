@@ -1,22 +1,46 @@
 const root = document.getElementById('root')
 
 class Canv {
+  static rootNode
   static canvas
   static ctx
-  static createCanv = (func, w = 800, h = 600, elem = document.getElementById('root')) => {
-    // Generate Canvas
+  static funcs = {}
+  // funcs: {func, name=func.name}
+  static addFunc = (funcs, root = document.getElementById('root')) => {
+    // Apply root
+    Canv.rootNode = root
+    // Add function
+    for (const func of funcs) {
+      const name = func.name
+      Canv.funcs[name] = func
+      // Create button
+      const btn = document.createElement('button')
+      btn.innerText = name
+      btn.addEventListener('click', () => {
+        Canv.exeFunc(name)
+      })
+      Canv.rootNode.appendChild(btn)
+    }
+    Canv.defaultFunc(funcs[funcs.length - 1].name)
+  }
+  static defaultFunc = (name) => Canv.exeFunc(name)
+  static exeFunc = (name) => {
+    // Remove Canvas
+    if (Canv.canvas) {
+      Canv.rootNode.removeChild(Canv.canvas)
+    }
+    // Create canvas Html Element
     Canv.canvas = document.createElement('canvas')
-    Canv.canvas.width = w; Canv.canvas.height = h
+    Canv.rootNode.appendChild(Canv.canvas)
+    Canv.canvas.width = 800; Canv.canvas.height = 600
     // Instanciate Context 
     Canv.ctx = Canv.canvas.getContext('2d')
-    // attach canvas to element
-    elem.appendChild(Canv.canvas)
-    // execute func()
-    func(Canv.ctx)
+    // Exec function
+    Canv.funcs[name](Canv.ctx)
   }
 }
 
-Canv.createCanv((c) => {
+const chart = (c) => {
   const bgSize = { x: 400, y: 300 }
   const data = [16, 68, 20, 30, 54]
   const offset = 30
@@ -28,9 +52,9 @@ Canv.createCanv((c) => {
   for (let i = 0; i < data.length; i++) {
     c.fillRect(offset + i * (barW + span), offset, barW, data[i] * 3)
   }
-}, 800, 400)
+}
 
-Canv.createCanv((c) => {
+const moveBox = (c) => {
   let x = 0
   let toggle = 1
   const drawIt = () => {
@@ -43,4 +67,6 @@ Canv.createCanv((c) => {
     if (x === 0) toggle = 1
   }
   window.requestAnimationFrame(drawIt)
-}, 800, 400)
+}
+
+Canv.addFunc([chart, moveBox])
