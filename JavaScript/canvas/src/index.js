@@ -2,42 +2,49 @@ const root = document.getElementById('root')
 
 class Canv {
   static rootNode
+  static btnListNode
   static canvas
   static ctx
-  static funcs = {}
+  static funcs = new Map()
+  static currentFuncID
   // funcs: {func, name=func.name}
   static addFunc = (funcs, root = document.getElementById('root')) => {
     // Apply root
     Canv.rootNode = root
-    // Add function
+    Canv.btnListNode = document.createElement('div')
+    Canv.rootNode.appendChild(Canv.btnListNode)
     for (const func of funcs) {
+      // Add function
       const name = func.name
-      Canv.funcs[name] = func
+      Canv.funcs.set(name, func)
       // Create button
       const btn = document.createElement('button')
       btn.innerText = name
-      btn.addEventListener('click', () => {
-        Canv.exeFunc(name)
-      })
-      Canv.rootNode.appendChild(btn)
+      btn.addEventListener('click', () => Canv.exeFunc(name))
+      Canv.btnListNode.appendChild(btn)
     }
+    // Run some function
     Canv.defaultFunc(funcs[funcs.length - 1].name)
   }
   static defaultFunc = (name) => Canv.exeFunc(name)
-  static exeFunc = (name) => {
-    // Remove Canvas
-    if (Canv.canvas) {
-      Canv.rootNode.removeChild(Canv.canvas)
+  static defaultCanvSize = { x: window.innerWidth, y: 600 }
+  static exeFunc = (name, size = Canv.defaultCanvSize) => {
+    // Remove old canvas, function
+    if (Canv.canvas) Canv.rootNode.removeChild(Canv.canvas)
+    if (Canv.currentFuncID) {
+      cancelAnimationFrame(Canv.currentFuncID)
+      Canv.currentFuncID = 0
     }
     // Create canvas Html Element
     Canv.canvas = document.createElement('canvas')
     Canv.rootNode.appendChild(Canv.canvas)
-    Canv.canvas.width = 800; Canv.canvas.height = 600
+    Canv.canvas.width = size.x; Canv.canvas.height = size.y
     // Instanciate Context 
     Canv.ctx = Canv.canvas.getContext('2d')
     // Exec function
-    Canv.funcs[name](Canv.ctx)
+    Canv.funcs.get(name)(Canv.ctx)
   }
+  //TODO: window.animation せんようのloop 関数を用意
 }
 
 const chart = (c) => {
@@ -55,18 +62,55 @@ const chart = (c) => {
 }
 
 const moveBox = (c) => {
-  let x = 0
+  const cw = Canv.canvas.width
+  const ch = Canv.canvas.height
+  let ox = 0
   let toggle = 1
+  const box = { w: 200, h: 100, spd: cw / 100 }
   const drawIt = () => {
     window.requestAnimationFrame(drawIt)
-    c.clearRect(0, 0, Canv.canvas.width, Canv.canvas.height)
-    c.fillRect(x, 100, 200, 100)
-    if (toggle === 1) x += 5
-    if (toggle === 0) x -= 5
-    if (x === 300) toggle = 0
-    if (x === 0) toggle = 1
+    c.clearRect(0, 0, cw, ch)
+    c.fillRect(ox, 100, box.w, box.h)
+    if (toggle === 1) ox += box.spd
+    if (toggle === 0) ox -= box.spd
+    if (ox >= (cw - box.w)) toggle = 0
+    if (ox <= 0) toggle = 1
   }
   window.requestAnimationFrame(drawIt)
 }
 
-Canv.addFunc([chart, moveBox])
+const arouncBox = (c) => {
+  const cw = Canv.canvas.width
+  const ch = Canv.canvas.height
+  let ox = 0
+  let oy = 0
+  let toggle = 1
+  const box = { w: 200, h: 100, spd: cw / 100 }
+  const drawIt = () => {
+    console.log('yeah')
+    c.clearRect(0, 0, cw, ch)
+    c.fillRect(ox, oy, box.w, box.h)
+    if (toggle === 1) {
+      ox += box.spd
+      if (ox >= (cw - box.w)) toggle = 2
+    }
+    if (toggle === 2) {
+      oy += box.spd
+      if (oy >= (ch - box.h)) toggle = 3
+    }
+    if (toggle === 3) {
+      ox -= box.spd
+      if (ox <= 0) toggle = 4
+    }
+    if (toggle === 4) {
+      oy -= box.spd
+      if (oy <= 0) toggle = 1
+    }
+    console.log(Canv.currentFuncID)
+    Canv.currentFuncID = window.requestAnimationFrame(drawIt)
+  }
+  c.fillStyle = 'blue'
+  Canv.currentFuncID = window.requestAnimationFrame(drawIt)
+}
+
+Canv.addFunc([chart, moveBox, arouncBox])
