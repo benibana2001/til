@@ -1,0 +1,18 @@
+{
+  "name": "transcode_mp4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "run-local-lambda --file index.js --event tests/event.json"
+  },
+  "dependencies": {
+    "aws-sdk": "latest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "run-local-lambda": "^1.1.1"
+  }
+}
