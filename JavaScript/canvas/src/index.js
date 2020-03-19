@@ -8,4 +8,4 @@ Canv.addFunc([
   chart,
   moveBox,
   aroundBox
-])
+], root)

@@ -24,8 +24,10 @@ class Canv {
     Canv.defaultFunc(funcs[funcs.length - 1].name)
   }
   static defaultFunc = (name) => Canv.exeFunc(name)
-  static defaultCanvSize = { x: window.innerWidth, y: 600 }
-  static exeFunc = (name, size = Canv.defaultCanvSize) => {
+  static setCanvSize = (x = window.innerWidth) => (y = 600) => {
+      Canv.canvas.width = x; Canv.canvas.height = y;
+  }
+  static exeFunc = (name) => {
     // Remove old canvas, function
     if (Canv.canvas) Canv.rootNode.removeChild(Canv.canvas)
     if (Canv.currentFuncID) {
@@ -35,7 +37,8 @@ class Canv {
     // Create canvas Html Element
     Canv.canvas = document.createElement('canvas')
     Canv.rootNode.appendChild(Canv.canvas)
-    Canv.canvas.width = size.x; Canv.canvas.height = size.y
+    // Set canvas size
+    Canv.setCanvSize()()
     // Instanciate Context 
     Canv.ctx = Canv.canvas.getContext('2d')
     // Exec function
