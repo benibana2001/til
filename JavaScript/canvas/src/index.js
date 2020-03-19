@@ -7,7 +7,6 @@ class Canv {
   static ctx
   static funcs = new Map()
   static currentFuncID
-  // funcs: {func, name=func.name}
   static addFunc = (funcs, root = document.getElementById('root')) => {
     // Apply root
     Canv.rootNode = root
@@ -44,7 +43,14 @@ class Canv {
     // Exec function
     Canv.funcs.get(name)(Canv.ctx)
   }
-  //TODO: window.animation せんようのloop 関数を用意
+  // Wrapper func for loop animation
+  static loop = (f) => {
+    const repeat = () => {
+      f()
+      Canv.currentFuncID = window.requestAnimationFrame(repeat)
+    }
+    Canv.currentFuncID = window.requestAnimationFrame(repeat)
+  }
 }
 
 const chart = (c) => {
@@ -67,26 +73,27 @@ const moveBox = (c) => {
   let ox = 0
   let toggle = 1
   const box = { w: 200, h: 100, spd: cw / 100 }
-  const drawIt = () => {
-    window.requestAnimationFrame(drawIt)
+  Canv.loop(() => {
+    console.log('moveBox')
     c.clearRect(0, 0, cw, ch)
     c.fillRect(ox, 100, box.w, box.h)
     if (toggle === 1) ox += box.spd
     if (toggle === 0) ox -= box.spd
     if (ox >= (cw - box.w)) toggle = 0
     if (ox <= 0) toggle = 1
-  }
-  window.requestAnimationFrame(drawIt)
+  })
 }
 
-const arouncBox = (c) => {
+const aroundBox = (c) => {
   const cw = Canv.canvas.width
   const ch = Canv.canvas.height
   let ox = 0
   let oy = 0
   let toggle = 1
   const box = { w: 200, h: 100, spd: cw / 100 }
-  const drawIt = () => {
+
+  c.fillStyle = 'blue'
+  Canv.loop(() => {
     console.log('yeah')
     c.clearRect(0, 0, cw, ch)
     c.fillRect(ox, oy, box.w, box.h)
@@ -106,11 +113,7 @@ const arouncBox = (c) => {
       oy -= box.spd
       if (oy <= 0) toggle = 1
     }
-    console.log(Canv.currentFuncID)
-    Canv.currentFuncID = window.requestAnimationFrame(drawIt)
-  }
-  c.fillStyle = 'blue'
-  Canv.currentFuncID = window.requestAnimationFrame(drawIt)
+  })
 }
 
-Canv.addFunc([chart, moveBox, arouncBox])
+Canv.addFunc([chart, moveBox, aroundBox])
