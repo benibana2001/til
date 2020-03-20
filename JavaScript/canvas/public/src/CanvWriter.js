@@ -25,8 +25,20 @@ class Canv {
   }
   static defaultFunc = (name) => Canv.exeFunc(name)
   static setCanvSize = (x = window.innerWidth) => (y = 600) => {
-      Canv.canvas.width = x; Canv.canvas.height = y;
+    Canv.canvas.width = x; Canv.canvas.height = y;
   }
+  static imgLoaded = []
+  static waitResolveImgs = async () => await Promise.all(Canv.imgLoaded)
+  static createImg = (path) => {
+    const img = new Image()
+    const promise = new Promise((resolve) => {
+      img.src = path
+      img.onload = () => resolve(true); console.log(`resolved: ${path}`);
+    })
+    Canv.imgLoaded.push(promise)
+    return img
+  }
+
   static exeFunc = (name) => {
     // Remove old canvas, function
     if (Canv.canvas) Canv.rootNode.removeChild(Canv.canvas)
