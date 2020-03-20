@@ -40,12 +40,13 @@ class Canv {
   }
 
   static exeFunc = (name) => {
-    // Remove old canvas, function
+    // Remove old canvas, function, imgPromises
     if (Canv.canvas) Canv.rootNode.removeChild(Canv.canvas)
     if (Canv.currentFuncID) {
       cancelAnimationFrame(Canv.currentFuncID)
       Canv.currentFuncID = 0
     }
+    if (Canv.imgLoaded) Canv.imgLoaded = []
     // Create canvas Html Element
     Canv.canvas = document.createElement('canvas')
     Canv.rootNode.appendChild(Canv.canvas)
