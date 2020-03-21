@@ -5,11 +5,13 @@ import moveBox from './canvases/moveBox.js'
 import aroundBox from './canvases/aroundBox.js'
 import particle from './canvases/particleSnow.js'
 import sprite from './canvases/sprite/index.js'
+import sprite2 from './canvases/sprite-2/index.js'
 //
 Canv.addFunc([
   chart,
   moveBox,
   aroundBox,
   particle,
-  sprite
+  sprite,
+  sprite2
 ], root)
