@@ -59,11 +59,18 @@ class Canv {
   }
   // Wrapper func for loop animation
   static loop = (f) => {
+    const requestAnimFrame = (() =>
+      window.requestAnimationFrame ||
+      window.webkitRequestAnimationFrame ||
+      // window.mozRequestAnimationFrame ||
+      // window.msRequestAnimationFrame ||
+      (callback => window.setTimeout(callback, 1000 / 60))
+    )()
     const repeat = () => {
       f()
-      Canv.currentFuncID = window.requestAnimationFrame(repeat)
+      Canv.currentFuncID = requestAnimFrame(repeat)
     }
-    Canv.currentFuncID = window.requestAnimationFrame(repeat)
+    Canv.currentFuncID = requestAnimFrame(repeat)
   }
 }
 

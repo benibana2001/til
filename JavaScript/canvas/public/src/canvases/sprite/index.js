@@ -2,44 +2,31 @@ import Canv from '../../CanvWriter.js'
 import catData from './cat.js'
 
 const sprite = async (c) => {
-  const pathBomb = '/src/canvases/sprite/sprite.png'
   const pathCat = '/src/canvases/sprite/cat.png'
-  const imgBomb = Canv.createImg(pathBomb)
   const imgCat = Canv.createImg(pathCat)
   await Canv.waitResolveImgs()
 
-  let tickB = 0
+  const frames = catData.frames
+  const frametoary = (frameObj) => [frameObj.x, frameObj.y, frameObj.w, frameObj.h]
+  const frame1 = frametoary(frames["cat 0.aseprite"])
+  const frame2 = frametoary(frames["cat 1.aseprite"])
+  const frame3 = frametoary(frames["cat 2.aseprite"])
+
   let tickC = 0
-  //
-  const sizeB = 12
-  let frameB = 0
-  let xB = 0
   //
   const sizeC = catData.frames["cat 0.aseprite"].spriteSourceSize.w
   let frameC = 0
   let xC = 0
 
   Canv.loop(() => {
-    xB = frameB * sizeB
-    const sourceB = [xB, 0, 13, 13]
-    const displayAreaB = [0, 0, 13, 13]
-    c.drawImage(imgBomb, ...sourceB, ...displayAreaB,)
-    console.log(`sizeC: ${sizeC}`)
     xC = frameC * sizeC
     const sourceC = [xC, 0, sizeC, sizeC]
     const displayAreaC = [0, 40, sizeC, sizeC]
     c.drawImage(imgCat, ...sourceC, ...displayAreaC,)
 
     updateSprite()
-    console.log(frameB)
   })
   const updateSprite = () => {
-    tickB++
-    if (tickB % 10 === 0) frameB++
-    if (frameB >= 10) {
-      tickB = 0
-      frameB = 0
-    }
     tickC++
     if (tickC % 20 === 0) frameC++
     if(frameC >= 3) {
