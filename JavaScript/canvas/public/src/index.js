@@ -6,6 +6,7 @@ import aroundBox from './canvases/aroundBox.js'
 import particle from './canvases/particleSnow.js'
 import sprite from './canvases/sprite/index.js'
 import sprite2 from './canvases/sprite-2/index.js'
+import dotPattern from './canvases/dotPattern.js'
 //
 Canv.addFunc([
   chart,
@@ -13,5 +14,6 @@ Canv.addFunc([
   aroundBox,
   particle,
   sprite,
-  sprite2
+  sprite2,
+  dotPattern
 ], root)
