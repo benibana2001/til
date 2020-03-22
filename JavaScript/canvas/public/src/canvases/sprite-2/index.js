@@ -6,13 +6,23 @@ const sprite_2 = async (c) => {
   const imgCat = Canv.createImg(pathCat)
   await Canv.waitResolveImgs()
 
-  const frames = catData.frames
-  const frametoary = (frameObj) => [frameObj.x, frameObj.y, frameObj.w, frameObj.h]
-  const frame1 = frametoary(frames["cat 0.aseprite"].frame)
-  const frame2 = frametoary(frames["cat 1.aseprite"].frame)
-  const frame3 = frametoary(frames["cat 2.aseprite"].frame)
+  class Asep {
+    static parse = (data) => {
+      const frames = data.frames
+      let ary = []
+      for(let key of Object.keys(frames)) {
+        ary.push(Asep.frametoary(frames[key].frame))
+      }
+      return ary
+    }
+    static frames = data => Asep.parse(data)
+    static frametoary = (frameObj) => [frameObj.x, frameObj.y, frameObj.w, frameObj.h]
+  }
+
+  // TODO: frames と displaySize をひとつのオブジェクトで返すように
+  const frames = Asep.frames(catData)
   const displayArea = [0, 0]
-  const displaySize = [frame1[2], frame1[3]]
+  const displaySize = [frames[0][2], frames[0][3]]
 
   let tick = 0
   Canv.loop(() => {
@@ -23,9 +33,9 @@ const sprite_2 = async (c) => {
   const draw = () => {
     let f = tick % 100
     let source
-    if (0 <= f && f < 20) source = frame1
-    if (20 <= f && f < 40) source = frame2
-    if (40 <= f && f < 100) source = frame3
+    if (0 <= f && f < 20) source = frames[0]
+    if (20 <= f && f < 40) source = frames[1]
+    if (40 <= f && f < 100) source = frames[2]
     c.drawImage(imgCat, ...source, ...displayArea, ...displaySize)
   }
   const updateSprite = () => tick++

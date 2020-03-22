@@ -1,4 +1,7 @@
 {
   "liveServer.settings.port": 4500,
-  "liveServer.settings.root": "/public"
+  "liveServer.settings.root": "/public",
+  "editor.fontSize": 20,
+  "debug.console.fontSize": 20,
+  "terminal.integrated.fontSize": 22
 }
