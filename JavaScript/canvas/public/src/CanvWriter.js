@@ -5,25 +5,30 @@ class Canv {
   static ctx
   static funcs = new Map()
   static currentFuncID
-  static addFunc = (funcs, root = document.getElementById('root')) => {
-    // Apply root
+  static setNode = (root) => {
     Canv.rootNode = root
     Canv.btnListNode = document.createElement('div')
     Canv.rootNode.appendChild(Canv.btnListNode)
+  }
+  static createBtn = (node, name, func) => {
+    const btn = document.createElement('button')
+    btn.innerText = name
+    btn.addEventListener('click', func)
+    node.appendChild(btn)
+  }
+  static addFunc = (funcs, root = document.getElementById('root')) => {
+    Canv.setNode(root)
     for (const func of funcs) {
-      // Add function
       const name = func.name
       Canv.funcs.set(name, func)
-      // Create button
-      const btn = document.createElement('button')
-      btn.innerText = name
-      btn.addEventListener('click', () => Canv.exeFunc(name))
-      Canv.btnListNode.appendChild(btn)
+      Canv.createBtn(Canv.btnListNode, name, () => Canv.exeFunc(name))
     }
-    // Run some function
     Canv.defaultFunc(funcs[funcs.length - 1].name)
   }
-  static defaultFunc = (name) => Canv.exeFunc(name)
+  static defaultFunc = name => {
+    name = location.search ? location.search.slice(1) : name
+    Canv.exeFunc(name)
+  }
   static setCanvSize = (x = window.innerWidth) => (y = 600) => {
     Canv.canvas.width = x; Canv.canvas.height = y;
   }
@@ -46,11 +51,10 @@ class Canv {
       cancelAnimationFrame(Canv.currentFuncID)
       Canv.currentFuncID = 0
     }
-    if (Canv.imgLoaded) Canv.imgLoaded = []
+    if (Canv.imgLoaded) Canv.imgLoaded = [];
     // Create canvas Html Element
     Canv.canvas = document.createElement('canvas')
     Canv.rootNode.appendChild(Canv.canvas)
-    // Set canvas size
     Canv.setCanvSize()()
     // Instanciate Context 
     Canv.ctx = Canv.canvas.getContext('2d')
@@ -74,7 +78,7 @@ class Canv {
   }
   static drawBG = (color, clear = true) => {
     const clearBG = () => Canv.ctx.clearRect(0, 0, Canv.canvas.width, Canv.canvas.height)
-    if(clear) clearBG()
+    if (clear) clearBG()
     Canv.ctx.fillStyle = color
     Canv.ctx.fillRect(0, 0, Canv.canvas.width, Canv.canvas.height)
   }
