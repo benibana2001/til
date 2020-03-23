@@ -1,23 +1,37 @@
 import Canv from '../CanvWriter.js'
 const gridParticle = (c) => {
   const bgcolor = Canv.randomRGBA(0.3)
-  const particles = () => {
-    const o = { x: 0, y: 0 }
-    const s = 10
-    const col = Canv.randomRGBA(0.4)
-    const baseV = Canv.canvas.width / 500
-    const vx = 10
-    return[o.x, o.y, s, col]
+
+  const particle = O => size => col => [O.x, O.y, size, col]
+  const moveParticle = O => size => col => V => {
+    O.x += V.x
+    O.y += V.y
+    return [O.x, O.y, size, col]
   }
+  const createParticle = (p) => Canv.drawArc(...p)
+  const Ps = (() => {
+    let ps = []
+    const row = 20
+    const sz = Canv.canvas.height / (row * 2)
+    const col = Canv.canvas.width / sz
+    for (let i = 0; i < row; i++) {
+      for (let j = 0; j < col; j++) {
+        const o = { x: (sz * 2 * j), y: (sz * i * 2) + (sz) }
+        const color = Canv.randomRGBA(0.4)
+        const p = moveParticle(o)(sz)(color)
+        ps.push(p)
+      }
+    }
+    return ps
+  })()
+  const vx = () => Math.random() > 0.5 ? 1 : -1
+  const vy = () => Math.random() > 0.5 ? 1 : -1
   Canv.loop(() => {
     Canv.drawBG(bgcolor)
-    Canv.drawArc(...particles())
+    Ps.forEach((p) => {
+      createParticle(p({ x: vx(), y: vy() }))
+    })
   })
 }
 
-const moveParticle = O => size => col => V => {
-  O.x += V.x
-  O.y += V.y
-  return [O.x, O.y, size, col]
-}
 export default gridParticle
