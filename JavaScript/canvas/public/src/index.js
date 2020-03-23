@@ -1,4 +1,3 @@
-const root = document.getElementById('root')
 import Canv from './CanvWriter.js'
 import chart from './canvases/chart.js'
 import moveBox from './canvases/moveBox.js'
@@ -7,7 +6,9 @@ import particle from './canvases/particleSnow.js'
 import sprite from './canvases/sprite/index.js'
 import sprite2 from './canvases/sprite-2/index.js'
 import dotPattern from './canvases/dotPattern.js'
+import shakingBall from './canvases/shakingBall.js'
 //
+const root = document.getElementById('root')
 Canv.addFunc([
   chart,
   moveBox,
@@ -15,5 +16,6 @@ Canv.addFunc([
   particle,
   sprite,
   sprite2,
-  dotPattern
+  dotPattern,
+  shakingBall
 ], root)

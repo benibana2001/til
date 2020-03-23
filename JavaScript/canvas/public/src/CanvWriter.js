@@ -72,6 +72,19 @@ class Canv {
     }
     Canv.currentFuncID = requestAnimFrame(repeat)
   }
+  static drawBG = (color) => {
+    Canv.ctx.fillStyle = color
+    Canv.ctx.fillRect(0, 0, Canv.canvas.width, Canv.canvas.height)
+  }
+  static drawArc = (x, y, r, color) => {
+    Canv.ctx.beginPath()
+    Canv.ctx.arc(x, y, r, 0, Math.PI * 2)
+    Canv.ctx.closePath()
+    Canv.ctx.fillStyle = color
+    Canv.ctx.fill()
+  }
+  static randomRGBA = opacity => `rgba(${randomColor()},${randomColor()},${randomColor()}, ${opacity})`
 }
 
+const randomColor = () => Math.random() * 255
 export default Canv

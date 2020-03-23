@@ -4,13 +4,14 @@ const particleSnow = (c) => {
   let particles = []
   let tick = 0
   Canv.loop(() => {
+    // 最大個数とparticle作成タイミング(frame)を指定 
     createParticles(
       particles.length < 70 &&
       tick % 40 === 0
     )
     updateParticles()
     killParticles()
-    drawBG()
+    Canv.drawBG('black')
     drawParticles()
   })
 
@@ -22,7 +23,7 @@ const particleSnow = (c) => {
     y: 0,
     speed: 2 + Math.random() * 3, //  2 ~ 5
     radius: 5 + Math.random() * 8,
-    color: `rgba(255, 255, 255, ${0.3 + Math.random() * 0.5})`
+    color: Canv.randomRGBA(0.3 + Math.random() * 0.5)
   })
   const updateParticles = () => {
     for (let part of particles) {
@@ -37,19 +38,8 @@ const particleSnow = (c) => {
   }
   const drawParticles = () => {
     for (let part of particles) {
-      drawArc(part.x, part.y, part.radius, part.color)
+      Canv.drawArc(part.x, part.y, part.radius, part.color)
     }
-  }
-  const drawBG = () => {
-    c.fillStyle = 'black'
-    c.fillRect(0, 0, Canv.canvas.width, Canv.canvas.height)
-  }
-  const drawArc = (x, y, r, color) => {
-    c.beginPath()
-    c.arc(x, y, r, 0, Math.PI * 2)
-    c.closePath()
-    c.fillStyle = color
-    c.fill()
   }
 }
 
