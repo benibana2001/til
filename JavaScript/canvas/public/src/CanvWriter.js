@@ -90,6 +90,13 @@ class Canv {
     Canv.ctx.fill()
   }
   static randomRGBA = opacity => `rgba(${randomColor()},${randomColor()},${randomColor()}, ${opacity})`
+  //
+  static particle = O => size => col => [O.x, O.y, size, col]
+  static moveParticle = O => size => col => V => {
+    O.x += V.x
+    O.y += V.y
+    return [O.x, O.y, size, col]
+  }
 }
 
 const randomColor = () => Math.random() * 255

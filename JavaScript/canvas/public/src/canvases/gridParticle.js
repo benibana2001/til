@@ -1,13 +1,5 @@
 import Canv from '../CanvWriter.js'
 const gridParticle = (c) => {
-  const bgcolor = Canv.randomRGBA(0.3)
-
-  const particle = O => size => col => [O.x, O.y, size, col]
-  const moveParticle = O => size => col => V => {
-    O.x += V.x
-    O.y += V.y
-    return [O.x, O.y, size, col]
-  }
   const createParticle = (p) => Canv.drawArc(...p)
   const Ps = (() => {
     let ps = []
@@ -18,7 +10,7 @@ const gridParticle = (c) => {
       for (let j = 0; j < col; j++) {
         const o = { x: (sz * 2 * j), y: (sz * i * 2) + (sz) }
         const color = Canv.randomRGBA(0.4)
-        const p = moveParticle(o)(sz)(color)
+        const p = Canv.moveParticle(o)(sz)(color)
         ps.push(p)
       }
     }
@@ -26,6 +18,8 @@ const gridParticle = (c) => {
   })()
   const vx = () => Math.random() > 0.5 ? 1 : -1
   const vy = () => Math.random() > 0.5 ? 1 : -1
+  //
+  const bgcolor = Canv.randomRGBA(0.3)
   Canv.loop(() => {
     Canv.drawBG(bgcolor)
     Ps.forEach((p) => {
