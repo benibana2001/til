@@ -72,7 +72,9 @@ class Canv {
     }
     Canv.currentFuncID = requestAnimFrame(repeat)
   }
-  static drawBG = (color) => {
+  static drawBG = (color, clear = true) => {
+    const clearBG = () => Canv.ctx.clearRect(0, 0, Canv.canvas.width, Canv.canvas.height)
+    if(clear) clearBG()
     Canv.ctx.fillStyle = color
     Canv.ctx.fillRect(0, 0, Canv.canvas.width, Canv.canvas.height)
   }
