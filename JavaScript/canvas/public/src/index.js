@@ -8,7 +8,8 @@ import sprite2 from './canvases/sprite-2/index.js'
 import dotPattern from './canvases/dotPattern.js'
 import shakingBall from './canvases/shakingBall.js'
 import gridParticle from './canvases/gridParticle.js'
-import gridParticle02 from './canvases/gridParticles02.js'
+import byebye from './canvases/byebye.js'
+import cursor from './canvases/cursor.js'
 //
 const root = document.getElementById('root')
 Canv.addFunc([
@@ -21,5 +22,6 @@ Canv.addFunc([
   dotPattern,
   shakingBall,
   gridParticle,
-  gridParticle02
+  byebye,
+  cursor
 ], root)

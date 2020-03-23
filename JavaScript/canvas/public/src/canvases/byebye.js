@@ -1,5 +1,5 @@
 import Canv from '../CanvWriter.js'
-const gridParticles02 = (c) => {
+const byebye = (c) => {
   const Ps = (() => {
     let ps = []
     const row = 10
@@ -64,4 +64,4 @@ const gridParticles02 = (c) => {
   })
 }
 
-export default gridParticles02
+export default byebye
