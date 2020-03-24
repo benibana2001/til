@@ -10,6 +10,7 @@ import shakingBall from './canvases/shakingBall.js'
 import gridParticle from './canvases/gridParticle.js'
 import byebye from './canvases/byebye.js'
 import cursor from './canvases/cursor.js'
+import cursor2 from './canvases/cursor_02/index.js'
 //
 const root = document.getElementById('root')
 Canv.addFunc([
@@ -23,5 +24,6 @@ Canv.addFunc([
   shakingBall,
   gridParticle,
   byebye,
-  cursor
+  cursor,
+  cursor2
 ], root)

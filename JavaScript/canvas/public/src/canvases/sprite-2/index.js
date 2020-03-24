@@ -9,14 +9,14 @@ const sprite_2 = async (c) => {
   class Asep {
     static parse = (data) => {
       const frames = data.frames
+      const frametoary = (frameObj) => [frameObj.x, frameObj.y, frameObj.w, frameObj.h]
       let ary = []
       for(let key of Object.keys(frames)) {
-        ary.push(Asep.frametoary(frames[key].frame))
+        ary.push(frametoary(frames[key].frame))
       }
       return ary
     }
     static frames = data => Asep.parse(data)
-    static frametoary = (frameObj) => [frameObj.x, frameObj.y, frameObj.w, frameObj.h]
   }
 
   // TODO: frames と displaySize をひとつのオブジェクトで返すように
