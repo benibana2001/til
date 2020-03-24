@@ -7,22 +7,15 @@ const cursor = () => {
     right: { x: speed, y: 0 },
     left: { x: -speed, y: 0 },
     constant: { x: 0, y: 0 }
-  }))(10)
+  }))(8)
   let direction = move.constant
   Canv.loop(() => {
     Canv.drawBG('black')
     Canv.drawArc(...p(direction))
   })
-  window.addEventListener('keydown', e => {
-    downHandler(e)
-  })
-
-  window.addEventListener('keyup', e => {
-    direction = move.constant
-  })
-
-  const isArwKey = e => e.key.slice(0, 5) === 'Arrow'
   const downHandler = (e) => {
+    const isArwKey = e => e.key.slice(0, 5) === 'Arrow'
+    console.log(e)
     if (isArwKey(e)) e.preventDefault()
     switch (e.key) {
       case 'ArrowUp':
@@ -33,9 +26,10 @@ const cursor = () => {
         direction = move.right; break
       case 'ArrowLeft':
         direction = move.left; break
-      // default: e.preventDefault()
     }
   }
+  Canv.registerEvent('keydown', downHandler)
+  Canv.registerEvent('keyup', () => {direction = move.constant})
 }
 
 export default cursor

@@ -52,6 +52,7 @@ class Canv {
       Canv.currentFuncID = 0
     }
     if (Canv.imgLoaded) Canv.imgLoaded = [];
+    if (Canv.events) Canv.removeEvents()
     // Create canvas Html Element
     Canv.canvas = document.createElement('canvas')
     Canv.rootNode.appendChild(Canv.canvas)
@@ -75,6 +76,17 @@ class Canv {
       Canv.currentFuncID = requestAnimFrame(repeat)
     }
     Canv.currentFuncID = requestAnimFrame(repeat)
+  }
+  // Add event listner
+  static events = []
+  static registerEvent = (type, func) => {
+    Canv.events.push([type, func])
+    window.addEventListener(type, func)
+  }
+  static removeEvents = () => {
+    for (let e of Canv.events) {
+      window.removeEventListener(e[0], e[1])
+    }
   }
   static drawBG = (color, clear = true) => {
     const clearBG = () => Canv.ctx.clearRect(0, 0, Canv.canvas.width, Canv.canvas.height)
