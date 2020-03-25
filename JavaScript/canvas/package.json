@@ -1,15 +1,27 @@
 {
-  "name": "algorithm",
+  "name": "canvas",
+  "config": {
+    "public": "./public",
+    "public_src": "./public/src"
+  },
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cp:assets": "cp -r ./src/assets ./public/src",
+    "cp:html": "cp index.html public",
+    "transpile": "npx babel ./src --out-dir public/src",
+    "build": "npm run cp:assets && npm run cp:html && npm run transpile"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.9.0",
     "eslint": "^6.8.0",
     "jest": "^25.1.0"
   },
