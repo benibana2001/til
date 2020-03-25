@@ -11,6 +11,7 @@ import gridParticle from './canvases/gridParticle.js'
 import byebye from './canvases/byebye.js'
 import cursor from './canvases/cursor.js'
 import cursor2 from './canvases/cursor_02/index.js'
+import looftop from './canvases/looftop.js'
 //
 const root = document.getElementById('root')
 Canv.addFunc([
@@ -25,5 +26,6 @@ Canv.addFunc([
   gridParticle,
   byebye,
   cursor,
-  cursor2
+  cursor2,
+  looftop
 ], root)

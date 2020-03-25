@@ -12,7 +12,8 @@
     "cp:assets": "cp -r ./src/assets ./public/src",
     "cp:html": "cp index.html public",
     "transpile": "npx babel ./src --out-dir public/src",
-    "build": "npm run cp:assets && npm run cp:html && npm run transpile"
+    "build": "npm run cp:assets && npm run cp:html && npm run transpile",
+    "deploy": "npm run build && firebase deploy"
   },
   "keywords": [],
   "author": "",
