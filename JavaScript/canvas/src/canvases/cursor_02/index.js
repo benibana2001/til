@@ -45,15 +45,19 @@ const cursor_02 = async () => {
     }
   }
   let tick = 0
+  let currentOutput = {} //  READONLY
   const loopAnimation = state => {
     Canv.loop(() => {
       Canv.drawBG('black')
-      Canv.drawImage(state.image, state.frame(), output(state.velocity))
+      currentOutput = output(state.velocity)
+      // console.log(currentOutput)
+      Canv.drawImage(state.image, state.frame(), currentOutput)
       tick++
     })
   }
   //
-  Canv.ctx.scale(3, 3)
+  const scale = [3, 3]
+  Canv.ctx.scale(...scale)
   loopAnimation(status.constantLeft)
   //
   Canv.registerEvent('keydown', Canv.keydownHandler({
@@ -77,10 +81,17 @@ const cursor_02 = async () => {
     x: isSmartPhone ? e.changedTouches[0].pageX : e.pageX,
     y: isSmartPhone ? e.changedTouches[0].pageY : e.pageY
   })
-  Canv.registerEvent(eventType.start, e => {
-    loopAnimation(status.runRight)
+  Canv.canvas.addEventListener(eventType.start, e => {
+    e.preventDefault()
+    const currentCharaX = (currentOutput.x + size.w / 2) * scale[0]
+    if (touchPosition(e).x > currentCharaX) loopAnimation(status.runRight)
+    if (touchPosition(e).x < currentCharaX) loopAnimation(status.runLeft)
+  }, { passive: false })
+  Canv.canvas.addEventListener(eventType.end, e => {
+    const currentCharaX = (currentOutput.x + size.w / 2) * scale[0]
+    if (touchPosition(e).x > currentCharaX) loopAnimation(status.constantRight)
+    if (touchPosition(e).x < currentCharaX) loopAnimation(status.constantLeft)
   })
-  Canv.registerEvent(eventType.end, () => loopAnimation(status.constantRight))
 }
 //
 export default cursor_02

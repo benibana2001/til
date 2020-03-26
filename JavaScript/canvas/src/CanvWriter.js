@@ -80,9 +80,9 @@ class Canv {
   }
   // Add event listner
   static events = []
-  static registerEvent = (type, func) => {
+  static registerEvent = (type, func, options = null) => {
     Canv.events.push([type, func])
-    window.addEventListener(type, func)
+    window.addEventListener(type, func, options)
   }
   static removeEvents = () => {
     for (let e of Canv.events) {
