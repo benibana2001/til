@@ -62,6 +62,10 @@ class Canv {
     // Exec function
     Canv.funcs.get(name)(Canv.ctx)
   }
+  static cancelLoop = () => {
+    console.log(Canv.currentFuncID)
+    if (Canv.currentFuncID) cancelAnimationFrame(Canv.currentFuncID)
+  }
   // Wrapper func for loop animation
   static loop = (f) => {
     if (Canv.currentFuncID) cancelAnimationFrame(Canv.currentFuncID)
@@ -73,8 +77,8 @@ class Canv {
       (callback => window.setTimeout(callback, 1000 / 60))
     )()
     const repeat = () => {
-      f()
       Canv.currentFuncID = requestAnimFrame(repeat)
+      f()
     }
     Canv.currentFuncID = requestAnimFrame(repeat)
   }
