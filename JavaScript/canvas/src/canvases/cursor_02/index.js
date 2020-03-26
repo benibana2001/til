@@ -15,42 +15,33 @@ const cursor_02 = async () => {
   const defaultPosition = { x: 50, y: 50 }
   const output = Canv.moveObj({ ...defaultPosition, ...size })
   //
+  const frameCalc = (frameLength, speed, head, reverse) => (() => {
+    const current = tick % (frameLength * speed)
+    for (let i = 0; i < frameLength; i++) {
+      const currentFrame = reverse ? head - i : head + i
+      if (current < (i + 1) * speed) return frames[currentFrame]
+    }
+  })
   const status = {
     constant: {
       image: imgPerson,
       velocity: { x: 0, y: 0 },
-      frame: () => {
-        const frameLength = 2
-        const speed = 20
-        const current = tick % (frameLength * speed)
-        for (let i = 1; i <= frameLength; i++) {
-          if (current < i * speed) return frames[i - 1]
-        }
-      }
+      frame: frameCalc(2, 20, 0)
+    },
+    constantRight: {
+      image: imgPersonFlip,
+      velocity: { x: 0, y: 0 },
+      frame: frameCalc(2, 20, 9, true)
     },
     runRight: {
       image: imgPersonFlip,
-      velocity: {x: 1, y: 0},
-      frame: () => {
-        const speed = 6
-        const frameLength = 8
-        const current = tick % (frameLength * speed)
-        for (let i = 1; i <= frameLength; i++) {
-          if (current < i * speed) return frames[i - 1]
-        }
-      }
+      velocity: { x: 1, y: 0 },
+      frame: frameCalc(8, 6, 7, true)
     },
     runLeft: {
       image: imgPerson,
-      velocity: {x: -1, y: 0},
-      frame: () => {
-        const speed = 6
-        const frameLength = 8
-        const current = tick % (frameLength * speed)
-        for (let i = 1; i <= frameLength; i++) {
-          if (current < i * speed) return frames[i + 1]
-        }
-      }
+      velocity: { x: -1, y: 0 },
+      frame: frameCalc(8, 6, 2)
     }
   }
   let tick = 0
@@ -63,7 +54,7 @@ const cursor_02 = async () => {
   }
   //
   Canv.ctx.scale(3, 3)
-  loopAnimation(status.constant)
+  loopAnimation(status.constantRight)
   //
   Canv.registerEvent('keydown', Canv.keydownHandler({
     right: () => loopAnimation(status.runRight),
