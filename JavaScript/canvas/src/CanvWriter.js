@@ -142,7 +142,7 @@ class Canv {
         if (funcs.down) funcs.down(); break
     }
   }
-  static keyupHandler = func => e => func()
+  static keyupHandler = func => e => func(e)
   //
   static drawImage = (source, inputFrame, outputImage = inputFrame) => {
     Canv.ctx.drawImage(

@@ -23,7 +23,7 @@ const cursor_02 = async () => {
     }
   })
   const status = {
-    constant: {
+    constantLeft: {
       image: imgPerson,
       velocity: { x: 0, y: 0 },
       frame: frameCalc(2, 20, 0)
@@ -60,9 +60,14 @@ const cursor_02 = async () => {
     right: () => loopAnimation(status.runRight),
     left: () => loopAnimation(status.runLeft)
   }))
-  Canv.registerEvent('keyup', Canv.keyupHandler(
-    () => loopAnimation(status.constant)
-  ))
+  Canv.registerEvent('keyup', Canv.keyupHandler((e) => {
+    switch (e.key) {
+      case 'ArrowRight':
+        loopAnimation(status.constantRight); break
+      case 'ArrowLeft':
+        loopAnimation(status.constantLeft); break
+    }
+  }))
 }
 //
 export default cursor_02
