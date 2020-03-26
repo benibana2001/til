@@ -14,15 +14,40 @@ const cigarettes = async () => {
   const personFrameSize = { w: personSpritesFrames[0].w, h: personSpritesFrames[0].h }
   // Draw, Loop
   Canv.ctx.scale(3, 3)
-  Canv.drawBG('black')
-  Canv.drawImage(imgCigar, cigarSpritesFrames[0],
-    { x: 0, y: 0, w: cigarFrameSize.w, h: cigarFrameSize.h }
-  )
+  // Status
+  const status = {
+    cigar: {
+      image: imgCigar,
+      velocity: { x: 0, y: 0 },
+      frame: tick => Canv.frameCalc(cigarSpritesFrames, 5, 80, 0)(tick),
+      frameSize: cigarFrameSize
+    },
+    constant: {
+      image: imgPerson,
+      velocity: { x: 0, y: 0 },
+      frame: tick => Canv.frameCalc(personSpritesFrames, 2, 20, 0)(tick),
+      frameSize: personFrameSize
+    }
+  }
+  //
+  let tick = 0
+  const initialPosition = { x: 0, y: 0 }
+  const outputCigar = Canv.moveObj({ ...initialPosition })
+  const loopAnimation = state => {
+    Canv.loop(() => {
+      Canv.drawBG('black')
+      Canv.drawImage(state.image, state.frame(tick), outputCigar(state.frameSize)(state.velocity))
+      tick++
+    })
+  }
+  loopAnimation(status.constant)
   // Event
   const TRIGGERKEY = ' '
   const spacekeyHandler = (e) => {
     if (e.key === TRIGGERKEY) {
       e.preventDefault()
+      tick = 0
+      loopAnimation(status.cigar)
       console.log('ignitte!')
     }
   }

@@ -7,41 +7,34 @@ const cursor_02 = async () => {
   await Canv.waitResolveImgs()
   const imgPersonFlip = Canv.flipImage(imgPerson)
   // parse json data
-  const frames = Canv.parseAsperiteJSON(personData)
+  const framesData = Canv.parseAsperiteJSON(personData)
   const size = {
-    w: frames[0].w,
-    h: frames[0].h
+    w: framesData[0].w,
+    h: framesData[0].h
   }
   const defaultPosition = { x: 50, y: 50 }
-  const output = Canv.moveObj({ ...defaultPosition, ...size })
-  //
-  const frameCalc = (frameLength, speed, head, reverse) => (() => {
-    const current = tick % (frameLength * speed)
-    for (let i = 0; i < frameLength; i++) {
-      const currentFrame = reverse ? head - i : head + i
-      if (current < (i + 1) * speed) return frames[currentFrame]
-    }
-  })
+  const output = Canv.moveObj({ ...defaultPosition})({...size})
+  
   const status = {
     constantLeft: {
       image: imgPerson,
       velocity: { x: 0, y: 0 },
-      frame: frameCalc(2, 20, 0)
+      frame: tick => Canv.frameCalc(framesData, 2, 20, 0)(tick)
     },
     constantRight: {
       image: imgPersonFlip,
       velocity: { x: 0, y: 0 },
-      frame: frameCalc(2, 20, 9, true)
+      frame: tick => Canv.frameCalc(framesData, 2, 20, 9, true)(tick)
     },
     runRight: {
       image: imgPersonFlip,
       velocity: { x: 1, y: 0 },
-      frame: frameCalc(8, 6, 7, true)
+      frame: tick =>  Canv.frameCalc(framesData, 8, 6, 7, true)(tick)
     },
     runLeft: {
       image: imgPerson,
       velocity: { x: -1, y: 0 },
-      frame: frameCalc(8, 6, 2)
+      frame: tick => Canv.frameCalc(framesData, 8, 6, 2)(tick)
     }
   }
   let tick = 0
@@ -51,7 +44,7 @@ const cursor_02 = async () => {
       Canv.drawBG('black')
       currentOutput = output(state.velocity)
       // console.log(currentOutput)
-      Canv.drawImage(state.image, state.frame(), currentOutput)
+      Canv.drawImage(state.image, state.frame(tick), currentOutput)
       tick++
     })
   }
@@ -93,5 +86,6 @@ const cursor_02 = async () => {
     if (touchPosition(e).x < currentCharaX) loopAnimation(status.constantLeft)
   })
 }
+
 //
 export default cursor_02
