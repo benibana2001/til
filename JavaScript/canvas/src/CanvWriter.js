@@ -163,6 +163,14 @@ class Canv {
     newImage.src = canv.toDataURL()
     return newImage
   }
+  static fitBackgroundScale = (imgOriginalWidth, maxScale) => {
+    const cw = Canv.canvas.width
+    const x = cw / imgOriginalWidth <= maxScale
+      ? cw / imgOriginalWidth
+      : maxScale
+    const y = x
+    Canv.ctx.scale(x, y)
+  }
 }
 
 const randomColor = () => Math.random() * 255

@@ -3,7 +3,7 @@ import Canv from '../CanvWriter.js'
 const looftop = async () => {
   const looftopImgPath = '/src/assets/looftop.png'
   const birdsImgPath = '/src/assets/birds.png'
-  const imgLooftop = Canv.createImg(looftopImgPath)
+  const imgLooftop = Canv.createImg(looftopImgPath) //  w:200, h: 180
   const imgBirds = Canv.createImg(birdsImgPath)
   await Canv.waitResolveImgs()
   //
@@ -29,7 +29,7 @@ const looftop = async () => {
   birdsObject = initialBirdsObj()
   birdsVelocity = initialBirdsVelocity()
   Canv.drawBG('black')
-  Canv.ctx.scale(3, 3)
+  Canv.fitBackgroundScale(200, 3)
   //
   Canv.loop(() => {
     Canv.drawImage(imgLooftop, sourceLooftop)
