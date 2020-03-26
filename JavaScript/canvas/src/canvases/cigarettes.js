@@ -13,6 +13,7 @@ const cigarettes = async () => {
   const cigarFrameSize = { w: cigarSpritesFrames[0].w, h: cigarSpritesFrames[0].h }
   const personFrameSize = { w: personSpritesFrames[0].w, h: personSpritesFrames[0].h }
   // Draw, Loop
+  Canv.ctx.scale(3, 3)
   Canv.drawBG('black')
   Canv.drawImage(imgCigar, cigarSpritesFrames[0],
     { x: 0, y: 0, w: cigarFrameSize.w, h: cigarFrameSize.h }
