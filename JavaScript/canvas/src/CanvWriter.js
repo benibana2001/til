@@ -144,7 +144,7 @@ class Canv {
   }
   static keyupHandler = func => e => func()
   //
-  static drawImage = (source, inputFrame, outputImage) => {
+  static drawImage = (source, inputFrame, outputImage = inputFrame) => {
     Canv.ctx.drawImage(
       source,
       ...[inputFrame.x, inputFrame.y, inputFrame.w, inputFrame.h],
