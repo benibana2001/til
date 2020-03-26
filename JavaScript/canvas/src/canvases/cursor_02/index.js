@@ -13,10 +13,10 @@ const cursor_02 = async () => {
     constant: { x: 0, y: 0 }
   }))(3)
   // parse json data
-  const frames = Canv.parse(personData)
+  const frames = Canv.parseAsperiteJSON(personData)
   const size = {
-    w: frames[0][2],
-    h: frames[0][3]
+    w: frames[0].w,
+    h: frames[0].h
   }
   const defaultPosition = { x: 100, y: 100 }
   const output = Canv.moveObj({ ...defaultPosition, ...size })

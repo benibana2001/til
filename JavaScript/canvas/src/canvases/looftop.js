@@ -6,16 +6,11 @@ const looftop = async () => {
   const imgLooftop = Canv.createImg(looftopImgPath)
   const imgBirds = Canv.createImg(birdsImgPath)
   await Canv.waitResolveImgs()
-  const frameLooftop = [0, 0, imgLooftop.width, imgLooftop.height]
-  const outputLooftop = {x: frameLooftop[0], y: frameLooftop[1], w: frameLooftop[2], h: frameLooftop[3]}
-  // Canv.loop(() => {
-    Canv.drawBG('black')
-    Canv.ctx.scale(3, 3)
-    Canv.drawImage(imgLooftop, frameLooftop, outputLooftop)
-    console.log(`imgLooftop: ${imgLooftop}`)
-    console.log(`imgLooftop.width: ${imgLooftop.width}`)
-    console.log(`imgLooftop.height: ${imgLooftop.height}`)
-  // })
+  const frameLooftop = { x: 0, y: 0, w: imgLooftop.width, h: imgLooftop.height }
+  const outputLooftop = frameLooftop
+  Canv.drawBG('black')
+  Canv.ctx.scale(3, 3)
+  Canv.drawImage(imgLooftop, frameLooftop, outputLooftop)
 }
 
 export default looftop
