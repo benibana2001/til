@@ -54,7 +54,7 @@ const cursor_02 = async () => {
   }
   //
   Canv.ctx.scale(3, 3)
-  loopAnimation(status.constantRight)
+  loopAnimation(status.constantLeft)
   //
   Canv.registerEvent('keydown', Canv.keydownHandler({
     right: () => loopAnimation(status.runRight),
@@ -68,6 +68,19 @@ const cursor_02 = async () => {
         loopAnimation(status.constantLeft); break
     }
   }))
+  const isSmartPhone = window.innerWidth < window.innerHeight
+  const eventType = {
+    start: isSmartPhone ? 'touchstart' : 'mousedown',
+    end: isSmartPhone ? 'touchend' : 'mouseup'
+  }
+  const touchPosition = e => ({
+    x: isSmartPhone ? e.changedTouches[0].pageX : e.pageX,
+    y: isSmartPhone ? e.changedTouches[0].pageY : e.pageY
+  })
+  Canv.registerEvent(eventType.start, e => {
+    loopAnimation(status.runRight)
+  })
+  Canv.registerEvent(eventType.end, () => loopAnimation(status.constantRight))
 }
 //
 export default cursor_02
