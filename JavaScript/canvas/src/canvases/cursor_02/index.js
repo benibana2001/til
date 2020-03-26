@@ -25,22 +25,25 @@ const cursor_02 = async () => {
     constant: () => ({
       image: imgPerson,
       direction: velocity.constant,
-      frame: () =>  tick % 40 < 20 ? frames[0] : frames[1]
+      frame: () => {
+        const frameLength = 2
+        const speed = 20
+        const current = tick % (frameLength * speed)
+        for (let i = 1; i <= frameLength; i++) {
+          if (current < i * speed) return frames[i - 1]
+        }
+      }
     }),
     runRight: {
       image: imgPersonFlip,
       direction: velocity.right,
       frame: () => {
         const speed = 4
-        const current = tick % (8 * speed)
-        if(current < 1 * speed) return frames[0]
-        if(current < 2 * speed) return frames[1]
-        if(current < 3 * speed) return frames[2]
-        if(current < 4 * speed) return frames[3]
-        if(current < 5 * speed) return frames[4]
-        if(current < 6 * speed) return frames[5]
-        if(current < 7 * speed) return frames[6]
-        if(current < 8 * speed) return frames[7]
+        const frameLength = 8
+        const current = tick % (frameLength * speed)
+        for (let i = 1; i <= frameLength; i++) {
+          if (current < i * speed) return frames[i - 1]
+        }
       }
     },
     runLeft: {
@@ -48,15 +51,11 @@ const cursor_02 = async () => {
       direction: velocity.left,
       frame: () => {
         const speed = 4
-        const current = tick % (8 * speed)
-        if(current < 1 * speed) return frames[2]
-        if(current < 2 * speed) return frames[3]
-        if(current < 3 * speed) return frames[4]
-        if(current < 4 * speed) return frames[5]
-        if(current < 5 * speed) return frames[6]
-        if(current < 6 * speed) return frames[7]
-        if(current < 7 * speed) return frames[8]
-        if(current < 8 * speed) return frames[9]
+        const frameLength = 8
+        const current = tick % (frameLength * speed)
+        for (let i = 1; i <= frameLength; i++) {
+          if (current < i * speed) return frames[i + 1]
+        }
       }
     }
   }
