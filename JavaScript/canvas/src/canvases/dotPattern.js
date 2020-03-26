@@ -7,7 +7,7 @@ const dotPattern = (c) => {
     return [
       Math.random() * cw,
       Math.random() * ch,
-      ch > cw ?  Math.random() * cw / 5 : Math.random() * ch / 5,
+      ch > cw ? Math.random() * cw / 5 : Math.random() * ch / 5,
       Canv.randomRGBA(Math.random() * 1.0)
     ]
   }
@@ -26,8 +26,13 @@ const dotPattern = (c) => {
     }
   }
 
-  Canv.drawBG(Canv.randomRGBA(0.1))
-  drawParticles()
+  const draw = () => {
+    Canv.drawBG(Canv.randomRGBA(0.1))
+    drawParticles()
+  }
+
+  draw()
+  Canv.canvas.addEventListener('click', () => draw())
 }
 
 
