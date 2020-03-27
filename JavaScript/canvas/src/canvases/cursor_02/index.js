@@ -65,27 +65,18 @@ const cursor_02 = async () => {
         loopAnimation(status.constantLeft); break
     }
   }))
-  const isSmartPhone = window.innerWidth < window.innerHeight
-  const eventType = {
-    start: isSmartPhone ? 'touchstart' : 'mousedown',
-    end: isSmartPhone ? 'touchend' : 'mouseup'
-  }
-  const touchPosition = e => ({
-    x: isSmartPhone ? e.changedTouches[0].pageX : e.pageX,
-    y: isSmartPhone ? e.changedTouches[0].pageY : e.pageY
-  })
-  Canv.canvas.addEventListener(eventType.start, e => {
+  //
+  Canv.canvas.addEventListener(Canv.deviceTrigger().start, e => {
     e.preventDefault()
     const currentCharaX = (currentOutput.x + size.w / 2) * scale[0]
-    if (touchPosition(e).x > currentCharaX) loopAnimation(status.runRight)
-    if (touchPosition(e).x < currentCharaX) loopAnimation(status.runLeft)
+    if (Canv.getTouchPosition(e).x > currentCharaX) loopAnimation(status.runRight)
+    if (Canv.getTouchPosition(e).x < currentCharaX) loopAnimation(status.runLeft)
   }, { passive: false })
-  Canv.canvas.addEventListener(eventType.end, e => {
+  Canv.canvas.addEventListener(Canv.deviceTrigger().end, e => {
     const currentCharaX = (currentOutput.x + size.w / 2) * scale[0]
-    if (touchPosition(e).x > currentCharaX) loopAnimation(status.constantRight)
-    if (touchPosition(e).x < currentCharaX) loopAnimation(status.constantLeft)
+    if (Canv.getTouchPosition(e).x > currentCharaX) loopAnimation(status.constantRight)
+    if (Canv.getTouchPosition(e).x < currentCharaX) loopAnimation(status.constantLeft)
   })
 }
-
 //
 export default cursor_02

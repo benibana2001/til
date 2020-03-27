@@ -147,6 +147,20 @@ class Canv {
     }
   }
   static keyupHandler = func => e => func(e)
+  static arrowKeyUpHandler = funcs => e => {
+    const isArrowKey = e => e.key.slice(0, 5) === 'Arrow'
+    if (isArrowKey(e)) e.preventDefault()
+    switch (e.key) {
+      case 'ArrowRight':
+        if (funcs.right) funcs.right(); break
+      case 'ArrowLeft':
+        if (funcs.left) funcs.left(); break
+      case 'ArrowUp':
+        if (funcs.up) funcs.up(); break
+      case 'ArrowDown':
+        if (funcs.down) funcs.down(); break
+    }
+  }
   //
   static drawImage = (source, inputFrame, outputImage = inputFrame) => {
     Canv.ctx.drawImage(
@@ -174,6 +188,7 @@ class Canv {
       : maxScale
     const y = x
     Canv.ctx.scale(x, y)
+    return [x, y]
   }
   // TODO: Aseprite の関数群として一つにまとめるか
   static frameCalc = (framesData, frameLength, speed, head, reverse = false) => tick => {
@@ -183,7 +198,16 @@ class Canv {
       if (current < (i + 1) * speed) return framesData[currentFrame]
     }
   }
+  static deviceTrigger = () => ({
+    start: isSmartPhone() ? 'touchstart' : 'mousedown',
+    end: isSmartPhone() ? 'touchend' : 'mouseup'
+  })
+  static getTouchPosition = e => ({
+    x: isSmartPhone() ? e.changedTouches[0].pageX : e.pageX,
+    y: isSmartPhone() ? e.changedTouches[0].pageY : e.pageY
+  })
 }
 
+const isSmartPhone = () => window.innerWidth < window.innerHeight
 const randomColor = () => Math.random() * 255
 export default Canv

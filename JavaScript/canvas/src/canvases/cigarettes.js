@@ -6,14 +6,13 @@ const cigarettes = async () => {
   const imgCigar = Canv.createImg('/src/assets/cigar.png')
   await Canv.waitResolveImgs()
   const imgCigarFlip = Canv.flipImage(imgCigar)
-  const imgPersonFlip = Canv.flipImage(imgCigar)
+  const imgPersonFlip = Canv.flipImage(imgPerson)
   // parse
   const cigarSpritesFrames = Canv.parseAsperiteJSON(cigarFrameData)
   const personSpritesFrames = Canv.parseAsperiteJSON(personFrameData)
   const cigarFrameSize = { w: cigarSpritesFrames[0].w, h: cigarSpritesFrames[0].h }
   const personFrameSize = { w: personSpritesFrames[0].w, h: personSpritesFrames[0].h }
   // Draw, Loop
-  Canv.ctx.scale(3, 3)
   const frameCalc = statusObj => tick => {
     const so = statusObj
     const current = tick % (so.frameLength * so.frameSpeed)
@@ -34,7 +33,7 @@ const cigarettes = async () => {
       reverse: false,
       frameSize: cigarFrameSize
     },
-    constant: {
+    constantLeft: {
       image: imgPerson,
       velocity: { x: 0, y: 0 },
       sprites: personSpritesFrames,
@@ -42,35 +41,90 @@ const cigarettes = async () => {
       frameSpeed: 20,
       head: 0,
       frameSize: personFrameSize
+    },
+    constantRight: {
+      image: imgPersonFlip,
+      velocity: { x: 0, y: 0 },
+      sprites: personSpritesFrames,
+      frameLength: 2,
+      frameSpeed: 20,
+      head: 9,
+      reverse: true,
+      frameSize: personFrameSize,
+    },
+    runRight: {
+      image: imgPersonFlip,
+      velocity: { x: 1, y: 0 },
+      sprites: personSpritesFrames,
+      frameLength: 8,
+      frameSpeed: 6,
+      head: 7,
+      reverse: true,
+      frameSize: personFrameSize,
+    },
+    runLeft: {
+      image: imgPerson,
+      velocity: { x: -1, y: 0 },
+      sprites: personSpritesFrames,
+      frameLength: 8,
+      frameSpeed: 6,
+      head: 2,
+      frameSize: personFrameSize,
     }
   }
   //
   let tick = 0
+  const resetTick = () => tick = 0
   const initialPosition = { x: 0, y: 0 }
   const outputCigar = Canv.moveObj(initialPosition)
-
-  const loopAnimation = (state, nextState = null, nextTrigger = null) => {
+  const scale = Canv.fitBackgroundScale(200, 3)
+  // Animation, EventHandler
+  let currentOutput = {} //  For Read
+  const loopAnimation = (state, nextLoop = null) => {
     Canv.loop(() => {
       Canv.drawBG('black')
-      Canv.drawImage(state.image, frameCalc(state)(tick), outputCigar(state.frameSize)(state.velocity))
+      currentOutput = outputCigar(state.frameSize)(state.velocity)
+      Canv.drawImage(state.image, frameCalc(state)(tick), currentOutput)
       tick++
-      if (nextTrigger && nextState) {
-        if (nextTrigger()) loopAnimation(nextState)
+      if (nextLoop) {
+        if (nextLoop.trigger()) loopAnimation(nextLoop.state)
       }
     })
   }
-  loopAnimation(status.constant)
-  // Event
-  const TRIGGERKEY = ' '
+  loopAnimation(status.constantLeft)
+  const cigarLoop = () => {
+    resetTick()
+    const endTime = status.cigar.frameLength * status.cigar.frameSpeed
+    loopAnimation(status.cigar, {
+      state: status.constantLeft,
+      trigger: () => tick === endTime
+    })
+  }
   const spacekeyHandler = e => {
-    if (e.key === TRIGGERKEY) {
+    if (e.key === ' ') {
       e.preventDefault()
-      tick = 0
-      const endTime = status.cigar.frameLength * status.cigar.frameSpeed
-      loopAnimation(status.cigar, status.constant, () => tick === endTime)
-      console.log('ignitte!')
+      cigarLoop()
     }
   }
+  // Attach Event
   Canv.registerEvent('keydown', spacekeyHandler)
+  Canv.registerEvent('keydown', Canv.keydownHandler({
+    right: () => loopAnimation(status.runRight),
+    left: () => loopAnimation(status.runLeft)
+  }))
+  Canv.registerEvent('keyup', Canv.arrowKeyUpHandler({
+    right: () => loopAnimation(status.constantRight),
+    left: () => loopAnimation(status.constantLeft)
+  }))
+  const currentCharaX = () => (currentOutput.x + personFrameSize.w / 2) * scale[0]
+  Canv.canvas.addEventListener(Canv.deviceTrigger().start, e => {
+    e.preventDefault()
+    if (Canv.getTouchPosition(e).x > currentCharaX()) loopAnimation(status.runRight)
+    if (Canv.getTouchPosition(e).x < currentCharaX()) loopAnimation(status.runLeft)
+  }, { passive: false })
+  Canv.canvas.addEventListener(Canv.deviceTrigger().end, e => {
+    if (Canv.getTouchPosition(e).x > currentCharaX()) loopAnimation(status.constantRight)
+    if (Canv.getTouchPosition(e).x < currentCharaX()) loopAnimation(status.constantLeft)
+  })
 }
 export default cigarettes
