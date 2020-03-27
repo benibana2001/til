@@ -75,10 +75,26 @@ const cigarettes = async () => {
   //
   let tick = 0
   const resetTick = () => tick = 0
+  // TODO: During cigar, remove event(keydown/up, devicetouch/end)
+  let cigaring = false
+  let cigarState = {
+    doCigar : () => {
+      resetTick()
+      cigaring = true
+      Canv.canvas.removeEventListener(Canv.deviceTrigger().start, deviceStartHandler)
+      Canv.canvas.removeEventListener(Canv.deviceTrigger().end, deviceEndHandler)
+    },
+    afterCigar : () => {
+      cigaring = true
+      Canv.canvas.addEventListener(Canv.deviceTrigger().start, deviceStartHandler)
+      Canv.canvas.addEventListener(Canv.deviceTrigger().end, deviceEndHandler)
+    },
+    endTick : status.cigar.frameLength * status.cigar.frameSpeed,
+  }
   const initialPosition = { x: 0, y: 0 }
   const outputCigar = Canv.moveObj(initialPosition)
   const scale = Canv.fitBackgroundScale(200, 3)
-  // Animation, EventHandler
+  // Loop function
   let currentOutput = {} //  For Read
   const loopAnimation = (state, nextLoop = null) => {
     Canv.loop(() => {
@@ -87,44 +103,54 @@ const cigarettes = async () => {
       Canv.drawImage(state.image, frameCalc(state)(tick), currentOutput)
       tick++
       if (nextLoop) {
-        if (nextLoop.trigger()) loopAnimation(nextLoop.state)
+        if (nextLoop.trigger()) {
+          nextLoop.payload()
+          loopAnimation(nextLoop.state)
+        }
       }
     })
   }
   loopAnimation(status.constantLeft)
   const cigarLoop = () => {
-    resetTick()
-    const endTime = status.cigar.frameLength * status.cigar.frameSpeed
+    cigarState.doCigar()
     loopAnimation(status.cigar, {
       state: status.constantLeft,
-      trigger: () => tick === endTime
+      payload: () => cigarState.afterCigar(),
+      trigger: () => tick === cigarState.endTick
     })
   }
-  const spacekeyHandler = e => {
-    if (e.key === ' ') {
-      e.preventDefault()
-      cigarLoop()
-    }
-  }
-  // Attach Event
-  Canv.registerEvent('keydown', spacekeyHandler)
-  Canv.registerEvent('keydown', Canv.keydownHandler({
-    right: () => loopAnimation(status.runRight),
-    left: () => loopAnimation(status.runLeft)
-  }))
-  Canv.registerEvent('keyup', Canv.arrowKeyUpHandler({
-    right: () => loopAnimation(status.constantRight),
-    left: () => loopAnimation(status.constantLeft)
-  }))
-  const currentCharaX = () => (currentOutput.x + personFrameSize.w / 2) * scale[0]
-  Canv.canvas.addEventListener(Canv.deviceTrigger().start, e => {
+  // Event handler
+  const charaWidth = personFrameSize.w * scale[0]
+  const currentCharaX = () => currentOutput.x * scale[0]
+  const deviceStartHandler = e => {
     e.preventDefault()
-    if (Canv.getTouchPosition(e).x > currentCharaX()) loopAnimation(status.runRight)
-    if (Canv.getTouchPosition(e).x < currentCharaX()) loopAnimation(status.runLeft)
-  }, { passive: false })
-  Canv.canvas.addEventListener(Canv.deviceTrigger().end, e => {
-    if (Canv.getTouchPosition(e).x > currentCharaX()) loopAnimation(status.constantRight)
-    if (Canv.getTouchPosition(e).x < currentCharaX()) loopAnimation(status.constantLeft)
-  })
+    const touchedX = Canv.getTouchPosition(e).x
+    if (touchedX < currentCharaX()) loopAnimation(status.runLeft)
+    if (currentCharaX() < touchedX && touchedX < currentCharaX() + charaWidth) cigarLoop()
+    if (currentCharaX() + charaWidth < touchedX) loopAnimation(status.runRight)
+  }
+  const deviceEndHandler = e => {
+    const removedX = Canv.getTouchPosition(e).x
+    if (removedX < currentCharaX()) loopAnimation(status.constantLeft)
+    if (removedX > currentCharaX()) loopAnimation(status.constantRight)
+  }
+  // const spacekeyHandler = e => {
+  //   if (e.key === ' ') {
+  //     e.preventDefault()
+  //     cigarLoop()
+  //   }
+  // }
+  // Attach Event
+  // Canv.registerEvent('keydown', spacekeyHandler)
+  // Canv.registerEvent('keydown', Canv.keydownHandler({
+  //   right: () => loopAnimation(status.runRight),
+  //   left: () => loopAnimation(status.runLeft)
+  // }))
+  // Canv.registerEvent('keyup', Canv.arrowKeyUpHandler({
+  //   right: () => loopAnimation(status.constantRight),
+  //   left: () => loopAnimation(status.constantLeft)
+  // }))
+  Canv.canvas.addEventListener(Canv.deviceTrigger().start, deviceStartHandler, { passive: false })
+  Canv.canvas.addEventListener(Canv.deviceTrigger().end, deviceEndHandler)
 }
 export default cigarettes
