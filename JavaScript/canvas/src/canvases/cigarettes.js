@@ -76,19 +76,17 @@ const cigarettes = async () => {
   let tick = 0
   const resetTick = () => tick = 0
   let cigaring = false
-  let cigarState = {
-    doCigar : () => {
+  let cigarAction = {
+    doCigar: () => {
       resetTick()
       cigaring = true
-      Canv.canvas.removeEventListener(Canv.deviceTrigger().start, deviceStartHandler)
-      Canv.canvas.removeEventListener(Canv.deviceTrigger().end, deviceEndHandler)
+      removeCharaEvent()
     },
-    afterCigar : () => {
+    afterCigar: () => {
       cigaring = true
-      Canv.canvas.addEventListener(Canv.deviceTrigger().start, deviceStartHandler)
-      Canv.canvas.addEventListener(Canv.deviceTrigger().end, deviceEndHandler)
+      attachCharaEvent()
     },
-    endTick : status.cigar.frameLength * status.cigar.frameSpeed,
+    endTick: status.cigar.frameLength * status.cigar.frameSpeed,
   }
   const initialPosition = { x: 0, y: 0 }
   const outputCigar = Canv.moveObj(initialPosition)
@@ -111,11 +109,11 @@ const cigarettes = async () => {
   }
   loopAnimation(status.constantLeft)
   const cigarLoop = () => {
-    cigarState.doCigar()
+    cigarAction.doCigar()
     loopAnimation(status.cigar, {
       state: status.constantLeft,
-      payload: () => cigarState.afterCigar(),
-      trigger: () => tick === cigarState.endTick
+      payload: () => cigarAction.afterCigar(),
+      trigger: () => tick === cigarAction.endTick
     })
   }
   // Event handler
@@ -133,23 +131,37 @@ const cigarettes = async () => {
     if (removedX < currentCharaX()) loopAnimation(status.constantLeft)
     if (removedX > currentCharaX()) loopAnimation(status.constantRight)
   }
-  // const spacekeyHandler = e => {
-  //   if (e.key === ' ') {
-  //     e.preventDefault()
-  //     cigarLoop()
-  //   }
-  // }
+  const spacekeyHandler = e => {
+    if (e.key === ' ') {
+      e.preventDefault()
+      cigarLoop()
+    }
+  }
+  const keydownHandler = e => {
+    spacekeyHandler(e)
+    Canv.arrowKeydownHandler({
+      right: () => loopAnimation(status.runRight),
+      left: () => loopAnimation(status.runLeft)
+    })(e)
+  }
+  const keyupHandler = e => {
+    Canv.arrowKeyUpHandler({
+      right: () => loopAnimation(status.constantRight),
+      left: () => loopAnimation(status.constantLeft)
+    })(e)
+  }
   // Attach Event
-  // Canv.registerEvent('keydown', spacekeyHandler)
-  // Canv.registerEvent('keydown', Canv.keydownHandler({
-  //   right: () => loopAnimation(status.runRight),
-  //   left: () => loopAnimation(status.runLeft)
-  // }))
-  // Canv.registerEvent('keyup', Canv.arrowKeyUpHandler({
-  //   right: () => loopAnimation(status.constantRight),
-  //   left: () => loopAnimation(status.constantLeft)
-  // }))
-  Canv.canvas.addEventListener(Canv.deviceTrigger().start, deviceStartHandler, { passive: false })
-  Canv.canvas.addEventListener(Canv.deviceTrigger().end, deviceEndHandler)
+  const attachCharaEvent = () => {
+    Canv.canvas.addEventListener(Canv.deviceTrigger().start, deviceStartHandler, { passive: false })
+    Canv.canvas.addEventListener(Canv.deviceTrigger().end, deviceEndHandler)
+    Canv.registerEvent('keydown', keydownHandler)
+    Canv.registerEvent('keyup', keyupHandler)
+  }
+  const removeCharaEvent = () => {
+    Canv.canvas.removeEventListener(Canv.deviceTrigger().start, deviceStartHandler)
+    Canv.canvas.removeEventListener(Canv.deviceTrigger().end, deviceEndHandler)
+    Canv.removeEvents()
+  }
+  attachCharaEvent()
 }
 export default cigarettes

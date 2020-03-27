@@ -132,7 +132,7 @@ class Canv {
     }
     return ary
   }
-  static keydownHandler = funcs => e => {
+  static arrowKeydownHandler = funcs => e => {
     const isArrowKey = e => e.key.slice(0, 5) === 'Arrow'
     if (isArrowKey(e)) e.preventDefault()
     switch (e.key) {

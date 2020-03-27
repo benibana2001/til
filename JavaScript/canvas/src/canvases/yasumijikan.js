@@ -36,7 +36,6 @@ const yasumijikan = async () => {
   // Set context scale
   const scale = Canv.fitBackgroundScale(200, 3)
   // draw bird and background
-  Canv.drawBG('black')
   const backgroundLoop = () => {
     Canv.drawImage(imgLooftop, sourceLooftop)
     const birdsOutput = birdsObject(birdsVelocity)
@@ -111,24 +110,22 @@ const yasumijikan = async () => {
     }
   }
   // Person state
-  let tick = 0
-  const resetTick = () => tick = 0
+  let tickPerson = 0
+  const resetTick = () => tickPerson = 0
   let cigaring = false
-  let cigarState = {
+  let cigarActions = {
     doCigar: () => {
       resetTick()
       cigaring = true
-      Canv.canvas.removeEventListener(Canv.deviceTrigger().start, deviceStartHandler)
-      Canv.canvas.removeEventListener(Canv.deviceTrigger().end, deviceEndHandler)
+      detachCharaEvents()
     },
     afterCigar: () => {
       cigaring = true
-      Canv.canvas.addEventListener(Canv.deviceTrigger().start, deviceStartHandler)
-      Canv.canvas.addEventListener(Canv.deviceTrigger().end, deviceEndHandler)
+      attachCharaEvents()
     },
-    endTick: status.cigar.frameLength * status.cigar.frameSpeed,
+    endTickTime: status.cigar.frameLength * status.cigar.frameSpeed,
   }
-  const initialPosition = { x: 0, y: 100 }
+  const initialPosition = { x: 102, y: 102 }
   const outputCigar = Canv.moveObj(initialPosition)
   // Loop function
   let currentOutput = {} //  For Read
@@ -136,22 +133,19 @@ const yasumijikan = async () => {
     Canv.loop(() => {
       backgroundLoop()
       currentOutput = outputCigar(state.frameSize)(state.velocity)
-      Canv.drawImage(state.image, frameCalc(state)(tick), currentOutput)
-      tick++
-      if (nextLoop) {
-        if (nextLoop.trigger()) {
-          nextLoop.payload()
-          loopAnimation(nextLoop.state)
-        }
-      }
+      Canv.drawImage(state.image, frameCalc(state)(tickPerson), currentOutput)
+      tickPerson++
+      if (nextLoop && nextLoop.trigger()) nextLoop.afterFunc()
     })
   }
   const cigarLoop = () => {
-    cigarState.doCigar()
+    cigarActions.doCigar()
     loopAnimation(status.cigar, {
-      state: status.constantLeft,
-      payload: () => cigarState.afterCigar(),
-      trigger: () => tick === cigarState.endTick
+      afterFunc: () => {
+        cigarActions.afterCigar()
+        loopAnimation(status.constantLeft)
+      },
+      trigger: () => tickPerson === cigarActions.endTickTime
     })
   }
   // Event handler
@@ -169,9 +163,38 @@ const yasumijikan = async () => {
     if (removedX < currentCharaX()) loopAnimation(status.constantLeft)
     if (removedX > currentCharaX()) loopAnimation(status.constantRight)
   }
+  const spaceKeyHandler = e => {
+    if (e.key === ' ') {
+      e.preventDefault()
+      cigarLoop()
+    }
+  }
+  const keydownHandler = e => {
+    spaceKeyHandler(e)
+    Canv.arrowKeydownHandler({
+      right: () => loopAnimation(status.runRight),
+      left: () => loopAnimation(status.runLeft)
+    })(e)
+  }
+  const keyupHandler = e => {
+    Canv.arrowKeyUpHandler({
+      right: () => loopAnimation(status.constantRight),
+      left: () => loopAnimation(status.constantLeft)
+    })(e)
+  }
   // Attach Event handler
-  Canv.canvas.addEventListener(Canv.deviceTrigger().start, deviceStartHandler, { passive: false })
-  Canv.canvas.addEventListener(Canv.deviceTrigger().end, deviceEndHandler)
+  const attachCharaEvents = () => {
+    Canv.canvas.addEventListener(Canv.deviceTrigger().start, deviceStartHandler, { passive: false })
+    Canv.canvas.addEventListener(Canv.deviceTrigger().end, deviceEndHandler)
+    Canv.registerEvent('keydown', keydownHandler)
+    Canv.registerEvent('keyup', keyupHandler)
+  }
+  const detachCharaEvents = () => {
+    Canv.canvas.removeEventListener(Canv.deviceTrigger().start, deviceStartHandler)
+    Canv.canvas.removeEventListener(Canv.deviceTrigger().end, deviceEndHandler)
+    Canv.removeEvents()
+  }
+  attachCharaEvents()
   // Execute loop
   loopAnimation(status.constantLeft)
 }

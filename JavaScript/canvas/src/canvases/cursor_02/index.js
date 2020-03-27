@@ -53,7 +53,7 @@ const cursor_02 = async () => {
   Canv.ctx.scale(...scale)
   loopAnimation(status.constantLeft)
   //
-  Canv.registerEvent('keydown', Canv.keydownHandler({
+  Canv.registerEvent('keydown', Canv.arrowKeydownHandler({
     right: () => loopAnimation(status.runRight),
     left: () => loopAnimation(status.runLeft)
   }))
