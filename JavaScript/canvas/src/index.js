@@ -13,6 +13,7 @@ import cursor from './canvases/cursor.js'
 import cursor2 from './canvases/cursor_02/index.js'
 import looftop from './canvases/looftop.js'
 import cigarettes from './canvases/cigarettes.js'
+import yasumijikan from './canvases/yasumijikan.js'
 //
 const root = document.getElementById('root')
 Canv.addFunc([
@@ -29,5 +30,6 @@ Canv.addFunc([
   cursor,
   cursor2,
   looftop,
-  cigarettes
+  cigarettes,
+  yasumijikan
 ], root)
