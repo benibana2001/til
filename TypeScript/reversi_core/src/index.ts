@@ -56,7 +56,7 @@ class UI {
                 ctx.strokeRect(squareSize * i, squareSize * j, squareSize, squareSize)
             }
         }
-        board.reflectAllToken(ctx, this.resoucers, squareSize)
+        board.drawTokenFromBoardState(ctx, this.resoucers, squareSize)
     }
 }
 
