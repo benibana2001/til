@@ -199,15 +199,17 @@ class Canv {
     }
   }
   static deviceTrigger = () => ({
-    start: isSmartPhone() ? 'touchstart' : 'mousedown',
-    end: isSmartPhone() ? 'touchend' : 'mouseup'
+    start: isTouchDevice ? 'touchstart' : 'mousedown',
+    end: isTouchDevice ? 'touchend' : 'mouseup'
   })
   static getTouchPosition = e => ({
-    x: isSmartPhone() ? e.changedTouches[0].pageX : e.pageX,
-    y: isSmartPhone() ? e.changedTouches[0].pageY : e.pageY
+    x: isTouchDevice ? e.changedTouches[0].pageX : e.pageX,
+    y: isTouchDevice ? e.changedTouches[0].pageY : e.pageY
   })
 }
-
-const isSmartPhone = () => window.innerWidth < window.innerHeight
+// Device check
+const isSmartPhone = navigator.userAgent.match(/iPhone|Android.+Mobile/) ? true : false
+const isTouchDevice = 'ontouchend' in document
+//
 const randomColor = () => Math.random() * 255
 export default Canv
