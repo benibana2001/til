@@ -1,5 +1,5 @@
 import BOARD from '../board'
-import { DIRECTION, Square, Token } from '../board'
+import { DIRECTION, Square, Token, createSquare } from '../board'
 
 const b = new BOARD()
 let t: number = 0
@@ -24,7 +24,7 @@ describe('TEST TO BOARD', () => {
         )
     })
     test('putToken', () => {
-        const s00 = BOARD.createSquare(0, 0)
+        const s00 = createSquare(0, 0)
         expect(b.putWhite(s00)).toEqual(
             [
                 [1, -1, -1, -1, -1, -1, -1, -1],
@@ -51,8 +51,8 @@ describe('TEST TO BOARD', () => {
         )
     })
     test('reverseToken', () => {
-        const s00 = BOARD.createSquare(0, 0)
-        const s33 = BOARD.createSquare(3, 3)
+        const s00 = createSquare(0, 0)
+        const s33 = createSquare(3, 3)
         expect(b.reverseToken(s00)).toEqual(
             [
                 [-1, -1, -1, -1, -1, -1, -1, -1],
@@ -154,13 +154,13 @@ describe('TEST TO BOARD', () => {
         expect(b.scanLine(D4)(S7).pattern).toEqual('BB00BBB')
     })
     test('enablePutSquares', () => {
-        expect(b.getEnablePutSquares(Token.WHITE)).toEqual([
+        expect(b.canPutSquares(Token.WHITE)).toEqual([
             { "col": 4, "row": 2 },
             { "col": 5, "row": 3 },
             { "col": 2, "row": 4 },
             { "col": 3, "row": 5 }
         ])
-        expect(b.getEnablePutSquares(Token.BLACK)).toEqual([
+        expect(b.canPutSquares(Token.BLACK)).toEqual([
             { "col": 3, "row": 2 },
             { "col": 2, "row": 3 },
             { "col": 5, "row": 4 },

@@ -13,4 +13,15 @@ def aver(ary):
     return sum / len(ary)
 
 def test_aver():
-    assert aver(ary) == 4.8
+    assert aver(ary) == 4
+
+
+# %%
+def highOrder(num_a):
+    def inner(num_b):
+        return num_b * num_a
+    return inner
+
+# %%
+def test_high_order():
+    assert highOrder(10)(20) == 200
