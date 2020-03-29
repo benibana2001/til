@@ -1,4 +1,3 @@
-import { Resources } from './index'
 // Utility Function
 const funcTimes = (func: Function) => (n: number) => () => {
     for (let i = 0; i < n; i++) func()
@@ -25,7 +24,7 @@ const DIRECTIONS: DIRECTION[] = [
 ]
 type State = {
     enablePutSquares: Square[],
-    reverseToken: Square[],
+    reverseSquares: Square[],
     player: Token.WHITE | Token.BLACK,
     oldPlayer: Token.WHITE | Token.BLACK,
 }
@@ -92,7 +91,7 @@ class Board {
         }
         return scanedData
     }
-    static canPut = (board: BoardState) => (player: Token, s: Square): boolean => {
+    static searchCanPutSquares = (board: BoardState) => (player: Token, s: Square): boolean => {
         const enemy = getEnemy(player)
         if (board[s.row][s.col] !== Token.BLANK) return false //  Blankでないマスは配置不可
         for (let i in DIRECTIONS) {
@@ -104,11 +103,25 @@ class Board {
     static canPutSquares = (board: BoardState) => (player: Token): Square[] => {
         const enableSquares: Square[] = []
         Board.walk((s: Square) => {
-            if (Board.canPut(board)(player, s)) enableSquares.push(s)
+            if (Board.searchCanPutSquares(board)(player, s)) enableSquares.push(s)
         })
         return enableSquares
     }
+    static canPut = (target: Square, squares: Square[]): boolean => {
+        for (let i in squares) {
+            if (target.row === squares[i].row && target.col === squares[i].col) return true
+        }
+        return false
+    }
     // Draw
+    static drawLine = (ctx: CanvasRenderingContext2D, row: number, col: number, squareSize: number): void => {
+        for (let i = 0; i < col; i++) {
+            for (let j = 0; j < col; j++) {
+                ctx.strokeRect(squareSize * i, squareSize * j, squareSize, squareSize)
+            }
+        }
+        return
+    }
     static drawToken = (
         ctx: CanvasRenderingContext2D,
         board: BoardState,
@@ -133,7 +146,7 @@ class Board {
     }
     // about String.match method:
     //   https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/String/match
-    static execReverse = (board: BoardState) => (s: Square, player: Token): Square[] => {
+    static reverseSquares = (board: BoardState) => (s: Square, player: Token): Square[] => {
         let reverseSquares: Square[] = []
         const enemy = getEnemy(player)
         const canPutPattern = new RegExp('^(' + enemy + '+)' + player)
@@ -145,8 +158,7 @@ class Board {
             const enemyLength = found[1].length
             for (let j = 0; j < enemyLength; j++) {
                 const currentS: Square = scanedLine.arr[j]
-                Board.putSquare(board)(currentS)(player) //  board 書き換え
-                reverseSquares.push(currentS) //  書き換えた場所を保持
+                reverseSquares.push(currentS)
             }
         }
         // 裏返った位置を返す
@@ -155,31 +167,73 @@ class Board {
     //
     //
     public board: BoardState = []
+    private ctx: CanvasRenderingContext2D
+    private canvasSize: number
+    private squareSize = (): number => this.canvasSize / Board.COLUMN
+    private resources: Resources = new Resources()
     public state: State = {
         enablePutSquares: [],
-        reverseToken: [],
+        reverseSquares: [],
         player: Token.WHITE,
         oldPlayer: Token.BLACK,
     }
     //
-    constructor() {
+    public constructor(ctx: CanvasRenderingContext2D, canvasSize: number, imgItems: { name: string, url: string }[] | null = null) {
+        this.ctx = ctx
+        this.canvasSize = canvasSize
         this.resetBoard()
-        this.state.enablePutSquares = Board.canPutSquares(this.board)(Token.WHITE)
+        this.setEnableSquares();
+        (async () => { await this.drawBoard(imgItems) })()
     }
     public resetBoard = () => this.board = Board.generateNewBoard()
-    public processPutToken = (s: Square): boolean => {
-        for (let i in this.state.enablePutSquares) {
-            const square: Square = this.state.enablePutSquares[i]
-            const canPut = square.row === s.row && square.col === s.col
-            if (canPut) {
-                Board.putSquare(this.board)(s)(this.state.player)
-                this.state.reverseToken = Board.execReverse(this.board)(s, this.state.player)
-                Board.changePlayer(this.state)
-                return true
-            }
-        }
-        return false
+    private drawBoard = async (imgItems: { name: string, url: string }[]) => {
+        Board.drawLine(this.ctx, Board.COLUMN, Board.ROW, this.squareSize());
+        this.ctx.fillStyle = 'darkgray'
+        await this.loadImages(imgItems)
+        Board.walk((s: Square) => Board.drawToken(this.ctx, this.board, { white: this.resources.getimg('pet'), black: this.resources.getimg('star') }, this.squareSize(), s))
     }
+    public setEnableSquares = () => this.state.enablePutSquares = Board.canPutSquares(this.board)(this.state.player)
+    public afterPut = () => {
+        Board.changePlayer(this.state)
+        this.setEnableSquares()
+    }
+    public updatePutSquare = (clickedSquare: Square) => {
+        Board.putSquare(this.board)(clickedSquare)(this.state.player)
+        Board.drawToken(this.ctx, this.board, { white: this.resources.getimg('pet'), black: this.resources.getimg('star') }, this.squareSize(), clickedSquare)
+    }
+    public updateReverseSquares = (clickedSquare: Square) => {
+        const reverseSquares = Board.reverseSquares(this.board)(clickedSquare, this.state.player)
+        reverseSquares.forEach((clickedSquare: Square) => {
+            Board.putToken(this.board)(clickedSquare)(this.state.player)
+            Board.drawToken(this.ctx, this.board, { white: this.resources.getimg('pet'), black: this.resources.getimg('star') }, this.squareSize(), clickedSquare)
+        })
+    }
+    public loadImages = async (imgItems: { name: string, url: string }[]) => {
+        await this.resources.loadImages(imgItems)
+    }
+}
+
+class Resources {
+    private imgs: Map<string, HTMLImageElement> = new Map()
+    private loadingItems: Promise<boolean>[] = []
+    private loadingPromise = (imgItem: { name: string, url: string }): Promise<boolean> => {
+        return new Promise(resolve => {
+            const imageElem = new Image()
+            imageElem.src = imgItem.url
+            imageElem.onload = () => {
+                this.imgs.set(imgItem.name, imageElem)
+                console.log(`resolved: ${imgItem.name, imgItem.url}`)
+                resolve(true)
+            }
+        })
+    }
+    public loadImages = async (imgItems: { name: string, url: string }[]) => {
+        for (let item of imgItems) {
+            this.loadingItems.push(this.loadingPromise(item))
+        }
+        await Promise.all(this.loadingItems)
+    }
+    public getimg = (name: string) => this.imgs.get(name)
 }
 
 export default Board

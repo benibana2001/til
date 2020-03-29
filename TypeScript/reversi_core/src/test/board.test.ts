@@ -1,7 +1,12 @@
 import Board from '../board'
 import { DIRECTION, Square, Token, createSquare } from '../board'
 
-const b = new Board()
+const canvas: HTMLCanvasElement = document.createElement('canvas')
+const ctx: CanvasRenderingContext2D = canvas.getContext('2d')
+const b = new Board(
+    ctx,
+    800
+)
 let t: number = 0
 
 describe('TEST TO BOARD', () => {
@@ -168,13 +173,13 @@ describe('TEST TO BOARD', () => {
         ])
     })
     test('execReverse', () => {
-        expect(Board.execReverse(b.board)({ row: 2, col: 4 }, Token.WHITE)).toEqual([
+        expect(Board.reverseSquares(b.board)({ row: 2, col: 4 }, Token.WHITE)).toEqual([
             {
                 row: 3,
                 col: 4
             }]
         )
-        expect(Board.execReverse(b.board)({ row: 4, col: 5 }, Token.BLACK)).toEqual([
+        expect(Board.reverseSquares(b.board)({ row: 4, col: 5 }, Token.BLACK)).toEqual([
             {
                 row: 4,
                 col: 4
