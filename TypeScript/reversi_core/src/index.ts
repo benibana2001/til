@@ -1,10 +1,6 @@
-import BOARD, { Token, Square } from './board'
+import Board, { Token, Square } from './board'
 import pet from './img/pets-24px.svg'
 import star from './img/stars-24px.svg'
-
-const root: HTMLElement = document.getElementById('root')
-const canvas: HTMLCanvasElement = document.createElement('canvas')
-const ctx: CanvasRenderingContext2D = canvas.getContext('2d')
 
 type imgset = {
     name: string,
@@ -12,70 +8,29 @@ type imgset = {
 }
 export class Resources {
     private imgs: Map<string, HTMLImageElement> = new Map()
-    // onloadの完了を感知すべきimgを格納
     private loadingItems: Promise<boolean>[] = []
-
-    public load = async (imgset: imgset[]) => {
+    private loadingPromise = (imgItem: imgset): Promise<boolean> => {
+        return new Promise(resolve => {
+            const imageElem = new Image()
+            imageElem.src = imgItem.url
+            imageElem.onload = () => {
+                this.imgs.set(imgItem.name, imageElem)
+                console.log(`resolved: ${imgItem.name, imgItem.url}`)
+                resolve(true)
+            }
+        })
+    }
+    public loadImage = async (imgset: imgset[]) => {
         for (let item of imgset) {
-            const elem = new Image()
-            elem.src = item.url
-
-            this.imgs.set(item.name, elem)
-            // Promiseを捕縛
-            const loaded = (): Promise<boolean> => new Promise((resolve) => resolve(true))
-            this.loadingItems.push(loaded())
+            this.loadingItems.push(this.loadingPromise(item))
         }
         await Promise.all(this.loadingItems)
     }
     public getimg = (name: string) => this.imgs.get(name)
 }
-
-interface UIEditor {
-    initialize: (board: BOARD, imgsets: imgset[]) => void
-}
-class UI {
-    private resoucers: Resources
-    constructor() {
-        this.resoucers = new Resources()
-        root.appendChild(canvas)
-    }
-    public initialize = async (board: BOARD, imgsets: imgset[]) => {
-        await this.resoucers.load(imgsets)
-        // await r.load(imgsets)
-        const offset = 20
-        const canW = window.innerWidth - offset
-        const canH = window.innerHeight - offset
-        const canSize = canW > canH ? canH : canW
-        canvas.width = canSize
-        canvas.height = canSize
-        const squareSize = canSize / BOARD.COLUMN
-
-        ctx.fillStyle = 'darkgray'
-        for (let i = 0; i < BOARD.COLUMN; i++) {
-            for (let j = 0; j < BOARD.ROW; j++) {
-                ctx.strokeRect(squareSize * i, squareSize * j, squareSize, squareSize)
-            }
-        }
-        board.drawTokenFromBoardState(ctx, this.resoucers, squareSize)
-    }
-}
-
-(() => {
-    const ui = new UI()
-    const board = new BOARD()
-    const imgsets: imgset[] = [
-        { name: 'pet', url: pet },
-        { name: 'star', url: star }
-    ]
-    const initialize = (ui: UIEditor) => {
-        ui.initialize(board, imgsets)
-    }
-
-    initialize(ui)
-})()
-
 const elemBoundPosition = (elem: HTMLElement): any & DOMRect => {
     let bound: any & DOMRect = elem.getBoundingClientRect()
+    // create position property
     bound['posi'] = {
         lt: { x: bound.left, y: bound.top },
         lb: { x: bound.left, y: bound.bottom },
@@ -84,24 +39,58 @@ const elemBoundPosition = (elem: HTMLElement): any & DOMRect => {
     }
     return bound
 }
-
+const drawLine = (ctx: CanvasRenderingContext2D, row: number, col: number): void => {
+    for (let i = 0; i < col; i++) {
+        for (let j = 0; j < col; j++) {
+            ctx.strokeRect(squareSize * i, squareSize * j, squareSize, squareSize)
+        }
+    }
+    return
+}
 // クリックされた座標を引数にとる
 // クリック位置に対応するboard上の位置を col, row として返す
-const applyXYtoBoardMap = (posi: { x: number, y: number }): { row: number, col: number } => {
+const getClicedSquare = (clicked: { x: number, y: number }): Square => {
     const squareSize: number = elemBoundPosition(canvas).width / 8
-    const lt: { x: number, y: number } = elemBoundPosition(canvas)
-    const relaXYClicked = { x: posi.x - lt.x, y: posi.y - lt.y }
-    const row = relaXYClicked.y / squareSize
-    const col = relaXYClicked.x / squareSize
-    return { row: Math.floor(row), col: Math.floor(col) }
+    const O: { x: number, y: number } = elemBoundPosition(canvas)
+    const relaXYClicked = { x: clicked.x - O.x, y: clicked.y - O.y }
+    return {
+        row: Math.floor(relaXYClicked.y / squareSize),
+        col: Math.floor(relaXYClicked.x / squareSize)
+    }
 }
-
-const clickBoard = (canvas: HTMLCanvasElement): void => {
-    canvas.addEventListener(
-        'click',
-        (e: MouseEvent) => {
-            const posi = { x: e.pageX, y: e.pageY }
-            console.log(applyXYtoBoardMap(posi))
-        })
+// Event handler
+const clickBoardHandler = (e: MouseEvent) => {
+    const postion = { x: e.pageX, y: e.pageY }
+    console.log(getClicedSquare(postion))
 }
-clickBoard(canvas)
+//
+// Create canvas
+const root: HTMLElement = document.getElementById('root')
+const canvas: HTMLCanvasElement = document.createElement('canvas')
+const ctx: CanvasRenderingContext2D = canvas.getContext('2d')
+const offset = 20
+const canW = window.innerWidth - offset
+const canH = window.innerHeight - offset
+const canSize = canW > canH ? canH : canW
+canvas.width = canSize
+canvas.height = canSize
+root.appendChild(canvas)
+// Load Image
+const resoucers = new Resources()
+const imgsets: imgset[] = [
+    { name: 'pet', url: pet },
+    { name: 'star', url: star }
+]
+// Create board
+const board = new Board()
+const squareSize = canSize / Board.COLUMN
+ctx.fillStyle = 'darkgray'
+// Draw
+drawLine(ctx, Board.COLUMN, Board.ROW);
+(async () => {
+    await resoucers.loadImage(imgsets)
+    const imgs = { white: resoucers.getimg('pet'), black: resoucers.getimg('star') }
+    Board.walk((s: Square) => Board.drawToken(ctx, board.board, imgs, squareSize, s))
+})()
+//
+canvas.addEventListener('click', clickBoardHandler)

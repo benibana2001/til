@@ -24,9 +24,7 @@ const DIRECTIONS: DIRECTION[] = [
     { x: -1, y: 0 }, { x: -1, y: 1 }, { x: -1, y: -1 }
 ]
 type State = {
-    board: BoardState,
     enablePutSquares: Square[],
-    put: Square | null,
     reverseToken: Square[],
     player: Token.WHITE | Token.BLACK,
     oldPlayer: Token.WHITE | Token.BLACK,
@@ -36,149 +34,152 @@ type scanedLineData = {
     pattern: string,
     arr: Square[]
 }
-const initialState: State = {
-    board: [],
-    enablePutSquares: [],
-    put: null,
-    reverseToken: [],
-    player: Token.WHITE,
-    oldPlayer: Token.BLACK,
-}
 const getEnemy = (player: Token) => player === Token.WHITE ? Token.BLACK : Token.WHITE
 export const createSquare = (r: number, c: number): Square => ({ row: r, col: c })
-const walk = (func: SquareFunc) => {
-    for (let row = 0; row < BOARD.ROW; row++) {
-        for (let col = 0; col < BOARD.COLUMN; col++) {
-            func({ row, col })
-        }
-    }
-}
-class BOARD {
+
+class Board {
     static readonly ROW = 8
     static readonly COLUMN = 8
-    public state: State = initialState
-    public getSquare = (s: Square): Token => this.state.board[s.row][s.col]
-    public putSquare = (s: Square) => (player: Token): BoardState => {
-        this.state.board[s.row][s.col] = player
-        return this.state.board
+    // Square, Token
+    static getToken = (board: BoardState, s: Square): Token => board[s.row][s.col]
+    static putSquare = (board: BoardState) => (s: Square) => (player: Token): BoardState => {
+        board[s.row][s.col] = player
+        return board
     }
-    public putWhite = (s: Square): BoardState => {
-        this.putSquare(s)(Token.WHITE)
-        return this.state.board
+    static putToken = (board: BoardState) => (s: Square) => (token: Token): BoardState => {
+        Board.putSquare(board)(s)(token)
+        return board
     }
-    public putBlack = (s: Square): BoardState => {
-        this.putSquare(s)(Token.BLACK)
-        return this.state.board
+    static putWhite = (board: BoardState) => (s: Square): BoardState => Board.putToken(board)(s)(Token.WHITE)
+    static putBlack = (board: BoardState) => (s: Square): BoardState => Board.putToken(board)(s)(Token.BLACK)
+    static reverseToken = (board: BoardState) => (s: Square): BoardState => {
+        let square = Board.getToken(board, s)
+        if (square === Token.BLACK) Board.putWhite(board)(s)
+        if (square === Token.WHITE) Board.putBlack(board)(s)
+        return board
     }
-    public reverseToken = (s: Square): BoardState => {
-        let square = this.getSquare(s)
-        if (square === Token.BLACK) this.putWhite(s)
-        if (square === Token.WHITE) this.putBlack(s)
-        return this.state.board
+    static walk = (func: SquareFunc) => {
+        for (let row = 0; row < Board.ROW; row++) {
+            for (let col = 0; col < Board.COLUMN; col++) {
+                func({ row, col })
+            }
+        }
     }
-
-    public initBoard = (): State => {
-        this.state.board = []
-        const row: number[] = new Array(BOARD.COLUMN).fill(Token.BLANK)
-        const pushRow = () => this.state.board.push(row.slice(0))
-        funcTimes(pushRow)(BOARD.ROW)()
-        this.putWhite({ row: 3, col: 3 })
-        this.putWhite({ row: 4, col: 4 })
-        this.putBlack({ row: 3, col: 4 })
-        this.putBlack({ row: 4, col: 3 })
-        return this.state
+    static generateNewBoard = (): BoardState => {
+        let board: BoardState = []
+        const row: number[] = new Array(Board.COLUMN).fill(Token.BLANK)
+        const pushRow = () => board.push(row.slice(0))
+        funcTimes(pushRow)(Board.ROW)()
+        Board.putWhite(board)({ row: 3, col: 3 })
+        Board.putWhite(board)({ row: 4, col: 4 })
+        Board.putBlack(board)({ row: 3, col: 4 })
+        Board.putBlack(board)({ row: 4, col: 3 })
+        return board
     }
-
-    constructor() {
-        this.initBoard()
-        this.state.enablePutSquares = this.canPutSquares(Token.WHITE)
-    }
-
-    // this.board をcanvas に反映する
-    public drawTokenFromBoardState = (ctx: CanvasRenderingContext2D, r: Resources, squareSize: number) => {
-        walk((s: Square) => {
-            const image = (() => {
-                if (this.getSquare(s) === Token.WHITE) return r.getimg('pet')
-                if (this.getSquare(s) === Token.BLACK) return r.getimg('star')
-            })()
-            if (image) ctx.drawImage(image, squareSize * s.col, squareSize * s.row, squareSize, squareSize)
-        })
-    }
-
-    private notPutToken = (s: Square) => this.state.board[s.row] === undefined || this.getSquare(s) === undefined
-    private convertTokenToStrings = (t: Token) => t === Token.BLANK ? 'B' : t
-    // dx, dy: 単位ベクトル
-
-    public scanLine = (d: DIRECTION) => (center: Square): scanedLineData => {
+    static notPutToken = (board: BoardState) => (s: Square) => board[s.row] === undefined || Board.getToken(board, s) === undefined
+    static convertTokenToStrings = (t: Token) => t === Token.BLANK ? 'B' : t
+    // Check board status
+    static scanLinePattern = (board: BoardState) => (d: DIRECTION) => (center: Square): scanedLineData => {
         let scanedData: scanedLineData = { pattern: '', arr: [] }
         for (let n = 1; ; n++) {
-            const checkedSquare: Square = {
+            const currentSquare: Square = {
                 row: center.row + d.y * n,
                 col: center.col + d.x * n
             }
-            if (this.notPutToken(checkedSquare)) break
-            scanedData.pattern += this.convertTokenToStrings(this.getSquare(checkedSquare))
-            scanedData.arr.push(checkedSquare)
+            if (Board.notPutToken(board)(currentSquare)) break
+            scanedData.pattern += Board.convertTokenToStrings(Board.getToken(board, currentSquare))
+            scanedData.arr.push(currentSquare)
         }
         return scanedData
     }
-
-    private canPut = (player: Token, s: Square): boolean => {
+    static canPut = (board: BoardState) => (player: Token, s: Square): boolean => {
         const enemy = getEnemy(player)
-        if (this.state.board[s.row][s.col] !== Token.BLANK) return false //  Blankでないマスは配置不可
+        if (board[s.row][s.col] !== Token.BLANK) return false //  Blankでないマスは配置不可
         for (let i in DIRECTIONS) {
-            const line: scanedLineData = this.scanLine(DIRECTIONS[i])(s)
+            const line: scanedLineData = Board.scanLinePattern(board)(DIRECTIONS[i])(s)
             const regExStr = new RegExp('^' + enemy + '+' + player)
             if (line.pattern.match(regExStr)) return true
         }
     }
-
-    public canPutSquares = (player: Token): Square[] => {
+    static canPutSquares = (board: BoardState) => (player: Token): Square[] => {
         const enableSquares: Square[] = []
-        walk((s: Square) => {
-            if (this.canPut(player, s)) enableSquares.push(s)
+        Board.walk((s: Square) => {
+            if (Board.canPut(board)(player, s)) enableSquares.push(s)
         })
         return enableSquares
     }
-    // 手番を変更
-    private changePlayer = () => {
-        this.state.oldPlayer = this.state.player
-        this.state.player = getEnemy(this.state.oldPlayer)
+    // Draw
+    static drawToken = (
+        ctx: CanvasRenderingContext2D,
+        board: BoardState,
+        imgs: {
+            white: HTMLImageElement,
+            black: HTMLImageElement
+        },
+        squareSize: number,
+        target: Square
+    ) => {
+        const image = Board.getImage(board, target, imgs)
+        if (image) ctx.drawImage(image, squareSize * target.col, squareSize * target.row, squareSize, squareSize)
     }
-    public putToken = (s: Square): boolean => {
-        for (let i = 0; i < this.state.enablePutSquares.length; i++) {
+    static getImage = (board: BoardState, target: Square, imgs: { white: HTMLImageElement, black: HTMLImageElement }) => {
+        if (Board.getToken(board, target) === Token.WHITE) return imgs.white
+        if (Board.getToken(board, target) === Token.BLACK) return imgs.black
+    }
+    // Game
+    static changePlayer = (state: State) => {
+        state.oldPlayer = state.player
+        state.player = getEnemy(state.oldPlayer)
+    }
+    // about String.match method:
+    //   https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/String/match
+    static execReverse = (board: BoardState) => (s: Square, player: Token): Square[] => {
+        let reverseSquares: Square[] = []
+        const enemy = getEnemy(player)
+        const canPutPattern = new RegExp('^(' + enemy + '+)' + player)
+        for (let i in DIRECTIONS) {
+            const scanedLine = Board.scanLinePattern(board)(DIRECTIONS[i])(s) //  列におけるTokenの並びを取得
+            const found = scanedLine.pattern.match(canPutPattern)
+            if (found === null) continue
+            //
+            const enemyLength = found[1].length
+            for (let j = 0; j < enemyLength; j++) {
+                const currentS: Square = scanedLine.arr[j]
+                Board.putSquare(board)(currentS)(player) //  board 書き換え
+                reverseSquares.push(currentS) //  書き換えた場所を保持
+            }
+        }
+        // 裏返った位置を返す
+        return reverseSquares
+    }
+    //
+    //
+    public board: BoardState = []
+    public state: State = {
+        enablePutSquares: [],
+        reverseToken: [],
+        player: Token.WHITE,
+        oldPlayer: Token.BLACK,
+    }
+    //
+    constructor() {
+        this.resetBoard()
+        this.state.enablePutSquares = Board.canPutSquares(this.board)(Token.WHITE)
+    }
+    public resetBoard = () => this.board = Board.generateNewBoard()
+    public processPutToken = (s: Square): boolean => {
+        for (let i in this.state.enablePutSquares) {
             const square: Square = this.state.enablePutSquares[i]
-            if (square.row === s.row && square.col === s.col) {
-                this.state.put = s
-                // reverse process
-                this.execReverse(s, this.state.player)
-                this.changePlayer()
+            const canPut = square.row === s.row && square.col === s.col
+            if (canPut) {
+                Board.putSquare(this.board)(s)(this.state.player)
+                this.state.reverseToken = Board.execReverse(this.board)(s, this.state.player)
+                Board.changePlayer(this.state)
                 return true
             }
         }
         return false
     }
-
-    // 石を置いたのちのアクション
-    public execReverse = (s: Square, player: Token): Square[] => {
-        let reversedS: Square[] = []
-        const enemy = getEnemy(player)
-        for (let i = 0; i < DIRECTIONS.length; i++) {
-            const line = this.scanLine(DIRECTIONS[i])(s) //  裏返る石のパターン作成
-            const regExStr = new RegExp('^(' + enemy + '+)' + player)
-            const found = line.pattern.match(regExStr)
-            // To ref about String.match method: https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/String/match
-            if (found === null) continue
-            for (let j = 0; j < found[1].length; j++) {
-                const currentS: Square = line.arr[j]
-                this.putSquare(currentS)(player) //  board 書き換え
-                reversedS.push(currentS) //  書き換えた場所を保持
-            }
-        }
-        this.putSquare(s)(player)
-        this.state.reverseToken = reversedS
-        return this.state.reverseToken
-    }
 }
 
-export default BOARD
+export default Board
