@@ -1,46 +1,44 @@
-'use strict'
+'use strict';
+var AWS = require('aws-sdk');
 
-var AWS = require('aws-sdk')
-
-var elasticTranscoder = new AWS.elasticTranscoder({
+var elasticTranscoder = new AWS.ElasticTranscoder({
     region: 'ap-northeast-1'
-})
+});
 
-exports.hamdler = function(event, context, callback) {
- 
-    var sourceKey = decodeURIComponent(key.replace(/\+/g, " "))
+exports.handler = function(event, context, callback){
+    console.log('Welcome');
 
-    var outputKey = sourceKey.split('.')[0]
+    var key = event.Records[0].s3.object.key;
+
+    //the input file may have spaces so replace them with '+'
+    var sourceKey = decodeURIComponent(key.replace(/\+/g, ' '));
+
+    //remove the extension
+    var outputKey = sourceKey.split('.')[0];
 
     var params = {
-        PipelineID: "1584589206711-8ch0as",
-        // We can create bucket layer; like a folder directory system
-        OutputKeyPrefix: outputKey + '/',
+        PipelineId: '1584589206711-8ch0as',
         Input: {
             Key: sourceKey
         },
         Outputs: [
             {
                 Key: outputKey + '-1080p' + '.mp4',
-                PresetId: '1351620000001-000001'
+                PresetId: '1351620000001-000001' //Generic 1080p
             },
             {
                 Key: outputKey + '-720p' + '.mp4',
-                PresetId: '1351620000001-000010'
+                PresetId: '1351620000001-000010' //Generic 720p
             },
             {
-                // Convert to web friendry setting recommended by AWS Transcoder
                 Key: outputKey + '-web-720p' + '.mp4',
-                PresetId: '1351620000001-000070'
+                PresetId: '1351620000001-100070' //Web Friendly 720p
             }
-        ]
-
-    }
+        ]};
 
     elasticTranscoder.createJob(params, function(error, data){
-        if (error) {
-            // Write error info to AWS Cloud Watch
-            callback(error)
+        if (error){
+            callback(error);
         }
-    })
-}
+    });
+};

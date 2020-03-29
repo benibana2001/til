@@ -1,5 +1,6 @@
 import { createStore, combineReducers, compose } from 'redux'
 import { CardListActions } from './Actions/cardListActions'
+import { PostAction } from './Actions/postActions'
 // import  CardListReducer from './reducers/CardList'
 import rootReducer from './reducers'
 
@@ -20,6 +21,6 @@ const store = createStore(
 
 export default store
 
-export type ActionTypes = CardListActions
+export type ActionTypes = CardListActions | PostAction
 
 export type AppState = ReturnType<typeof store.getState>
