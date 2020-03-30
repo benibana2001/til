@@ -1,4 +1,5 @@
-// Utility Function
+import Resources from './resources'
+//
 const funcTimes = (func: Function) => (n: number) => () => {
     for (let i = 0; i < n; i++) func()
 }
@@ -41,6 +42,7 @@ class Board {
     static readonly COLUMN = 8
     // Square, Token
     static getToken = (board: BoardState, s: Square): Token => board[s.row][s.col]
+    // TODO: putTokenのみに
     static putSquare = (board: BoardState) => (s: Square) => (player: Token): BoardState => {
         board[s.row][s.col] = player
         return board
@@ -139,6 +141,17 @@ class Board {
         if (Board.getToken(board, target) === Token.WHITE) return imgs.white
         if (Board.getToken(board, target) === Token.BLACK) return imgs.black
     }
+    // TODO: Imageとする必要はないかもしれない
+    static createVoidImage = (size: number, offset = 0) => {
+        const canvas = document.createElement('canvas')
+        const ctx = canvas.getContext('2d')
+        const voidImage = new Image()
+        canvas.width = canvas.height = size
+        ctx.fillStyle = 'white'
+        ctx.fillRect(offset, offset, size - (offset * 2), size - (offset * 2))
+        voidImage.src = canvas.toDataURL()
+        return voidImage
+    }
     // Game
     static changePlayer = (state: State) => {
         state.oldPlayer = state.player
@@ -171,6 +184,7 @@ class Board {
     private canvasSize: number
     private squareSize = (): number => this.canvasSize / Board.COLUMN
     private resources: Resources = new Resources()
+    private voidImage: HTMLImageElement
     public state: State = {
         enablePutSquares: [],
         reverseSquares: [],
@@ -181,6 +195,7 @@ class Board {
     public constructor(ctx: CanvasRenderingContext2D, canvasSize: number, imgItems: { name: string, url: string }[] | null = null) {
         this.ctx = ctx
         this.canvasSize = canvasSize
+        this.voidImage = Board.createVoidImage(this.squareSize(), 1)
         this.resetBoard()
         this.setEnableSquares();
         (async () => { await this.drawBoard(imgItems) })()
@@ -204,36 +219,14 @@ class Board {
     public updateReverseSquares = (clickedSquare: Square) => {
         const reverseSquares = Board.reverseSquares(this.board)(clickedSquare, this.state.player)
         reverseSquares.forEach((clickedSquare: Square) => {
-            Board.putToken(this.board)(clickedSquare)(this.state.player)
+            Board.putToken(this.board)(clickedSquare)(this.state.player);
+            this.ctx.drawImage(this.voidImage, this.squareSize() * clickedSquare.col, this.squareSize() * clickedSquare.row)
             Board.drawToken(this.ctx, this.board, { white: this.resources.getimg('pet'), black: this.resources.getimg('star') }, this.squareSize(), clickedSquare)
         })
     }
     public loadImages = async (imgItems: { name: string, url: string }[]) => {
         await this.resources.loadImages(imgItems)
     }
-}
-
-class Resources {
-    private imgs: Map<string, HTMLImageElement> = new Map()
-    private loadingItems: Promise<boolean>[] = []
-    private loadingPromise = (imgItem: { name: string, url: string }): Promise<boolean> => {
-        return new Promise(resolve => {
-            const imageElem = new Image()
-            imageElem.src = imgItem.url
-            imageElem.onload = () => {
-                this.imgs.set(imgItem.name, imageElem)
-                console.log(`resolved: ${imgItem.name, imgItem.url}`)
-                resolve(true)
-            }
-        })
-    }
-    public loadImages = async (imgItems: { name: string, url: string }[]) => {
-        for (let item of imgItems) {
-            this.loadingItems.push(this.loadingPromise(item))
-        }
-        await Promise.all(this.loadingItems)
-    }
-    public getimg = (name: string) => this.imgs.get(name)
 }
 
 export default Board
