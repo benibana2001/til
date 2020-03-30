@@ -1,14 +1,6 @@
-{
-    "compilerOptions": {
-        "module": "commonjs",
-        "target": "es5",
-        "checkJs": true
-    },
-    "exclude": [
-        "node_modules"
-    ],
-    "rootDir": [
-        "/"
+module.exports = {
+    "roots": [
+        "<rootDir>/src"
     ],
     "transform": {
         "^.+\\.tsx?$": "ts-jest"
@@ -21,5 +13,6 @@
         "jsx",
         "json",
         "node"
-    ]
+    ],
+    "setupFiles": ["jest-canvas-mock"]
 }
