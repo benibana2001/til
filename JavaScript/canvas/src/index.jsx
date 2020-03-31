@@ -16,7 +16,14 @@ import cigarettes from './canvases/cigarettes.js'
 import yasumijikan from './canvases/yasumijikan.js'
 import nekonote from './canvases/nekonote/index'
 //
+import React from 'react'
+import ReactDOM from 'react-dom'
+//
 const root = document.getElementById('root')
+ReactDOM.render(
+  <h1>Hello, world!</h1>,
+  document.getElementById('root')
+)
 Canv.addFunc([
   chart,
   moveBox,
@@ -34,4 +41,4 @@ Canv.addFunc([
   cigarettes,
   yasumijikan,
   nekonote
-], root)
+], root);
