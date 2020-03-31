@@ -1,9 +1,11 @@
 import Canv from '../CanvWriter.js'
 import cigarFrameData from '../assets/cigar.js'
 import personFrameData from '../assets/person.js'
+import personImage from '../assets/person.png'
+import cigarImage from '../assets/cigar.png'
 const cigarettes = async () => {
-  const imgPerson = Canv.createImg('/src/assets/person.png')
-  const imgCigar = Canv.createImg('/src/assets/cigar.png')
+  const imgPerson = Canv.createImg(personImage)
+  const imgCigar = Canv.createImg(cigarImage)
   await Canv.waitResolveImgs()
   const imgCigarFlip = Canv.flipImage(imgCigar)
   const imgPersonFlip = Canv.flipImage(imgPerson)

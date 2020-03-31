@@ -1,8 +1,9 @@
 import Canv from '../../CanvWriter.js'
 import personData from './2020-03-24.js'
+import personImage from '../../assets/2020-03-24.png'
 
 const cursor_02 = async () => {
-  const pathPerson = '/src/assets/2020-03-24.png'
+  const pathPerson = personImage
   const imgPerson = Canv.createImg(pathPerson)
   await Canv.waitResolveImgs()
   const imgPersonFlip = Canv.flipImage(imgPerson)

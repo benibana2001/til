@@ -1,9 +1,9 @@
 import Canv from '../../CanvWriter.js'
 import catData from './cat.js'
+import catImage from '../../assets/cat.png'
 
 const sprite = async (c) => {
-  const pathCat = '/src/assets/cat.png'
-  const imgCat = Canv.createImg(pathCat)
+  const imgCat = Canv.createImg(catImage)
   await Canv.waitResolveImgs()
 
   let tickC = 0
