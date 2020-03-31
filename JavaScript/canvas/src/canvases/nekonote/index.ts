@@ -8,7 +8,7 @@ const nekonote = () => {
     const clickBoardHandler = (e: MouseEvent) => {
         const position = { x: e.pageX, y: e.pageY }
         const clickedSquare = board.getClickedSquare(position)
-        if (Board.canPut(clickedSquare, board.state.enablePutSquares)) {
+        if (Board.canPut(clickedSquare, board.state.canPutSquares)) {
             board.updatePutSquare(clickedSquare)
             board.updateReverseSquares(clickedSquare)
             board.afterPut()
@@ -21,8 +21,8 @@ const nekonote = () => {
     const canSize = canW > canH ? canH : canW
     // Load Image
     const imgsets: { name: string, url: string }[] = [
-        { name: 'pet', url: pet },
-        { name: 'star', url: star }
+        { name: 'white', url: pet },
+        { name: 'black', url: star }
     ]
     // Create board
     const board = new Board(

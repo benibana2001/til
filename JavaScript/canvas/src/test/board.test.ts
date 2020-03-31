@@ -1,4 +1,3 @@
-// import Board from '../src/canvases/nekonote'
 import Board, { DIRECTION, Square, Token, createSquare } from '../canvases/nekonote/board'
 
 const canvas: HTMLCanvasElement = document.createElement('canvas')
@@ -12,7 +11,7 @@ let t: number = 0
 
 describe('TEST TO BOARD', () => {
     afterEach(() => {
-        b.resetBoard()
+        b.resetBoardData()
     })
     test('initialize', () => {
         console.log(b.board)
