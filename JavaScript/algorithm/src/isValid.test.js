@@ -2,68 +2,38 @@
  * @param {string} s
  * @return {boolean}
  */
-const isValid = function (s) {
-  const length = s.length
-  const notEven = s.length % 2 !== 0
-  if (notEven) return false
-  //
-  const half = length / 2
-  const counter = 0
-  //
-  for (let i = half, j = counter; i > 0; i--, j++) {
-    // check
-    const matcher = s[2 * (j + 1)]
-    if (s[i] === s[i + 1]) return true
-    // if (s[i - 1] === s[i + 3]) return true
-    // if (s[i - 3] === s[i + 5]) return true
+const isValid = (s) => {
+  let stack = []
+  for(let i = 0; i < s.length; i++) {
+    if(match[s[i]]) {
+      stack.push(s[i])
+    } else {
+      let open = stack.pop()
+      if (!match[open] || match[open] !== s[i]) {
+        return false
+      }
+    }
   }
-  return false
+  return !stack.length
 }
 //
-const pare = [
-  ['[', ']'],
-  ['{', '}'],
-  ['(', ')']
-]
-//
-const isMatch = (s1, s2) => {
-  for (let i = 0; i < pare.length; i++) {
-    const open = pare[i][0]
-    const close = pare[i][1]
-    if (s1 === open && s2 === close) return true
-  }
-  return false
+const match = {
+  '(': ')',
+  '{': '}',
+  '[': ']'
 }
-//
-describe('isMatch', () => {
-  test('', () => {
-    expect(isMatch('[', ']')).toBeTruthy()
+
+describe('isValid', () => {
+  test('()', () => {
+    expect(isValid('()')).toBeTruthy()
   })
-  test('', () => {
-    expect(isMatch('{', '}')).toBeTruthy()
+  test('()[]{}', () => {
+    expect(isValid('()[]{}')).toBeTruthy()
   })
-  test('', () => {
-    expect(isMatch('(', ')')).toBeTruthy()
+  test('(]', () => {
+    expect(isValid('(]')).toBeFalsy()
   })
-  test('', () => {
-    expect(isMatch('[', '}')).toBeFalsy()
-  })
-  test('', () => {
-    expect(isMatch('(', '}')).toBeFalsy()
+  test('([)]', () => {
+    expect(isValid('([)]')).toBeFalsy()
   })
 })
-
-// describe('isValid', () => {
-//   test('()', () => {
-//     expect(isValid('()')).toBeTruthy()
-//   })
-//   test('()[]{}', () => {
-//     expect(isValid('()[]{}')).toBeTruthy()
-//   })
-//   test('(]', () => {
-//     expect(isValid('(]')).toBeFalsy()
-//   })
-//   test('([)]', () => {
-//     expect(isValid('([)]')).toBeFalsy()
-//   })
-// })
