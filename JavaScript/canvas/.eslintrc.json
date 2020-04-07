@@ -16,7 +16,17 @@
         "sourceType": "module"
     },
     "rules": {
+        "semi": [
+            "warn",
+            "never"
+        ],
+        "indent": [
+            "error",
+            2,
+            { "SwitchCase": 1 }
+        ]
     },
+    "parser": "babel-eslint",
     "plugins": [
         "jest"
     ]
