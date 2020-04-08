@@ -1,54 +1,50 @@
 class Canv {
-  static rootNode
-  static btnListNode
   static canvas
   static ctx
   static funcs = new Map()
   static currentFuncID
 
   static addFunc = (funcs, root = document.getElementById('root')) => {
-    Canv.setNode(root)
+    setNode(root)
+
     for (const func of funcs) {
       const name = func.name
       Canv.funcs.set(name, func)
-      createButton(Canv.btnListNode, name, () => Canv.exeFunc(name))
+      createButton(btnListNode, name, () => Canv.exeFunc(name))
     }
     Canv.defaultFunc(funcs[funcs.length - 1].name)
-  }
-
-  static setNode = (root) => {
-    Canv.rootNode = root
-    Canv.btnListNode = document.createElement('div')
-    Canv.rootNode.appendChild(Canv.btnListNode)
   }
 
   static defaultFunc = name => {
     name = location.search ? location.search.slice(1) : name
     Canv.exeFunc(name)
   }
-  static setCanvSize = (x = window.innerWidth) => (y = 600) => {
-    Canv.canvas.width = x; Canv.canvas.height = y;
-  }
+
+  static setCanvSize = (x = window.innerWidth) => (y = 600) => setCanvSize(Canv.canvas)(x)(y)
 
   static waitResolveImgs = async () => await waitResolveImgs()
   static createImg = (path) => createImg(path)
-  static imgLoaded = []
 
   static exeFunc = (name) => {
     // Remove old canvas, function, imgPromises
-    if (Canv.canvas) Canv.rootNode.removeChild(Canv.canvas)
+    if (Canv.canvas) rootNode.removeChild(Canv.canvas)
     if (Canv.currentFuncID) {
       cancelAnimationFrame(Canv.currentFuncID)
       Canv.currentFuncID = 0
     }
-    if (Canv.imgLoaded) Canv.imgLoaded = [];
+
+    clearImgLoaded()
+
     if (Canv.events) Canv.removeEvents()
+
     // Create canvas Html Element
     Canv.canvas = document.createElement('canvas')
-    Canv.rootNode.appendChild(Canv.canvas)
-    Canv.setCanvSize()()
+    rootNode.appendChild(Canv.canvas)
+    setCanvSize(Canv.canvas)()()
+
     // Instanciate Context 
     Canv.ctx = Canv.canvas.getContext('2d')
+
     // Exec function
     Canv.funcs.get(name)(Canv.ctx)
   }
@@ -114,27 +110,21 @@ class Canv {
   // how to flip image: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/scale
   static flipImage = image => flipImage(image)
 
-  static fitBackgroundScale = (imgOriginalWidth, maxScale) => {
-    const cw = Canv.canvas.width
-    const x = cw / imgOriginalWidth <= maxScale
-      ? cw / imgOriginalWidth
-      : maxScale
-    const y = x
-    Canv.ctx.scale(x, y)
-    return [x, y]
-  }
+  static fitBackgroundScale = (imgOriginalWidth, maxScale) => fitBackgroundScale(Canv.canvas, Canv.ctx, imgOriginalWidth, maxScale)
 
-  // TODO: Aseprite の関数群として一つにまとめるか
-  static frameCalc = (framesData, frameLength, speed, head, reverse = false) => tick => {
-    const current = tick % (frameLength * speed)
-    for (let i = 0; i < frameLength; i++) {
-      const currentFrame = reverse ? head - i : head + i
-      if (current < (i + 1) * speed) return framesData[currentFrame]
-    }
-  }
+  static frameCalc = (framesData, frameLength, speed, head, reverse = false) => tick => frameCalc(framesData, frameLength, speed, head, reverse)(tick)
 
   static deviceTrigger = () => deviceTrigger()
   static getTouchPosition = e => getTouchPosition(e)
+}
+
+let rootNode = null
+let btnListNode = null
+
+function setNode (root) {
+  rootNode = root
+  btnListNode = document.createElement('div')
+  rootNode.appendChild(btnListNode)
 }
 
 function createButton(node, name, func) {
@@ -144,7 +134,10 @@ function createButton(node, name, func) {
   node.appendChild(btn)
 }
 
-const imgLoaded = []
+let imgLoaded = []
+const clearImgLoaded = () => {
+  if (imgLoaded) imgLoaded = []
+}
 async function waitResolveImgs() {
   await Promise.all(imgLoaded)
 }
@@ -156,6 +149,11 @@ function createImg(path) {
   })
   imgLoaded.push(promise)
   return img
+}
+
+const setCanvSize = canvas => (x = window.innerWidth) => (y = 600) => {
+
+Canv.canvas.width = x; Canv.canvas.height = y;
 }
 
 function drawBG(canvas, context, color, clear = true) {
@@ -171,6 +169,16 @@ function drawArc(context, x, y, r, color) {
   context.closePath()
   context.fillStyle = color
   context.fill()
+}
+
+function fitBackgroundScale(canvas, context, imgOriginalWidth, maxScale) {
+  const cw = canvas.width
+  const x = cw / imgOriginalWidth <= maxScale
+    ? cw / imgOriginalWidth
+    : maxScale
+  const y = x
+  context.scale(x, y)
+  return [x, y]
 }
 
 const randomColor = () => Math.random() * 255
@@ -198,6 +206,15 @@ function parseAsperiteJSON(data, toArray = false) {
     ary.push(eachFrame)
   }
   return ary
+}
+
+// TODO: Aseprite の関数群として一つにまとめるか
+const frameCalc = (framesData, frameLength, speed, head, reverse = false) => tick => {
+  const current = tick % (frameLength * speed)
+  for (let i = 0; i < frameLength; i++) {
+    const currentFrame = reverse ? head - i : head + i
+    if (current < (i + 1) * speed) return framesData[currentFrame]
+  }
 }
 
 const arrowKeydownHandler = funcs => e => {
