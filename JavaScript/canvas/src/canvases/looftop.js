@@ -1,10 +1,9 @@
 import Canv from '../CanvWriter.js'
-
+import looftopImage from '../assets/looftop.png'
+import birdsImage from '../assets/birds.png'
 const looftop = async () => {
-  const looftopImgPath = '/src/assets/looftop.png'
-  const birdsImgPath = '/src/assets/birds.png'
-  const imgLooftop = Canv.createImg(looftopImgPath) //  w:200, h: 180
-  const imgBirds = Canv.createImg(birdsImgPath)
+  const imgLooftop = Canv.createImg(looftopImage) //  w:200, h: 180
+  const imgBirds = Canv.createImg(birdsImage)
   await Canv.waitResolveImgs()
   //
   const sourceLooftop = { x: 0, y: 0, w: imgLooftop.width, h: imgLooftop.height }

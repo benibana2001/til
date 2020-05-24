@@ -24,12 +24,15 @@ const DIRECTIONS: DIRECTION[] = [
     { x: -1, y: 0 }, { x: -1, y: 1 }, { x: -1, y: -1 }
 ]
 type State = {
-    enablePutSquares: Square[],
+    canPutSquares: Square[],
     reverseSquares: Square[],
     player: Token.WHITE | Token.BLACK,
     oldPlayer: Token.WHITE | Token.BLACK,
 }
 type BoardState = number[][]
+type imgItem = {
+    name: string, url: string 
+}
 type scanedLineData = {
     pattern: string,
     arr: Square[]
@@ -42,13 +45,8 @@ class Board {
     static readonly COLUMN = 8
     // Square, Token
     static getToken = (board: BoardState, s: Square): Token => board[s.row][s.col]
-    // TODO: putTokenのみに
-    static putSquare = (board: BoardState) => (s: Square) => (player: Token): BoardState => {
-        board[s.row][s.col] = player
-        return board
-    }
     static putToken = (board: BoardState) => (s: Square) => (token: Token): BoardState => {
-        Board.putSquare(board)(s)(token)
+        board[s.row][s.col] = token
         return board
     }
     static putWhite = (board: BoardState) => (s: Square): BoardState => Board.putToken(board)(s)(Token.WHITE)
@@ -66,7 +64,7 @@ class Board {
             }
         }
     }
-    static generateNewBoard = (): BoardState => {
+    static generateNewBoardData = (): BoardState => {
         let board: BoardState = []
         const row: number[] = new Array(Board.COLUMN).fill(Token.BLANK)
         const pushRow = () => board.push(row.slice(0))
@@ -142,12 +140,12 @@ class Board {
         if (Board.getToken(board, target) === Token.BLACK) return imgs.black
     }
     // TODO: Imageとする必要はないかもしれない
-    static createVoidImage = (size: number, offset = 0) => {
+    static createVoidImage = (size: number, color: string, offset = 0) => {
         const canvas = document.createElement('canvas')
         const ctx = canvas.getContext('2d')
         const voidImage = new Image()
         canvas.width = canvas.height = size
-        ctx.fillStyle = 'white'
+        ctx.fillStyle = color
         ctx.fillRect(offset, offset, size - (offset * 2), size - (offset * 2))
         voidImage.src = canvas.toDataURL()
         return voidImage
@@ -180,52 +178,78 @@ class Board {
     //
     //
     public board: BoardState = []
+    private canvas: HTMLCanvasElement
     private ctx: CanvasRenderingContext2D
     private canvasSize: number
-    private squareSize = (): number => this.canvasSize / Board.COLUMN
+    private squareSize: number
     private resources: Resources = new Resources()
-    private voidImage: HTMLImageElement
+    private whiteImage: HTMLImageElement
+    private greenImage: HTMLImageElement
     public state: State = {
-        enablePutSquares: [],
+        canPutSquares: [],
         reverseSquares: [],
         player: Token.WHITE,
         oldPlayer: Token.BLACK,
     }
     //
-    public constructor(ctx: CanvasRenderingContext2D, canvasSize: number, imgItems: { name: string, url: string }[] | null = null) {
+    public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasSize: number, imgItems: imgItem[] | null = null) {
+        this.canvas = canvas
         this.ctx = ctx
         this.canvasSize = canvasSize
-        this.voidImage = Board.createVoidImage(this.squareSize(), 1)
-        this.resetBoard()
-        this.setEnableSquares();
+        this.squareSize = this.canvasSize / Board.COLUMN
+        this.whiteImage = Board.createVoidImage(this.squareSize, 'white', 1)
+        this.greenImage = Board.createVoidImage(this.squareSize, 'rgba(0, 255, 0, 0.16)', 1)
+        this.initBoard(imgItems)
+    }
+    private initBoard = (imgItems: imgItem[] | null = null) => {
+        this.resetBoardData()
+        this.setCanPutSquares()
+        this.state.canPutSquares.forEach((square: Square) => this.putSquareColor(square)(this.greenImage));
         (async () => { await this.drawBoard(imgItems) })()
     }
-    public resetBoard = () => this.board = Board.generateNewBoard()
-    private drawBoard = async (imgItems: { name: string, url: string }[]) => {
-        Board.drawLine(this.ctx, Board.COLUMN, Board.ROW, this.squareSize());
+    public resetBoardData = () => this.board = Board.generateNewBoardData()
+    private drawBoard = async (imgItems: imgItem[]) => {
+        Board.drawLine(this.ctx, Board.COLUMN, Board.ROW, this.squareSize);
         this.ctx.fillStyle = 'darkgray'
         await this.loadImages(imgItems)
-        Board.walk((s: Square) => Board.drawToken(this.ctx, this.board, { white: this.resources.getimg('pet'), black: this.resources.getimg('star') }, this.squareSize(), s))
+        Board.walk((s: Square) => this.drawTokenImage(s))
     }
-    public setEnableSquares = () => this.state.enablePutSquares = Board.canPutSquares(this.board)(this.state.player)
+    private drawTokenImage = (square: Square) => {
+        Board.drawToken(this.ctx, this.board, { white: this.resources.getimg('white'), black: this.resources.getimg('black') }, this.squareSize, square)
+    }
+    public setCanPutSquares = () => this.state.canPutSquares = Board.canPutSquares(this.board)(this.state.player)
     public afterPut = () => {
         Board.changePlayer(this.state)
-        this.setEnableSquares()
+        this.setCanPutSquares()
+        this.state.canPutSquares.forEach((square: Square) => this.putSquareColor(square)(this.greenImage))
     }
+    private putSquareColor = (square: Square) => (image: HTMLImageElement) => {
+        this.ctx.drawImage(image, this.squareSize * square.col, this.squareSize * square.row)
+    }
+    private putToken = (square: Square) => Board.putToken(this.board)(square)(this.state.player) 
     public updatePutSquare = (clickedSquare: Square) => {
-        Board.putSquare(this.board)(clickedSquare)(this.state.player)
-        Board.drawToken(this.ctx, this.board, { white: this.resources.getimg('pet'), black: this.resources.getimg('star') }, this.squareSize(), clickedSquare)
+        this.state.canPutSquares.forEach((square: Square) => this.putSquareColor(square)(this.whiteImage))
+        this.putToken(clickedSquare)
+        this.drawTokenImage(clickedSquare)
     }
     public updateReverseSquares = (clickedSquare: Square) => {
         const reverseSquares = Board.reverseSquares(this.board)(clickedSquare, this.state.player)
         reverseSquares.forEach((clickedSquare: Square) => {
-            Board.putToken(this.board)(clickedSquare)(this.state.player);
-            this.ctx.drawImage(this.voidImage, this.squareSize() * clickedSquare.col, this.squareSize() * clickedSquare.row)
-            Board.drawToken(this.ctx, this.board, { white: this.resources.getimg('pet'), black: this.resources.getimg('star') }, this.squareSize(), clickedSquare)
+            this.putToken(clickedSquare)
+            this.ctx.drawImage(this.whiteImage, this.squareSize * clickedSquare.col, this.squareSize * clickedSquare.row)
+            this.drawTokenImage(clickedSquare)
         })
     }
-    public loadImages = async (imgItems: { name: string, url: string }[]) => {
+    public loadImages = async (imgItems: imgItem[]) => {
         await this.resources.loadImages(imgItems)
+    }
+    public getClickedSquare = (clicked: { x: number, y: number }): Square => {
+        const O: DOMRect = this.canvas.getBoundingClientRect()
+        const relaXYClicked = { x: clicked.x - O.x, y: clicked.y - O.y }
+        return {
+            row: Math.floor(relaXYClicked.y / this.squareSize),
+            col: Math.floor(relaXYClicked.x / this.squareSize)
+        }
     }
 }
 

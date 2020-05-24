@@ -14,8 +14,16 @@ import cursor2 from './canvases/cursor_02/index.js'
 import looftop from './canvases/looftop.js'
 import cigarettes from './canvases/cigarettes.js'
 import yasumijikan from './canvases/yasumijikan.js'
+import nekonote from './canvases/nekonote/index'
+//
+import React from 'react'
+import ReactDOM from 'react-dom'
 //
 const root = document.getElementById('root')
+ReactDOM.render(
+  <h1>Hello, world!</h1>,
+  document.getElementById('root')
+)
 Canv.addFunc([
   chart,
   moveBox,
@@ -31,5 +39,6 @@ Canv.addFunc([
   cursor2,
   looftop,
   cigarettes,
-  yasumijikan
-], root)
+  yasumijikan,
+  nekonote
+], root);

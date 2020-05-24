@@ -1,9 +1,9 @@
-import Board from '../board'
-import { DIRECTION, Square, Token, createSquare } from '../board'
+import Board, { DIRECTION, Square, Token, createSquare } from '../canvases/nekonote/board'
 
 const canvas: HTMLCanvasElement = document.createElement('canvas')
 const ctx: CanvasRenderingContext2D = canvas.getContext('2d')
 const b = new Board(
+    canvas,
     ctx,
     800
 )
@@ -11,7 +11,7 @@ let t: number = 0
 
 describe('TEST TO BOARD', () => {
     afterEach(() => {
-        b.resetBoard()
+        b.resetBoardData()
     })
     test('initialize', () => {
         console.log(b.board)

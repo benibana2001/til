@@ -1,12 +1,16 @@
 import Canv from '../CanvWriter.js'
 import cigarFrameData from '../assets/cigar.js'
 import personFrameData from '../assets/person.js'
+import img_cigar from '../assets/cigar.png'
+import img_person from '../assets/person.png'
+import img_looftop from '../assets/looftop.png'
+import img_birds from '../assets/birds.png'
 const yasumijikan = async () => {
   // prepare images
-  const imgPerson = Canv.createImg('/src/assets/person.png')
-  const imgCigar = Canv.createImg('/src/assets/cigar.png')
-  const imgLooftop = Canv.createImg('/src/assets/looftop.png') //  w:200, h: 180
-  const imgBirds = Canv.createImg('/src/assets/birds.png')
+  const imgPerson = Canv.createImg(img_person)
+  const imgCigar = Canv.createImg(img_cigar)
+  const imgLooftop = Canv.createImg(img_looftop) //  w:200, h: 180
+  const imgBirds = Canv.createImg(img_birds)
   await Canv.waitResolveImgs()
   const imgPersonFlip = Canv.flipImage(imgPerson)
   // parse Aseprite frame data
