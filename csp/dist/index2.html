@@ -1,0 +1,18 @@
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="require-trusted-types-for 'script';"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="./index2.js"></script>
+
+    <p>このページはサニタイズしています。そのため、JavaScriptのinnerHTMLで設定したimgタグは、TrustedTypesにより文字列として表示されます。</p>
+    <p>Consoleにエラーは表示されません。</p>
+    <a href="./index.html">index.html</a>
+  </body>
+</html>
