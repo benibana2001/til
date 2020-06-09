@@ -1,4 +1,4 @@
-window.addEventListener("securitypolicyviolation", console.error.bind(console));
+window.addEventListener("securitypolicyviolation", (err) => console.error(err));
 
 const body = document.body;
-body.innerHTML = 'abc';
+body.innerHTML = "abc";
