@@ -1,19 +1,20 @@
 import puppeteer from 'puppeteer'
 
+const url = 'https://example.com';
+
 (async () => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  await page.goto('https://example.com');
+  await page.goto(url);
 //   await page.screenshot({path: 'example.png'});
 
   const callback  = (elem: Element[] | Promise<Element[]>)  => {
-    console.log(`elem" ${elem}`)
-    console.log('hello')
     return elem
   }
-  const elem = await page.$$eval('div', callback);
-  console.log(`elem: ${elem}`)
-  console.log(`length: ${elem.length}`)
+
+  const elems: Element[] = await page.$$eval('div > h1', callback);
+  console.log(`elem: ${elems[0]}`)
+  console.log(`string: ${elems[0].innerHTML}`)
 
   await browser.close();
 })();
