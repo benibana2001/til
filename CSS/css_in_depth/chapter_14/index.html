@@ -1,0 +1,70 @@
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="transition-practice">
+      <div class="container">
+        <div class="box box-ease-out"></div>
+      </div>
+
+      <div class="container">
+        <div class="box box-steps"></div>
+      </div>
+
+      <button class="hover">Hover me</button>
+    </div>
+    <!-- DROP DOWN -->
+
+    <div class="dropdown" aria-haspopup="true">
+      <button class="dropdown__toggle">Menu</button>
+
+      <div class="dropdown__drawer">
+        <ul class="menu" role="menu">
+          <li role="menuitem">
+            <a href="">Features</a>
+          </li>
+
+          <li role="menuitem">
+            <a href="">Priceing</a>
+          </li>
+
+          <li role="menuitem">
+            <a href="">Support</a>
+          </li>
+
+          <li role="menuitem">
+            <a href="">About</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <p><a href="">Read more</a></p>
+
+    <script>
+      const toggle = document.getElementsByClassName("dropdown__toggle")[0];
+      const dropdown = toggle.parentElement;
+      const drawer = document.getElementsByClassName("dropdown__drawer")[0];
+      const drawerHeight = drawer.scrollHeight;
+
+      const isOpening = () => dropdown.classList.contains("is-open");
+      const igniteToggle = () => dropdown.classList.toggle("is-open");
+      const changeDrawerHeight = () => {
+        if (isOpening()) {
+          drawer.style.setProperty("height", `${drawerHeight}px`);
+          return;
+        }
+        drawer.style.setProperty("height", "0");
+      };
+
+      toggle.addEventListener("click", (e) => {
+        e.preventDefault();
+        igniteToggle();
+        changeDrawerHeight();
+      });
+    </script>
+  </body>
+</html>
