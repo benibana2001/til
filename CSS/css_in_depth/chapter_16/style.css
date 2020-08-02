@@ -5,6 +5,7 @@
 
 .flyin-grid__item {
   animation: fly-in 1200ms ease-in;
+  animation-fill-mode: backwards;
 }
 
 .flyin-grid__item:nth-child(2) {
@@ -59,18 +60,56 @@
   }
 }
 
-@keyframes fly-in {
-  0% {
-    transform: rotateY(-180deg);
-    opacity: 0;
-  }
-  56% {
-    transform: rotateY(10deg);
-    opacity: 1;
-  }
-  100% {
-    transform: rotateY(0);
-  }
+/* Form */
+form {
+  max-width: 500px;
+}
+
+label,
+textarea {
+  display: block;
+  margin-bottom: 1em;
+}
+
+textarea {
+  width: 100%;
+  font-size: inherit;
+}
+
+form > button {
+  padding: 0.6em 1em;
+  border: 0;
+  background-color: hsl(220, 50%, 50%);
+  color: white;
+  font: inherit;
+  transition: background-color 0.3s linear;
+}
+
+form > button:hover {
+  background-color: hsl(220, 45%, 40%);
+}
+
+button.is-loading {
+  position: relative;
+  color: transparent;
+}
+button.is-loading::after {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 1.4em;
+  height: 1.4em;
+  top: 50%;
+  left: 50%;
+  margin-left: -0.7em;
+  margin-top: -0.7em;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 0.5s linear infinite;
+}
+
+.shake {
+  animation: shake 0.7s linear;
 }
 
 /* From Chapter 15 */
@@ -82,6 +121,9 @@ html {
 *::before,
 *::after {
   box-sizing: inherit;
+}
+*:focus {
+  outline: none;
 }
 
 body {
@@ -209,5 +251,52 @@ img {
   }
   .main-nav:hover {
     background-color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+@keyframes fly-in {
+  0% {
+    transform: rotateY(-180deg);
+    opacity: 0;
+  }
+  56% {
+    transform: rotateY(10deg);
+    opacity: 1;
+  }
+  100% {
+    transform: rotateY(0);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70% {
+    transform: translateX(-0.4em);
+  }
+  20%,
+  40%,
+  60% {
+    transform: translateX(0.4em);
+  }
+  80% {
+    transform: translateX(0.3em);
+  }
+  90% {
+    transform: translateX(-0.3em);
   }
 }
