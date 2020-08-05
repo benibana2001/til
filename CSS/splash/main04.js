@@ -1,5 +1,5 @@
 const FALLING_CHERRY = {
-  INIT_PETAL_COUNT: 10,
+  INIT_PETAL_COUNT: 30,
 
   init: function () {
     this.setParameters();
@@ -10,7 +10,11 @@ const FALLING_CHERRY = {
     this.root = document.getElementById("root");
     this.width = this.root.offsetWidth;
     this.height = this.root.offsetHeight;
-    this.canvas = setCanvas(this.root, this.width, this.height);
+    this.top = this.root.offsetTop;
+    this.left = this.root.offsetLeft;
+    this.bottom = this.top + this.height;
+    this.right = this.left + this.width;
+    this.canvas = this.setCanvas();
     this.context = this.canvas.getContext("2d");
     this.petals = [];
     this.requestAnimFrame =
@@ -20,13 +24,19 @@ const FALLING_CHERRY = {
   },
   setup: function () {
     this.createPetals();
-    // bind
     this.render = this.render.bind(this);
+  },
+  setCanvas: function (w, h) {
+    const canvas = document.createElement("canvas");
+    this.root.appendChild(canvas);
+    canvas.width = this.width;
+    canvas.height = this.height;
+    return canvas;
   },
   createPetals: function () {
     for (let i = 0; i < this.INIT_PETAL_COUNT; i++) {
       console.log(this.petals);
-      this.petals.push(new Petal(this.root));
+      this.petals.push(new Petal(this));
     }
   },
   render: function () {
@@ -34,31 +44,50 @@ const FALLING_CHERRY = {
     this.context.clearRect(0, 0, this.width, this.height); // 背景を更新
     const ctx = this.context;
     this.petals.forEach((petal) => {
-      petal.y += petal.speed;
       petal.render(ctx);
     });
   },
 };
 
 const Petal = function (renderer) {
+  this.MIN_SIZE = 10;
+  this.MAX_SIZE = 20;
   this.renderer = renderer;
   this.init();
 };
 
 Petal.prototype = {
   init: function () {
-    this.x = Math.random() * this.renderer.offsetWidth;
-    this.y = 0;
-    this.r = 10;
-    this.speed = 2 + Math.random() * 3; //  2 ~ 5
-    this.color = "red";
+    this.x = Math.random() * this.renderer.width;
+    this.y = Math.random() * this.renderer.height;
+    this.r = this.MIN_SIZE + Math.random() * this.MAX_SIZE; // 20 ~ 50
+    this.vx = -1 + Math.random() * 2;
+    this.vy = 1 + Math.random() * 2;
+    this.opacity = Math.random();
+    this.color = "pink";
   },
   render: function (context) {
     context.beginPath();
-    context.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-    context.closePath();
+    context.globalAlpha = this.opacity;
+    context.arc(
+      this.x + this.r,
+      this.y + this.r,
+      this.r,
+      Math.PI,
+      1.5 * Math.PI,
+      false
+    );
+    context.arc(this.x, this.y, this.r, 0, 0.5 * Math.PI, false);
     context.fillStyle = this.color;
     context.fill();
+    this.update();
+  },
+  update: function () {
+    this.x += this.vx;
+    this.y += this.vy;
+    if (this.x >= this.renderer.width) this.x = 0;
+    if (this.x < 0) this.x = this.renderer.width;
+    if (this.y >= this.renderer.height) this.y = 0;
   },
 };
 
