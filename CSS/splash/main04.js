@@ -1,5 +1,5 @@
 const FALLING_CHERRY = {
-  INIT_PETAL_COUNT: 30,
+  INIT_PETAL_COUNT: 200,
 
   init: function () {
     this.setParameters();
@@ -8,8 +8,9 @@ const FALLING_CHERRY = {
   },
   setParameters: function () {
     this.root = document.getElementById("root");
+    this.inner = document.getElementById("inner");
     this.width = this.root.offsetWidth;
-    this.height = this.root.offsetHeight;
+    this.height = this.inner.offsetHeight + this.inner.offsetTop;
     this.top = this.root.offsetTop;
     this.left = this.root.offsetLeft;
     this.bottom = this.top + this.height;
@@ -69,6 +70,12 @@ Petal.prototype = {
   render: function (context) {
     context.beginPath();
     context.globalAlpha = this.opacity;
+    this.renderArc(context);
+    context.fillStyle = this.color;
+    context.fill();
+    this.update();
+  },
+  renderArc: function (context) {
     context.arc(
       this.x + this.r,
       this.y + this.r,
@@ -78,9 +85,6 @@ Petal.prototype = {
       false
     );
     context.arc(this.x, this.y, this.r, 0, 0.5 * Math.PI, false);
-    context.fillStyle = this.color;
-    context.fill();
-    this.update();
   },
   update: function () {
     this.x += this.vx;
