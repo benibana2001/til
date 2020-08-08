@@ -1,8 +1,7 @@
 :root {
   --box-width: 200px;
   --box-height: 200px;
-  /* --ball-base-color: rgb(254, 233, 0); */
-  --ball-base-color-shadow: rgb(120, 120, 120);
+  --ball-base-color-shadow: rgb(44, 65, 99);
   --ball-border-color: rgba(0, 0, 0);
   box-sizing: border-box;
 }
@@ -19,20 +18,18 @@ body {
 
 .box {
   position: relative;
-  /* top: calc(50vh - var(--box-width) / 2); */
-  /* left: calc(50vw - var(--box-height) / 2); */
   width: var(--box-width);
   height: var(--box-height);
   background-color: var(--ball-base-color);
   background-image: radial-gradient(
-      circle at 0 0,
-      rgb(255, 255, 255),
-      transparent
+      23% 23% at 20% 20%,
+      rgba(255, 255, 255, 0.619),
+      transparent 140%
     ),
     radial-gradient(
-      circle at 100% 100%,
-      var(--ball-base-color-shadow),
-      transparent
+      100% 100% at 40% 25%,
+      transparent,
+      var(--ball-base-color-shadow) 90%
     );
 
   border-radius: 100%;
