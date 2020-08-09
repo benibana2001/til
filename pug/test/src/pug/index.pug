@@ -1,0 +1,21 @@
+doctype html
+// build by pug
+html(lang="ja")
+  head
+    meta(charset="utf-8")
+    link(rel="stylesheet", href="style.css")
+    title Document
+  body
+    - const randomInRange = (max, min) => Math.floor(Math.random() * (max - min + 1)) + min
+    - const baseHue = randomInRange(0, 360)
+    - const bubbleCount = 30
+    - let b = 0
+    while b < bubbleCount
+        - const size = randomInRange(10, 50)
+        - const x = randomInRange(0, 100)
+        - const delay = randomInRange(1, 10)
+        - const speed = randomInRange(2, 20)
+        - const distance = randomInRange(25, 150)
+        - const scale = randomInRange(100, 150) / 100
+        .bubble(style=`--x: ${x}; --size: ${size}; --hue: ${baseHue}; --distance: ${distance}; --speed: ${speed}; --delay: ${delay}; --scale: ${scale}`)
+        - b++

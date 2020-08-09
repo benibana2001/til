@@ -1,0 +1,41 @@
+body {
+  background: rgb(15, 15, 80);
+}
+
+.bubble {
+  --bubble-outline: hsl(var(--hue), 100%, 50%);
+  --bubble-spot: hsl(var(--hue), 100%, 75%);
+  --bubble-shade: hsl(var(--hue), 100%, 70%);
+  /*  */
+  left: calc(var(--x) * 1%);
+  transform: translate(-50%, 0);
+  position: absolute;
+  /*  */
+  width: calc(var(--size) * 1px);
+  height: calc(var(--size) * 1px);
+  /*  */
+  border: 1px solid var(--bubble-outline);
+  border-radius: 100%;
+  /*  */
+  background: radial-gradient(100% 115% at 25% 25%, #fff, transparent 33%),
+    radial-gradient(15% 15% at 75% 75%, var(--bubble-spot), transparent),
+    radial-gradient(100% 100% at 50% 25%, transparent, var(--bubble-shade) 98%);
+  /*  */
+  animation: float 5s infinite ease-in-out;
+  animation-duration: calc(var(--speed) * 1s);
+  animation-delay: calc(var(--delay) * -1s);
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  top: 100vh;
+}
+
+@keyframes float {
+  from {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, calc(var(--distance) * -1vh)) scale(var(--scale));
+  }
+}
