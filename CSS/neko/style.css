@@ -99,6 +99,8 @@ body {
   width: 36%;
   height: 78%;
   transform: translate(-50%, -50%);
+  animation: ripple 1s linear infinite;
+  transform-origin: 4% 98%;
 }
 .cat__tail {
   width: 130%;
@@ -127,4 +129,48 @@ body {
   transform: translate(-50%, -50%);
   border-radius: 100%;
   background: var(--cat);
+}
+@-moz-keyframes ripple {
+  0%, 50%, 100% {
+    transform: rotate(0deg) translate(-50%, -50%);
+  }
+  25% {
+    transform: rotate(1deg) translate(-50%, -50%);
+  }
+  75% {
+    transform: rotate(-1deg) translate(-50%, -50%);
+  }
+}
+@-webkit-keyframes ripple {
+  0%, 50%, 100% {
+    transform: rotate(0deg) translate(-50%, -50%);
+  }
+  25% {
+    transform: rotate(1deg) translate(-50%, -50%);
+  }
+  75% {
+    transform: rotate(-1deg) translate(-50%, -50%);
+  }
+}
+@-o-keyframes ripple {
+  0%, 50%, 100% {
+    transform: rotate(0deg) translate(-50%, -50%);
+  }
+  25% {
+    transform: rotate(1deg) translate(-50%, -50%);
+  }
+  75% {
+    transform: rotate(-1deg) translate(-50%, -50%);
+  }
+}
+@keyframes ripple {
+  0%, 50%, 100% {
+    transform: rotate(0deg) translate(-50%, -50%);
+  }
+  25% {
+    transform: rotate(1deg) translate(-50%, -50%);
+  }
+  75% {
+    transform: rotate(-1deg) translate(-50%, -50%);
+  }
 }
