@@ -4,9 +4,9 @@
     box-sizing: border-box
 
 :root
-    --cat hsl(0, 0%, 35%)
+    --cat hsl(200, 40%, 35%)
     --bg hsl(200, 80%, 90%)
-    --size 20
+    --size 40
     --unit calc((var(--size) / 300) * 1vmin)
 
 body 
@@ -20,6 +20,11 @@ body
     width: calc(300 * var(--unit))
     height: calc(300 * var(--unit))
     z-index: 2
+    transition: all 0.1s linear
+
+    &:hover
+        transform: scale(0.94)
+        cursor pointer
 
     *
         position absolute
@@ -52,10 +57,12 @@ body
         &--left
             --rotate -20deg
             left: 0%
+            animation shake 2s linear infinite
 
         &--right
             --rotate 20deg
             right 0
+            animation shake 2s linear 1s infinite
 
     &__neck
         top: 42%;
@@ -143,3 +150,15 @@ body
         transform:rotate(1deg) translate(-50%, -50%)
     75%
         transform:rotate(-1deg) translate(-50%, -50%)
+
+@keyframes shake
+    0%
+    10%
+    20%
+    30%
+        transform:rotate(var(--rotate)) translate(0%, 0%)
+    15%
+        transform:rotate(var(--rotate)) translate(4%, 0%)
+    25%
+        transform:rotate(var(--rotate)) translate(-4%, 0%)
+

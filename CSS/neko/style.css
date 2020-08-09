@@ -4,9 +4,9 @@
   box-sizing: border-box;
 }
 :root {
-  --cat: #595959;
+  --cat: #36657d;
   --bg: #d1ecfa;
-  --size: 20;
+  --size: 40;
   --unit: calc((var(--size) / 300) * 1vmin);
 }
 body {
@@ -20,6 +20,11 @@ body {
   width: calc(300 * var(--unit));
   height: calc(300 * var(--unit));
   z-index: 2;
+  transition: all 0.1s linear;
+}
+.cat:hover {
+  transform: scale(0.94);
+  cursor: pointer;
 }
 .cat * {
   position: absolute;
@@ -51,10 +56,12 @@ body {
 .cat__ear--left {
   --rotate: -20deg;
   left: 0%;
+  animation: shake 2s linear infinite;
 }
 .cat__ear--right {
   --rotate: 20deg;
   right: 0;
+  animation: shake 2s linear 1s infinite;
 }
 .cat__neck {
   top: 42%;
@@ -172,5 +179,49 @@ body {
   }
   75% {
     transform: rotate(-1deg) translate(-50%, -50%);
+  }
+}
+@-moz-keyframes shake {
+  0%, 10%, 20%, 30% {
+    transform: rotate(var(--rotate)) translate(0%, 0%);
+  }
+  15% {
+    transform: rotate(var(--rotate)) translate(4%, 0%);
+  }
+  25% {
+    transform: rotate(var(--rotate)) translate(-4%, 0%);
+  }
+}
+@-webkit-keyframes shake {
+  0%, 10%, 20%, 30% {
+    transform: rotate(var(--rotate)) translate(0%, 0%);
+  }
+  15% {
+    transform: rotate(var(--rotate)) translate(4%, 0%);
+  }
+  25% {
+    transform: rotate(var(--rotate)) translate(-4%, 0%);
+  }
+}
+@-o-keyframes shake {
+  0%, 10%, 20%, 30% {
+    transform: rotate(var(--rotate)) translate(0%, 0%);
+  }
+  15% {
+    transform: rotate(var(--rotate)) translate(4%, 0%);
+  }
+  25% {
+    transform: rotate(var(--rotate)) translate(-4%, 0%);
+  }
+}
+@keyframes shake {
+  0%, 10%, 20%, 30% {
+    transform: rotate(var(--rotate)) translate(0%, 0%);
+  }
+  15% {
+    transform: rotate(var(--rotate)) translate(4%, 0%);
+  }
+  25% {
+    transform: rotate(var(--rotate)) translate(-4%, 0%);
   }
 }
