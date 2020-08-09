@@ -1,0 +1,22 @@
+{
+  "name": "egg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch:pug": "npx pug src/pug/ -o ./ -P -w",
+    "build:pug": "npx pug src/pug/ -o ./ -P",
+    "watch:stylus": "npx stylus -w src/styl/ -o ./",
+    "build:stylus": "npx stylus src/styl/ -o ./",
+    "build": "npm run build:stylus && npm run build:pug"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "pug": "^3.0.0",
+    "pug-cli": "^1.0.0-alpha6",
+    "stylus": "^0.54.8"
+  }
+}

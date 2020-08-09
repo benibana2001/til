@@ -1,0 +1,125 @@
+*
+*:before
+*:after
+    box-sizing: border-box
+
+:root
+    --size 50
+    --unit calc((var(--size) / 100) * 1vmin)
+    --glasses hsl(0, 0%, 15%)
+    --shell-outline hsl(0, 0, 40%)
+    --bg hsl(50, 100%, 50%)
+    --shell hsl(0, 0%, 100%)
+
+body
+    background-color var(--bg)
+    display flex
+    align-items center
+    justify-content: center
+    min-height: 100vh
+
+.egg
+    height calc(100 * var(--unit))
+    width calc(90 * var(--unit))
+    z-index 2
+    position relative
+
+    *
+        position: absolute
+
+    &__shell
+        top 50%
+        left 50%
+        transform translate(-50%, -50%)
+        height: 95%
+        width: 74%
+
+        &::after
+        &::before
+            content ''
+            border: calc(2 * var(--unit)) solid var(--shell-outline)
+            position: absolute
+            background var(--shell)
+
+        &::before
+            top 0
+            left 50%
+            height 65%
+            width: 100%
+            transform: translate(-50%, 0%)
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0 
+            $clip = inset(0 0 10% 0)
+            -webkit-clip-path $clip
+            clip-path $clip
+
+        &::after
+            bottom: 0
+            width: 100%
+            height: 50%
+            border-radius: 0 0 50% 50% / 0 0 78% 78%
+            $clip = inset(15% 0 0 0)
+            -webkit-clip-path $clip
+            clip-path $clip
+
+    &__glasses
+        height 31%
+        width: 95%
+        top: 31%
+        left 50%
+        transform translate(-50%, 0)
+
+    &__glass
+        top 0
+        width: 46%
+        height 95%
+        transform: rotate(calc(var(--rotate) * 12deg)) rotateY(calc(var(--flip) * 180deg))
+        border calc(3 * var(--unit)) solid var(--glasses)
+        border-radius: 25% 60% 32% 38%/34% 37% 45% 30%
+
+        &:after
+            content ''
+            position absolute
+            height calc(100% + 6 * var(--unit))
+            width calc(100% + 6 * var(--unit))
+            top calc(-3 * var(--unit))
+            left calc(-3 * var(--unit))
+            border calc(3 * var(--unit)) solid var(--glasses)
+            border-radius 25% 60% 32% 38%/34% 37% 45% 30%
+            box-shadow calc(0 * var(--unit)) calc(3 * var(--unit)) calc(2 * var(--unit)) hsla(0, 0%, 0%, 0.45) inset, calc(0 * var(--unit)) calc(3 * var(--unit)) calc(2 * var(--unit)) hsla(0, 0%, 0%, 0.45)
+            $clip = polygon(49% 0, 100% 0, 100% 160%, 90% 160%, 11% 150%, 17% 95%)
+            -webkit-clip-path $clip
+            clip-path: $clip
+
+        &--left
+            --flip 0
+            --rotate -1
+            left 0
+
+        &--right
+            --flip 1
+            --rotate 1
+            right 0
+
+    &__glass-bridge
+        height: 64%
+        width: 25%
+        top: 1%
+        left 50%
+        transform: translate(-50%)
+        border-radius: 50% /50%
+        border: calc(4 * var(--unit)) solid var(--glasses)
+        $clip = polygon(10% 0, 90% 0, 80% 50%, 20% 50%)
+        clip-path: $clip
+
+    &__glasses-arm
+        height: 14%
+        width: 90%
+        background: var(--glasses)
+        left 50%
+        top 35%
+        transform: translate(-50%, 0)
+        $clip = polygon(-7% 0, 25% 55%, 75% 55%, 107% 0, 100% 79%, 76% 100%, 24% 100%, 0 79%)
+        clip-path: $clip
+    
+
+        
