@@ -4,6 +4,7 @@
     box-sizing: border-box
 
 :root
+    --cat hsl(0, 0%, 15%)
     --bg hsl(200, 80%, 90%)
     --size 50
     --unit calc((var(--size) / 300) * 1vmin)
@@ -32,7 +33,7 @@ body
         transform: translate(-50%, -50%);
         width: 41%;
         height: 32%;
-        background: rgba(255,0,0,0.7);
+        background: var(--cat)
         border-radius: 50%/59%;
 
     &__ears
@@ -41,14 +42,13 @@ body
         width: 38%;
         height: 12%;
         transform: translate(-50%, -50%)
-        // background: rgba(20,115,38,0.8);
     
     &__ear
         top: 0;
         transform: rotate(var(--rotate));
         width: 38%;
         height: 100%;
-        background: rgba(164,115,38,0.8);
+        background: var(--cat)
         $clip = polygon(50% 0, 100% 100%, 0 100%)
         clip-path: $clip
 
@@ -60,13 +60,59 @@ body
             --rotate 20deg
             right 0
 
+    &__neck
+        top: 42%;
+        left: 32%;
+        width: 62%;
+        height: 33%;
+        transform: translate(-50%, -50%);
+        background: var(--cat)
+        border-radius: 10% 10% 10% 10% / 100% 10% 10% 10%
+        $clip = polygon(20% 0, 50% 0, 94% 100%, 16% 100%)
+        clip-path: $clip
+
     &__body
-        top: 67%;
+        top: 72%;
         left: 36%;
         width: 62%;
-        height: 64%;
-        transform: translate(-50%, -50%)
-        background: rgba(20,115,38,0.8);
-    
+        height: 53%;
+        transform: translate(-50%, -50%);
+        background: var(--cat)
+        border-radius: 46% 70% 76% 66%/90% 90% 46% 54%;
 
-    // &__tail
+    &__tails
+        top: 53%;
+        left: 78%;
+        width: 36%;
+        height: 78%;
+        transform: translate(-50%, -50%);
+
+    &__tail
+        width:130%
+        height: 60%
+        transform: translate(-50%, -50%) rotate(var(--rotate));
+        border calc(24 * var(--unit)) solid var(--cat)
+        border-radius: 100%
+        $clip = polygon(0 0, 100% 0, 100% 40%, 0 40%)
+        clip-path: $clip
+
+        &--left
+            top: 70%
+            left 14%
+            --rotate 120deg
+
+        &--right
+            top: 35%
+            left 90%
+            clip-path: $clip
+            --rotate -69deg
+
+    &__tailtop
+        top 10%
+        left 96%
+        width: 24%
+        height: 11%
+        transform: translate(-50%, -50%)
+        border-radius: 100%
+        background: var(--cat)
+ 

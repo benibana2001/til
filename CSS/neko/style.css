@@ -4,6 +4,7 @@
   box-sizing: border-box;
 }
 :root {
+  --cat: #262626;
   --bg: #d1ecfa;
   --size: 50;
   --unit: calc((var(--size) / 300) * 1vmin);
@@ -32,7 +33,7 @@ body {
   transform: translate(-50%, -50%);
   width: 41%;
   height: 32%;
-  background: rgba(255,0,0,0.7);
+  background: var(--cat);
   border-radius: 50%/59%;
 }
 .cat__ears {
@@ -47,7 +48,7 @@ body {
   transform: rotate(var(--rotate));
   width: 38%;
   height: 100%;
-  background: rgba(164,115,38,0.8);
+  background: var(--cat);
   clip-path: polygon(50% 0, 100% 100%, 0 100%);
 }
 .cat__ear--left {
@@ -58,11 +59,57 @@ body {
   --rotate: 20deg;
   right: 0;
 }
+.cat__neck {
+  top: 42%;
+  left: 32%;
+  width: 62%;
+  height: 33%;
+  transform: translate(-50%, -50%);
+  background: var(--cat);
+  border-radius: 10% 10% 10% 10%/100% 10% 10% 10%;
+  clip-path: polygon(20% 0, 50% 0, 94% 100%, 16% 100%);
+}
 .cat__body {
-  top: 67%;
+  top: 72%;
   left: 36%;
   width: 62%;
-  height: 64%;
+  height: 53%;
   transform: translate(-50%, -50%);
-  background: rgba(20,115,38,0.8);
+  background: var(--cat);
+  border-radius: 46% 70% 76% 66%/90% 90% 46% 54%;
+}
+.cat__tails {
+  top: 53%;
+  left: 78%;
+  width: 36%;
+  height: 78%;
+  transform: translate(-50%, -50%);
+}
+.cat__tail {
+  width: 130%;
+  height: 60%;
+  transform: translate(-50%, -50%) rotate(var(--rotate));
+  border: calc(24 * var(--unit)) solid var(--cat);
+  border-radius: 100%;
+  clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+}
+.cat__tail--left {
+  top: 70%;
+  left: 14%;
+  --rotate: 120deg;
+}
+.cat__tail--right {
+  top: 35%;
+  left: 90%;
+  clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+  --rotate: -69deg;
+}
+.cat__tailtop {
+  top: 10%;
+  left: 96%;
+  width: 24%;
+  height: 11%;
+  transform: translate(-50%, -50%);
+  border-radius: 100%;
+  background: var(--cat);
 }
