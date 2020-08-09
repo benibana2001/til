@@ -1,0 +1,72 @@
+*
+*::after
+*::before
+    box-sizing: border-box
+
+:root
+    --bg hsl(200, 80%, 90%)
+    --size 50
+    --unit calc((var(--size) / 300) * 1vmin)
+
+body 
+    background-color var(--bg)
+    display: flex
+    justify-content: center
+    align-items: center
+
+.box__image
+    opacity: 0.4
+
+.cat
+    position absolute
+    width: calc(300 * var(--unit))
+    height: calc(300 * var(--unit))
+    z-index: 2
+
+    *
+        position absolute
+
+    &__head
+        top: 22%;
+        left: 25%;
+        transform: translate(-50%, -50%);
+        width: 41%;
+        height: 32%;
+        background: rgba(255,0,0,0.7);
+        border-radius: 50%/59%;
+
+    &__ears
+        top: 6%;
+        left: 26%;
+        width: 38%;
+        height: 12%;
+        transform: translate(-50%, -50%)
+        // background: rgba(20,115,38,0.8);
+    
+    &__ear
+        top: 0;
+        transform: rotate(var(--rotate));
+        width: 38%;
+        height: 100%;
+        background: rgba(164,115,38,0.8);
+        $clip = polygon(50% 0, 100% 100%, 0 100%)
+        clip-path: $clip
+
+        &--left
+            --rotate -20deg
+            left: 0%
+
+        &--right
+            --rotate 20deg
+            right 0
+
+    &__body
+        top: 67%;
+        left: 36%;
+        width: 62%;
+        height: 64%;
+        transform: translate(-50%, -50%)
+        background: rgba(20,115,38,0.8);
+    
+
+    // &__tail
