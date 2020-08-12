@@ -1,5 +1,3 @@
-"use strict";
-
 var FALLING_CHERRY = {
   INIT_PETAL_COUNT: 200,
   init: function init() {
