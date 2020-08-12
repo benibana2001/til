@@ -1,0 +1,17 @@
+{
+  "name": "splash",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main04.js",
+  "scripts": {
+    "build": "npx babel main04.js -d dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0"
+  }
+}
