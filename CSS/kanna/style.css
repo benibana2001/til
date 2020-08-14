@@ -1,0 +1,20 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+:root {
+  --cat: #36657d;
+  --bg: #d1ecfa;
+  --size: 40;
+  --unit: calc((var(--size) / 300) * 1vmin);
+}
+body {
+  background-color: var(--bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.box__image {
+  opacity: 0.4;
+}
