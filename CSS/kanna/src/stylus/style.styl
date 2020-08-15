@@ -3,17 +3,29 @@
 *::before
     box-sizing: border-box
 
+/** 
+    * image dimensions are 410 x 512
+**/
 :root
     --cat hsl(200, 40%, 35%)
     --bg hsl(200, 80%, 90%)
     --size 40
-    --unit calc((var(--size) / 300) * 1vmin)
+    --unit calc((var(--size) / 512) * 1vmin)
 
 body 
     background-color var(--bg)
-    display: flex
-    justify-content: center
-    align-items: center
 
-.box__image
+.box__image img
+    position: fixed;
+    height: 50vmin;
+    top: 50%;
+    left:50%;
     opacity: 0.4
+    transform: translate(-50%, -50%);
+
+.kanna
+    position absolute
+    width: calc(410 * var(--unit))
+    height: calc(512 * var(--unit))
+    z-index: 2
+    transition: all 0.1s linear
