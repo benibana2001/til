@@ -1,0 +1,73 @@
+.box {
+  position: relative;
+  transform-style: preserve-3d;
+  top: calc(var(--size) / 2 * 1px);
+  left: calc(var(--size) / 2 * 1px);
+  width: calc(var(--size) * 1px);
+  height: calc(var(--size) * 1px);
+  animation: roll var(--duration) linear infinite;
+}
+
+.box__large {
+  --duration: 25s;
+  --size: 200;
+  --opacity: 0.05;
+}
+
+.box__midium {
+  --duration: 9s;
+  --size: 100;
+  --opacity: 0.1;
+}
+
+.box__small {
+  --duration: 2s;
+  --size: 50;
+  --opacity: 0.3;
+}
+
+.face {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: inherit;
+}
+
+.front {
+  background: rgba(90, 90, 90, var(--opacity));
+  transform: translateZ(calc(var(--size) / 2 * 1px));
+}
+
+.back {
+  background: rgba(0, 210, 0, var(--opacity));
+  transform: rotateY(180deg) translateZ(calc(var(--size) / 2 * 1px));
+}
+
+.right {
+  background: rgba(210, 0, 0, var(--opacity));
+  transform: rotateY(90deg) translateZ(calc(var(--size) / 2 * 1px));
+}
+
+.left {
+  background: rgba(0, 0, 210, var(--opacity));
+  transform: rotateY(-90deg) translateZ(calc(var(--size) / 2 * 1px));
+}
+
+.top {
+  background: rgba(210, 210, 0, var(--opacity));
+  transform: rotateX(90deg) translateZ(calc(var(--size) / 2 * 1px));
+}
+
+.bottom {
+  background: rgba(210, 0, 210, var(--opacity));
+  transform: rotateX(-90deg) translateZ(calc(var(--size) / 2 * 1px));
+}
+
+@keyframes roll {
+  0% {
+    transform: rotate3d(1, 1, 1, 0deg);
+  }
+  100% {
+    transform: rotate3d(1, 1, 1, 360deg);
+  }
+}
