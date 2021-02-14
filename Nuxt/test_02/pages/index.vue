@@ -3,6 +3,9 @@
     <div>
       <Logo />
       <h1 class="title">test_02</h1>
+      <ul>
+        <my-list v-for="(list, index) in lists" :key="index" :text="list" />
+      </ul>
       <div class="links">
         <a
           href="https://nuxtjs.org/"
@@ -27,8 +30,16 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import myList from '~/components/list.vue'
 
-export default Vue.extend({})
+export default Vue.extend({
+  components: { myList },
+  data() {
+    return {
+      lists: ['aaa', 'bbb', 'ccc'],
+    }
+  },
+})
 </script>
 
 <style>
