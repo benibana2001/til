@@ -1,0 +1,50 @@
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div id="hello-id" class="hello-class">hello</div>
+    <script>
+      const domGetters = [
+        {
+          name: "Document.getElementById()",
+          func: () => document.getElementById("hello"),
+        },
+        {
+          name: "Document.getElementsByClassName",
+          func: () => document.getElementsByClassName("hello"),
+        },
+        {
+          name: "jQuery_ID",
+          func: () => $("#hello"),
+        },
+        {
+          name: "jQuery_class",
+          func: () => $(".hello"),
+        },
+      ];
+
+      const DisplayProcessTime = (object) => {
+        const N = 10000;
+        console.time(object.name);
+        for (let i = 0; i < N; i++) {
+          object.func();
+        }
+        console.timeEnd(object.name);
+      };
+
+      for(let i = 0; i < domGetters.length; i++) {
+          DisplayProcessTime(domGetters[i]);
+      }
+
+    </script>
+  </body>
+</html>
