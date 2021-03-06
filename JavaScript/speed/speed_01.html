@@ -30,6 +30,22 @@
           name: "jQuery_class",
           func: () => $(".hello"),
         },
+        {
+          name: "Document.querySelector_ID",
+          func: () => document.querySelector("#hello"),
+        },
+        {
+          name: "Document.querySelector_class",
+          func: () => document.querySelector(".hello"),
+        },
+        {
+          name: "Document.querySelectorAll_ID",
+          func: () => document.querySelectorAll("#hello"),
+        },
+        {
+          name: "Document.querySelectorAll_class",
+          func: () => document.querySelectorAll(".hello"),
+        },
       ];
 
       const DisplayProcessTime = (object) => {
@@ -41,10 +57,9 @@
         console.timeEnd(object.name);
       };
 
-      for(let i = 0; i < domGetters.length; i++) {
-          DisplayProcessTime(domGetters[i]);
+      for (let i = 0; i < domGetters.length; i++) {
+        DisplayProcessTime(domGetters[i]);
       }
-
     </script>
   </body>
 </html>
