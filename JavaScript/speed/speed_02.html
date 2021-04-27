@@ -1,0 +1,70 @@
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <title>Document</title>
+  </head>
+
+  <body>
+    <ul id="ul"></ul>
+    <script>
+      const obj1 = {
+        id: 1,
+        name: "tanaka taro",
+        age: "29",
+        job: "neet",
+      };
+      const obj2 = {
+        id: 2,
+        name: "tanaka taro",
+        age: "29",
+        job: "neet",
+      };
+      const ul = document.getElementById("ul");
+      const domGetters = [
+        {
+          name: "appencChild",
+          func: () => {
+            let elem;
+            for (let property in obj1) {
+              elem = document.createElement("li");
+              elem.innerHTML = obj1[property];
+              ul.appendChild(elem);
+            }
+          },
+        },
+        {
+          name: "createDocumentFragment",
+          func: () => {
+            let fragment = new DocumentFragment();
+            let elem;
+            for (let property in obj2) {
+              elem = document.createElement("li");
+              elem.innerHTML = obj2[property];
+              fragment.appendChild(elem);
+            }
+            ul.appendChild(elem);
+          },
+        },
+      ];
+
+      const DisplayProcessTime = (object) => {
+        const N = 10000;
+        console.time(object.name);
+        for (let i = 0; i < N; i++) {
+          object.func();
+        }
+        console.timeEnd(object.name);
+      };
+
+      for (let i = 0; i < domGetters.length; i++) {
+        DisplayProcessTime(domGetters[i]);
+      }
+    </script>
+  </body>
+</html>
