@@ -1,0 +1,125 @@
+$duration_root: 0.4s;
+$duration_line_down: $duration_root;
+$duration_expand: $duration_line_down;
+
+$count_of_line: 30;
+
+$position_of_stop_line: 100%;
+
+// リストから削除する関数はデフォルトで存在しない
+/// list-remove
+/// Remove an item from a list
+/// @param $list - A SASS list
+/// @param $index - The list index to remove
+/// @returns A SASS list
+/// @author Jake Wilson <jake.e.wilson@gmail.com>
+@function list-remove($list, $index) {
+  $newList: ();
+  @for $i from 1 through length($list) {
+    @if $i != $index {
+      $newList: append($newList, nth($list, $i), "space");
+    }
+  }
+  @return $newList;
+}
+
+// ライブラリ
+$_list_color_sweet: #f0beba, #d4e7ee, #f3e8c3, #bed8c2, #e7f3e7, #f1ceaf,
+  #d8a156, #9da17c;
+
+// カラーをライブラリから割り振り
+$color_bg_start: nth($_list_color_sweet, 1);
+$list_color_line: list-remove($_list_color_sweet, 1);
+
+$color_bg_end: yellow;
+
+body {
+  margin: 0px;
+  background-color: $color_bg_end;
+}
+.opening {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
+  background-color: $color_bg_start;
+}
+.line {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+  }
+
+  /**
+   * animation-1
+   * lineDown
+   */
+  &::before {
+    // $width: 4px;
+    $width: calc(100vw / #{$count_of_line} / 2);
+    width: $width;
+    height: 0;
+    left: calc(50% - #{$width} / 2);
+  }
+  // カラーリストの数を元に色を決定
+  @each $i in $list_color_line {
+    // ローカル変数は定義可能
+    $index: index($list_color_line, $i);
+    $length: length($list_color_line);
+    // 個々のline::beforeに色塗り
+    &:nth-of-type(#{$length}n + #{$index})::before {
+      background-color: $i;
+    }
+  }
+  // ライン描画を遅延実行
+  @for $i from 1 through $count_of_line {
+    $delay: #{$i * 0.03}s;
+    &:nth-of-type(#{$i})::before {
+      animation: lineDown $duration_line_down $delay forwards;
+    }
+    &:nth-of-type(#{$i})::after {
+      animation: expand $duration_expand $delay ease-in-out forwards;
+      background-color: nth($list_color_line, $i % 7 + 1);
+    }
+  }
+  &::after {
+    $size: calc(100vw / #{$count_of_line} / 2);
+    width: $size;
+    height: $size;
+    border-radius: $size;
+    background-color: white;
+    opacity: 0;
+    left: calc(50% - #{$size} / 2);
+    top: $position_of_stop_line;
+  }
+}
+@keyframes lineDown {
+  0% {
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    height: $position_of_stop_line;
+    opacity: 1;
+  }
+}
+
+@keyframes expand {
+  0%,
+  79% {
+    opacity: 0%;
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(50);
+  }
+}
