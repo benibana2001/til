@@ -1,0 +1,81 @@
+$duration_root: 3s;
+$duration_line_open: $duration_root;
+
+// リストから削除する関数はデフォルトで存在しない
+/// list-remove
+/// Remove an item from a list
+/// @param $list - A SASS list
+/// @param $index - The list index to remove
+/// @returns A SASS list
+/// @author Jake Wilson <jake.e.wilson@gmail.com>
+@function list-remove($list, $index) {
+  $newList: ();
+  @for $i from 1 through length($list) {
+    @if $i != $index {
+      $newList: append($newList, nth($list, $i), "space");
+    }
+  }
+  @return $newList;
+}
+
+// ライブラリ
+$_list_color_sweet: #f0beba, #d4e7ee, #f3e8c3, #bed8c2, #e7f3e7, #f1ceaf,
+  #d8a156, #9da17c;
+
+// カラーをライブラリから割り振り
+$color_bg_start: nth($_list_color_sweet, 1);
+$list_color_line: list-remove($_list_color_sweet, 1);
+@debug length($list_color_line);
+
+$color_bg_end: yellow;
+
+body {
+  margin: 0px;
+  background-color: $color_bg_end;
+}
+.opening {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
+  background-color: $color_bg_start;
+}
+.line {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+  }
+
+  /**
+   * animation-1
+   * lineDown
+   */
+  &::before {
+    width: 4px;
+    height: 0;
+    left: 50%;
+    animation: lineDown $duration_line_open forwards;
+  }
+  // カラーリストの数を元に色を決定
+  @each $i in $list_color_line {
+    // ローカル変数は定義可能
+    $index: index($list_color_line, $i);
+    $length: length($list_color_line);
+    &:nth-of-type(#{$length}n + #{$index})::before {
+      background-color: $i;
+    }
+  }
+}
+@keyframes lineDown {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 100%;
+  }
+}
