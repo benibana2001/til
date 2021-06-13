@@ -4,7 +4,9 @@
   "description": "",
   "main": "main04.js",
   "scripts": {
-    "build": "npx babel main04.js -d dist"
+    "build": "npx babel main04.js -d dist",
+    "sass:build": "npx sass --no-souce-map --style=compressed style07.scss:style07.css",
+    "sass:watch": "npx sass  --style=compressed --watch ./:./"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +14,7 @@
   "devDependencies": {
     "@babel/cli": "^7.10.5",
     "@babel/core": "^7.11.1",
-    "@babel/preset-env": "^7.11.0"
+    "@babel/preset-env": "^7.11.0",
+    "sass": "^1.34.1"
   }
 }

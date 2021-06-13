@@ -1,0 +1,89 @@
+$duration_root: 2s;
+$duration_line_open: $duration_root;
+$duration_flat_open: $duration_root + 0.4s;
+$duration_hide_opening: $duration_root + 0.4s;
+
+$color_bg_start: darkgray;
+$color_bg_end: yellow;
+
+$color_aimation_line_open: red;
+$color_aimation_flat_open: blueviolet;
+
+body {
+  margin: 0px;
+  background-color: $color_bg_end;
+}
+.open {
+  position: fixed;
+  background-color: $color_bg_start;
+  width: 100vw;
+  height: 100vh;
+  animation: hideOpening $duration_hide_opening ease-in forwards;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+  }
+
+  /**
+   * animation-1
+   * lineOpen
+   */
+  &::before {
+    background-color: $color_aimation_line_open;
+    width: 0;
+    height: 20px;
+    animation: lineOpen $duration_line_open;
+  }
+  /**
+   * animation-2
+   * flatOpen
+   */
+  &::after {
+    width: 100%;
+    height: 0;
+    background-color: $color_aimation_flat_open;
+    animation: flatOpen $duration_flat_open ease-in forwards;
+  }
+}
+
+@keyframes hideOpening {
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
+@keyframes lineOpen {
+  0% {
+    width: 0;
+    height: 20px;
+  }
+  50% {
+    width: 100%;
+    height: 20px;
+  }
+  90%,
+  100% {
+    width: 100%;
+    height: 100%;
+  }
+}
+@keyframes flatOpen {
+  60% {
+    width: 100%;
+    height: 0;
+  }
+  90%,
+  100% {
+    width: 100%;
+    height: 160%;
+  }
+}
