@@ -18,6 +18,7 @@ $bubble_size: 50vmin;
   position: relative;
   border-radius: 50%;
   box-shadow: 2px 20px 20px #3884af;
+  animation: turn 10s linear forwards infinite;
 
   &::after {
     content: "";
@@ -100,7 +101,7 @@ $bubble_size: 50vmin;
     z-index: 4;
   }
   &::before {
-    background-color: #0E5196;
+    background-color: #0e5196;
     animation: scale0-1 0.2s ease 0s forwards;
   }
   &::after {
@@ -108,4 +109,7 @@ $bubble_size: 50vmin;
     animation: scale0-1 0.2s ease 0.1s forwards;
   }
   animation: fadeout 0.01s ease 0.3s forwards;
+  span {
+    display: none;
+  }
 }

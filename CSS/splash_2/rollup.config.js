@@ -1,4 +1,6 @@
+import pug from 'rollup-plugin-pug';
 import scss from "rollup-plugin-scss";
+
 export default {
   input: "src/scripts/index.js",
   output: {

@@ -22,6 +22,14 @@
     transform: scale(1);
   }
 }
+@keyframes turn {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
 body {
   margin: 0;
   padding: 0;
@@ -40,6 +48,7 @@ body {
   position: relative;
   border-radius: 50%;
   box-shadow: 2px 20px 20px #3884af;
+  animation: turn 10s linear forwards infinite;
 }
 .bubble::after {
   content: "";
@@ -109,10 +118,13 @@ body {
   z-index: 4;
 }
 .bubble[data-state=clicked]::before {
-  background-color: #0E5196;
+  background-color: #0e5196;
   animation: scale0-1 0.2s ease 0s forwards;
 }
 .bubble[data-state=clicked]::after {
   background-color: #fff;
   animation: scale0-1 0.2s ease 0.1s forwards;
+}
+.bubble[data-state=clicked] span {
+  display: none;
 }

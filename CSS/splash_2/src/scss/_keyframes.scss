@@ -22,3 +22,11 @@
     transform: scale(1);
   }
 }
+@keyframes turn {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
