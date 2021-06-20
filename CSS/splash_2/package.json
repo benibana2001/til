@@ -1,0 +1,23 @@
+{
+  "name": "splash_2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main04.js",
+  "scripts": {
+    "sass:build": "npx sass --no-souce-map --style=compressed style07.scss:style07.css",
+    "sass:watch": "npx sass  --style=compressed --watch ./:./",
+    "build": "npx rollup -c",
+    "watch": "npx rollup -c -w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0",
+    "rollup": "^2.52.1",
+    "rollup-plugin-scss": "^2.6.1",
+    "sass": "^1.34.1"
+  }
+}
