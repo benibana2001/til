@@ -12,6 +12,7 @@
   }
   to {
     opacity: 0;
+    visibility: hidden;
   }
 }
 @keyframes scale0-1 {
@@ -22,11 +23,15 @@
     transform: scale(1);
   }
 }
-@keyframes turn {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(1turn);
+
+@for $i from 1 through 10 {
+  @keyframes turn#{$i} {
+    $random: random(10) / 10;
+    from {
+      transform: rotate(#{$random}turn);
+    }
+    to {
+      transform: rotate(#{1 + $random}turn);
+    }
   }
 }

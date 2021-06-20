@@ -12,6 +12,7 @@
   }
   to {
     opacity: 0;
+    visibility: hidden;
   }
 }
 @keyframes scale0-1 {
@@ -22,12 +23,84 @@
     transform: scale(1);
   }
 }
-@keyframes turn {
+@keyframes turn1 {
   from {
-    transform: rotate(0deg);
+    transform: rotate(0.8turn);
   }
   to {
+    transform: rotate(1.8turn);
+  }
+}
+@keyframes turn2 {
+  from {
+    transform: rotate(0.3turn);
+  }
+  to {
+    transform: rotate(1.3turn);
+  }
+}
+@keyframes turn3 {
+  from {
+    transform: rotate(0.3turn);
+  }
+  to {
+    transform: rotate(1.3turn);
+  }
+}
+@keyframes turn4 {
+  from {
+    transform: rotate(0.6turn);
+  }
+  to {
+    transform: rotate(1.6turn);
+  }
+}
+@keyframes turn5 {
+  from {
+    transform: rotate(0.5turn);
+  }
+  to {
+    transform: rotate(1.5turn);
+  }
+}
+@keyframes turn6 {
+  from {
+    transform: rotate(0.9turn);
+  }
+  to {
+    transform: rotate(1.9turn);
+  }
+}
+@keyframes turn7 {
+  from {
     transform: rotate(1turn);
+  }
+  to {
+    transform: rotate(2turn);
+  }
+}
+@keyframes turn8 {
+  from {
+    transform: rotate(0.6turn);
+  }
+  to {
+    transform: rotate(1.6turn);
+  }
+}
+@keyframes turn9 {
+  from {
+    transform: rotate(0.5turn);
+  }
+  to {
+    transform: rotate(1.5turn);
+  }
+}
+@keyframes turn10 {
+  from {
+    transform: rotate(1turn);
+  }
+  to {
+    transform: rotate(2turn);
   }
 }
 body {
@@ -43,12 +116,11 @@ body {
 
 .bubble {
   transition: 1s all;
-  width: 50vmin;
-  height: 50vmin;
-  position: relative;
+  width: 80vmin;
+  height: 80vmin;
+  position: absolute;
   border-radius: 50%;
   box-shadow: 2px 20px 20px #3884af;
-  animation: turn 10s linear forwards infinite;
 }
 .bubble::after {
   content: "";
@@ -96,10 +168,139 @@ body {
   filter: blur(8px);
 }
 .bubble span:nth-child(2) {
-  background-image: url("../src/images/character03.png");
   background-size: 90% auto;
   background-position: 80% 0;
   z-index: 1;
+}
+
+.bubble:nth-child(1) {
+  width: 92vmin;
+  height: 92vmin;
+  z-index: 5;
+  top: 24vmin;
+  left: -6vmin;
+}
+
+.bubble:nth-child(1) span:nth-child(2) {
+  background-image: url("../src/images/character1.png");
+  animation: turn1 5s linear forwards infinite;
+}
+
+.bubble:nth-child(2) {
+  width: 36vmin;
+  height: 36vmin;
+  z-index: 8;
+  top: 52vmin;
+  left: 22vmin;
+}
+
+.bubble:nth-child(2) span:nth-child(2) {
+  background-image: url("../src/images/character2.png");
+  animation: turn2 9s linear forwards infinite;
+}
+
+.bubble:nth-child(3) {
+  width: 69.3333333333vmin;
+  height: 69.3333333333vmin;
+  z-index: 1;
+  top: -24.6666666667vmin;
+  left: 35.3333333333vmin;
+}
+
+.bubble:nth-child(3) span:nth-child(2) {
+  background-image: url("../src/images/character3.png");
+  animation: turn3 17s linear forwards infinite;
+}
+
+.bubble:nth-child(4) {
+  width: 76vmin;
+  height: 76vmin;
+  z-index: 8;
+  top: -28vmin;
+  left: -28vmin;
+}
+
+.bubble:nth-child(4) span:nth-child(2) {
+  background-image: url("../src/images/character4.png");
+  animation: turn4 3s linear forwards infinite;
+}
+
+.bubble:nth-child(5) {
+  width: 62.6666666667vmin;
+  height: 62.6666666667vmin;
+  z-index: 1;
+  top: 48.6666666667vmin;
+  left: 8.6666666667vmin;
+}
+
+.bubble:nth-child(5) span:nth-child(2) {
+  background-image: url("../src/images/character5.png");
+  animation: turn5 6s linear forwards infinite;
+}
+
+.bubble:nth-child(6) {
+  width: 46.6666666667vmin;
+  height: 46.6666666667vmin;
+  z-index: 4;
+  top: 76.6666666667vmin;
+  left: -3.3333333333vmin;
+}
+
+.bubble:nth-child(6) span:nth-child(2) {
+  background-image: url("../src/images/character6.png");
+  animation: turn6 10s linear forwards infinite;
+}
+
+.bubble:nth-child(7) {
+  width: 60vmin;
+  height: 60vmin;
+  z-index: 6;
+  top: 50vmin;
+  left: 70vmin;
+}
+
+.bubble:nth-child(7) span:nth-child(2) {
+  background-image: url("../src/images/character7.png");
+  animation: turn7 12s linear forwards infinite;
+}
+
+.bubble:nth-child(8) {
+  width: 22.6666666667vmin;
+  height: 22.6666666667vmin;
+  z-index: 1;
+  top: 68.6666666667vmin;
+  left: 88.6666666667vmin;
+}
+
+.bubble:nth-child(8) span:nth-child(2) {
+  background-image: url("../src/images/character8.png");
+  animation: turn8 8s linear forwards infinite;
+}
+
+.bubble:nth-child(9) {
+  width: 84vmin;
+  height: 84vmin;
+  z-index: 4;
+  top: -2vmin;
+  left: 38vmin;
+}
+
+.bubble:nth-child(9) span:nth-child(2) {
+  background-image: url("../src/images/character9.png");
+  animation: turn9 5s linear forwards infinite;
+}
+
+.bubble:nth-child(10) {
+  width: 78.6666666667vmin;
+  height: 78.6666666667vmin;
+  z-index: 2;
+  top: 0.6666666667vmin;
+  left: 50.6666666667vmin;
+}
+
+.bubble:nth-child(10) span:nth-child(2) {
+  background-image: url("../src/images/character10.png");
+  animation: turn10 5s linear forwards infinite;
 }
 
 .bubble[data-state=clicked] {

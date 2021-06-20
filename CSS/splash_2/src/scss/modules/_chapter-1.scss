@@ -3,7 +3,8 @@ body {
   padding: 0;
 }
 
-$bubble_size: 50vmin;
+$max_bubble_size: 80vmin;
+$min_bubble_size: 20vmin;
 
 .chapter-1 {
   width: 100vw;
@@ -13,12 +14,11 @@ $bubble_size: 50vmin;
 
 .bubble {
   transition: 1s all;
-  width: $bubble_size;
-  height: $bubble_size;
-  position: relative;
+  width: $max_bubble_size;
+  height: $max_bubble_size;
+  position: absolute;
   border-radius: 50%;
   box-shadow: 2px 20px 20px #3884af;
-  animation: turn 10s linear forwards infinite;
 
   &::after {
     content: "";
@@ -79,10 +79,32 @@ $bubble_size: 50vmin;
   }
 
   span:nth-child(2) {
-    background-image: url("../src/images/character03.png");
     background-size: 90% auto;
     background-position: 80% 0;
     z-index: 1;
+  }
+}
+
+@for $i from 1 through 10 {
+  .bubble:nth-child(#{$i}) {
+    $diff: $max_bubble_size - $min_bubble_size;
+    $randomSize: $min_bubble_size +
+      ($max_bubble_size * (random($diff) / $diff));
+    $randomZIndex: random(10);
+    // TODO: vminではなくvh, vwを使用して画面いっぱいに分散させたい. unit違いにより計算できない.
+    $top: 100vmin * random(10) / 10;
+    $left: 100vmin * (random(10) / 10);
+
+    width: $randomSize;
+    height: $randomSize;
+    z-index: $randomZIndex;
+    top: $top - ($randomSize / 2);
+    left: $left - ($randomSize / 2);
+  }
+  .bubble:nth-child(#{$i}) span:nth-child(2) {
+    $turn_time: random(20);
+    background-image: url("../src/images/character#{$i}.png");
+    animation: turn#{$i} #{$turn_time}s linear forwards infinite;
   }
 }
 
