@@ -12,6 +12,7 @@ $bubble_size: 50vmin;
 }
 
 .bubble {
+  transition: 1s all;
   width: $bubble_size;
   height: $bubble_size;
   position: relative;
@@ -45,11 +46,15 @@ $bubble_size: 50vmin;
     );
     z-index: 2;
 
+    &::before,
+    &::after {
+      position: absolute;
+      content: "";
+    }
+
     &::before {
       $w: 60%;
       $h: 24%;
-      position: absolute;
-      content: "";
       top: $h / 4;
       left: (100%/2) - $w/2;
       width: $w;
@@ -57,18 +62,50 @@ $bubble_size: 50vmin;
       border-radius: 50%;
       background-color: rgba(255, 255, 255, 0.98);
       filter: blur(10px);
-      //   background-image: radial-gradient(
-      //     rgba(255, 255, 255, 1) 0%,
-      //     rgba(255, 255, 255, 1) 40%,
-      //     transparent
-      //   );
+    }
+
+    &::after {
+      $size: 90%;
+      width: $size;
+      height: $size;
+      top: (100% - $size) / 2;
+      left: (100% - $size) / 2;
+      border-radius: 50%;
+      background-color: transparent;
+      box-shadow: inset 0px -20px 0 3px rgba(255, 255, 255, 0.98);
+      filter: blur(8px);
     }
   }
 
   span:nth-child(2) {
     background-image: url("../src/images/character03.png");
-    background-position: 20px 0;
-    background-size: cover;
+    background-size: 90% auto;
+    background-position: 80% 0;
     z-index: 1;
   }
+}
+
+.bubble[data-state="clicked"] {
+  &::before,
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    transform: scale(0);
+    z-index: 4;
+  }
+  &::before {
+    background-color: #0E5196;
+    animation: scale0-1 0.2s ease 0s forwards;
+  }
+  &::after {
+    background-color: #fff;
+    animation: scale0-1 0.2s ease 0.1s forwards;
+  }
+  animation: fadeout 0.01s ease 0.3s forwards;
 }
