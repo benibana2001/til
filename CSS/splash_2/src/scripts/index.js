@@ -1,5 +1,5 @@
 import "../scss/style.scss";
-import { addEvent, startChapter1 } from "./state.js";
+import { addEvent, startChapter2 } from "./state.js";
 
 addEvent();
-startChapter1();
+startChapter2();

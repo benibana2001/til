@@ -23,7 +23,7 @@
     transform: scale(1);
   }
 }
-@keyframes turn1 {
+@keyframes chapter1_turn1 {
   from {
     transform: rotate(0.2turn);
   }
@@ -31,23 +31,7 @@
     transform: rotate(1.2turn);
   }
 }
-@keyframes turn2 {
-  from {
-    transform: rotate(0.4turn);
-  }
-  to {
-    transform: rotate(1.4turn);
-  }
-}
-@keyframes turn3 {
-  from {
-    transform: rotate(0.3turn);
-  }
-  to {
-    transform: rotate(1.3turn);
-  }
-}
-@keyframes turn4 {
+@keyframes chapter1_turn2 {
   from {
     transform: rotate(0.9turn);
   }
@@ -55,15 +39,7 @@
     transform: rotate(1.9turn);
   }
 }
-@keyframes turn5 {
-  from {
-    transform: rotate(0.4turn);
-  }
-  to {
-    transform: rotate(1.4turn);
-  }
-}
-@keyframes turn6 {
+@keyframes chapter1_turn3 {
   from {
     transform: rotate(0.5turn);
   }
@@ -71,36 +47,84 @@
     transform: rotate(1.5turn);
   }
 }
-@keyframes turn7 {
+@keyframes chapter1_turn4 {
   from {
-    transform: rotate(0.7turn);
+    transform: rotate(0.6turn);
   }
   to {
-    transform: rotate(1.7turn);
+    transform: rotate(1.6turn);
   }
 }
-@keyframes turn8 {
+@keyframes chapter1_turn5 {
   from {
-    transform: rotate(1turn);
+    transform: rotate(0.4turn);
   }
   to {
-    transform: rotate(2turn);
+    transform: rotate(1.4turn);
   }
 }
-@keyframes turn9 {
+@keyframes chapter1_turn6 {
   from {
-    transform: rotate(0.3turn);
+    transform: rotate(0.6turn);
   }
   to {
-    transform: rotate(1.3turn);
+    transform: rotate(1.6turn);
   }
 }
-@keyframes turn10 {
+@keyframes chapter1_turn7 {
   from {
-    transform: rotate(0.2turn);
+    transform: rotate(0.9turn);
   }
   to {
-    transform: rotate(1.2turn);
+    transform: rotate(1.9turn);
+  }
+}
+@keyframes chapter1_turn8 {
+  from {
+    transform: rotate(0.5turn);
+  }
+  to {
+    transform: rotate(1.5turn);
+  }
+}
+@keyframes chapter1_turn9 {
+  from {
+    transform: rotate(0.4turn);
+  }
+  to {
+    transform: rotate(1.4turn);
+  }
+}
+@keyframes chapter1_turn10 {
+  from {
+    transform: rotate(0.5turn);
+  }
+  to {
+    transform: rotate(1.5turn);
+  }
+}
+@keyframes chapter1_float {
+  0% {
+    transform: translate(-10%, 100vh);
+  }
+  100% {
+    transform: translate(0, -200vh);
+  }
+}
+@keyframes chapter1_float_end {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(0, -300vh);
+  }
+}
+@keyframes chapter1_swing {
+  from {
+    transform: translateX(50px);
+  }
+  to {
+    transform: translateX(-50px);
   }
 }
 .chapter-1[data-state=active] {
@@ -462,122 +486,414 @@ body {
   background-position: 80% 0;
   z-index: 1;
 }
+.chapter-2[data-state=active] .bubble:hover {
+  cursor: pointer;
+}
 .chapter-2[data-state=active] .bubble:nth-child(1) {
-  width: 94.6666666667vmin;
-  height: 94.6666666667vmin;
-  z-index: 1;
-  top: 22.6666666667vmin;
-  left: -17.3333333333vmin;
+  width: 69.3333333333vmin;
+  height: 69.3333333333vmin;
+  z-index: 10;
+  animation: chapter1_float 16s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
 }
 .chapter-2[data-state=active] .bubble:nth-child(1) span:nth-child(2) {
-  background-image: url("../src/images/character1.png");
-  animation: turn1 8s linear forwards infinite;
+  background-image: url("../src/images/character2.png");
+  animation: chapter1_turn2 20s linear forwards infinite;
 }
 .chapter-2[data-state=active] .bubble:nth-child(2) {
-  width: 65.3333333333vmin;
-  height: 65.3333333333vmin;
-  z-index: 4;
-  top: 7.3333333333vmin;
-  left: 27.3333333333vmin;
-}
-.chapter-2[data-state=active] .bubble:nth-child(2) span:nth-child(2) {
-  background-image: url("../src/images/character2.png");
-  animation: turn2 7s linear forwards infinite;
-}
-.chapter-2[data-state=active] .bubble:nth-child(3) {
-  width: 40vmin;
-  height: 40vmin;
-  z-index: 7;
-  top: 0vmin;
-  left: -10vmin;
-}
-.chapter-2[data-state=active] .bubble:nth-child(3) span:nth-child(2) {
-  background-image: url("../src/images/character3.png");
-  animation: turn3 13s linear forwards infinite;
-}
-.chapter-2[data-state=active] .bubble:nth-child(4) {
   width: 53.3333333333vmin;
   height: 53.3333333333vmin;
-  z-index: 6;
-  top: -16.6666666667vmin;
-  left: 23.3333333333vmin;
+  z-index: 3;
+  animation: chapter1_float 3s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(2) span:nth-child(2) {
+  background-image: url("../src/images/character3.png");
+  animation: chapter1_turn3 16s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(3) {
+  width: 37.3333333333vmin;
+  height: 37.3333333333vmin;
+  z-index: 3;
+  animation: chapter1_float 30s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(3) span:nth-child(2) {
+  background-image: url("../src/images/character4.png");
+  animation: chapter1_turn4 8s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(4) {
+  width: 93.3333333333vmin;
+  height: 93.3333333333vmin;
+  z-index: 2;
+  animation: chapter1_float 24s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
 }
 .chapter-2[data-state=active] .bubble:nth-child(4) span:nth-child(2) {
-  background-image: url("../src/images/character4.png");
-  animation: turn4 6s linear forwards infinite;
+  background-image: url("../src/images/character5.png");
+  animation: chapter1_turn5 11s linear forwards infinite;
 }
 .chapter-2[data-state=active] .bubble:nth-child(5) {
-  width: 50.6666666667vmin;
-  height: 50.6666666667vmin;
-  z-index: 7;
-  top: 44.6666666667vmin;
-  left: -15.3333333333vmin;
+  width: 86.6666666667vmin;
+  height: 86.6666666667vmin;
+  z-index: 10;
+  animation: chapter1_float 14s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
 }
 .chapter-2[data-state=active] .bubble:nth-child(5) span:nth-child(2) {
-  background-image: url("../src/images/character5.png");
-  animation: turn5 20s linear forwards infinite;
+  background-image: url("../src/images/character6.png");
+  animation: chapter1_turn6 10s linear forwards infinite;
 }
 .chapter-2[data-state=active] .bubble:nth-child(6) {
-  width: 78.6666666667vmin;
-  height: 78.6666666667vmin;
+  width: 68vmin;
+  height: 68vmin;
   z-index: 9;
-  top: -9.3333333333vmin;
-  left: 20.6666666667vmin;
+  animation: chapter1_float 26s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
 }
 .chapter-2[data-state=active] .bubble:nth-child(6) span:nth-child(2) {
-  background-image: url("../src/images/character6.png");
-  animation: turn6 11s linear forwards infinite;
+  background-image: url("../src/images/character7.png");
+  animation: chapter1_turn7 17s linear forwards infinite;
 }
 .chapter-2[data-state=active] .bubble:nth-child(7) {
-  width: 85.3333333333vmin;
-  height: 85.3333333333vmin;
-  z-index: 3;
-  top: 17.3333333333vmin;
-  left: 27.3333333333vmin;
+  width: 76vmin;
+  height: 76vmin;
+  z-index: 1;
+  animation: chapter1_float 4s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
 }
 .chapter-2[data-state=active] .bubble:nth-child(7) span:nth-child(2) {
-  background-image: url("../src/images/character7.png");
-  animation: turn7 18s linear forwards infinite;
+  background-image: url("../src/images/character8.png");
+  animation: chapter1_turn8 11s linear forwards infinite;
 }
 .chapter-2[data-state=active] .bubble:nth-child(8) {
-  width: 100vmin;
-  height: 100vmin;
-  z-index: 9;
-  top: -10vmin;
-  left: 20vmin;
+  width: 80vmin;
+  height: 80vmin;
+  z-index: 8;
+  animation: chapter1_float 22s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
 }
 .chapter-2[data-state=active] .bubble:nth-child(8) span:nth-child(2) {
-  background-image: url("../src/images/character8.png");
-  animation: turn8 2s linear forwards infinite;
+  background-image: url("../src/images/character9.png");
+  animation: chapter1_turn9 20s linear forwards infinite;
 }
 .chapter-2[data-state=active] .bubble:nth-child(9) {
-  width: 48vmin;
-  height: 48vmin;
-  z-index: 4;
-  top: 26vmin;
-  left: 16vmin;
+  width: 29.3333333333vmin;
+  height: 29.3333333333vmin;
+  z-index: 7;
+  animation: chapter1_float 2s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
 }
 .chapter-2[data-state=active] .bubble:nth-child(9) span:nth-child(2) {
-  background-image: url("../src/images/character9.png");
-  animation: turn9 16s linear forwards infinite;
+  background-image: url("../src/images/character1.png");
+  animation: chapter1_turn1 4s linear forwards infinite;
 }
 .chapter-2[data-state=active] .bubble:nth-child(10) {
-  width: 81.3333333333vmin;
-  height: 81.3333333333vmin;
-  z-index: 8;
-  top: 59.3333333333vmin;
-  left: -20.6666666667vmin;
+  width: 76vmin;
+  height: 76vmin;
+  z-index: 5;
+  animation: chapter1_float 21s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
 }
 .chapter-2[data-state=active] .bubble:nth-child(10) span:nth-child(2) {
-  background-image: url("../src/images/character10.png");
-  animation: turn10 9s linear forwards infinite;
+  background-image: url("../src/images/character2.png");
+  animation: chapter1_turn2 8s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(11) {
+  width: 98.6666666667vmin;
+  height: 98.6666666667vmin;
+  z-index: 8;
+  animation: chapter1_float 12s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(11) span:nth-child(2) {
+  background-image: url("../src/images/character3.png");
+  animation: chapter1_turn3 4s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(12) {
+  width: 57.3333333333vmin;
+  height: 57.3333333333vmin;
+  z-index: 5;
+  animation: chapter1_float 8s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(12) span:nth-child(2) {
+  background-image: url("../src/images/character4.png");
+  animation: chapter1_turn4 1s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(13) {
+  width: 72vmin;
+  height: 72vmin;
+  z-index: 7;
+  animation: chapter1_float 14s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(13) span:nth-child(2) {
+  background-image: url("../src/images/character5.png");
+  animation: chapter1_turn5 17s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(14) {
+  width: 46.6666666667vmin;
+  height: 46.6666666667vmin;
+  z-index: 3;
+  animation: chapter1_float 16s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(14) span:nth-child(2) {
+  background-image: url("../src/images/character6.png");
+  animation: chapter1_turn6 8s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(15) {
+  width: 84vmin;
+  height: 84vmin;
+  z-index: 8;
+  animation: chapter1_float 24s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(15) span:nth-child(2) {
+  background-image: url("../src/images/character7.png");
+  animation: chapter1_turn7 12s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(16) {
+  width: 46.6666666667vmin;
+  height: 46.6666666667vmin;
+  z-index: 8;
+  animation: chapter1_float 19s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(16) span:nth-child(2) {
+  background-image: url("../src/images/character8.png");
+  animation: chapter1_turn8 2s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(17) {
+  width: 96vmin;
+  height: 96vmin;
+  z-index: 6;
+  animation: chapter1_float 11s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(17) span:nth-child(2) {
+  background-image: url("../src/images/character9.png");
+  animation: chapter1_turn9 19s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(18) {
+  width: 96vmin;
+  height: 96vmin;
+  z-index: 2;
+  animation: chapter1_float 4s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(18) span:nth-child(2) {
+  background-image: url("../src/images/character1.png");
+  animation: chapter1_turn1 6s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(19) {
+  width: 89.3333333333vmin;
+  height: 89.3333333333vmin;
+  z-index: 1;
+  animation: chapter1_float 18s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(19) span:nth-child(2) {
+  background-image: url("../src/images/character2.png");
+  animation: chapter1_turn2 1s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(20) {
+  width: 40vmin;
+  height: 40vmin;
+  z-index: 9;
+  animation: chapter1_float 18s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(20) span:nth-child(2) {
+  background-image: url("../src/images/character3.png");
+  animation: chapter1_turn3 19s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(21) {
+  width: 46.6666666667vmin;
+  height: 46.6666666667vmin;
+  z-index: 6;
+  animation: chapter1_float 12s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(21) span:nth-child(2) {
+  background-image: url("../src/images/character4.png");
+  animation: chapter1_turn4 20s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(22) {
+  width: 28vmin;
+  height: 28vmin;
+  z-index: 6;
+  animation: chapter1_float 30s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(22) span:nth-child(2) {
+  background-image: url("../src/images/character5.png");
+  animation: chapter1_turn5 3s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(23) {
+  width: 25.3333333333vmin;
+  height: 25.3333333333vmin;
+  z-index: 7;
+  animation: chapter1_float 15s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(23) span:nth-child(2) {
+  background-image: url("../src/images/character6.png");
+  animation: chapter1_turn6 14s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(24) {
+  width: 85.3333333333vmin;
+  height: 85.3333333333vmin;
+  z-index: 5;
+  animation: chapter1_float 27s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(24) span:nth-child(2) {
+  background-image: url("../src/images/character7.png");
+  animation: chapter1_turn7 3s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(25) {
+  width: 54.6666666667vmin;
+  height: 54.6666666667vmin;
+  z-index: 4;
+  animation: chapter1_float 25s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(25) span:nth-child(2) {
+  background-image: url("../src/images/character8.png");
+  animation: chapter1_turn8 15s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(26) {
+  width: 30.6666666667vmin;
+  height: 30.6666666667vmin;
+  z-index: 3;
+  animation: chapter1_float 4s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(26) span:nth-child(2) {
+  background-image: url("../src/images/character9.png");
+  animation: chapter1_turn9 6s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(27) {
+  width: 48vmin;
+  height: 48vmin;
+  z-index: 8;
+  animation: chapter1_float 9s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(27) span:nth-child(2) {
+  background-image: url("../src/images/character1.png");
+  animation: chapter1_turn1 5s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(28) {
+  width: 69.3333333333vmin;
+  height: 69.3333333333vmin;
+  z-index: 9;
+  animation: chapter1_float 23s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(28) span:nth-child(2) {
+  background-image: url("../src/images/character2.png");
+  animation: chapter1_turn2 16s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(29) {
+  width: 80vmin;
+  height: 80vmin;
+  z-index: 10;
+  animation: chapter1_float 20s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(29) span:nth-child(2) {
+  background-image: url("../src/images/character3.png");
+  animation: chapter1_turn3 1s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(30) {
+  width: 64vmin;
+  height: 64vmin;
+  z-index: 5;
+  animation: chapter1_float 14s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(30) span:nth-child(2) {
+  background-image: url("../src/images/character4.png");
+  animation: chapter1_turn4 12s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(31) {
+  width: 98.6666666667vmin;
+  height: 98.6666666667vmin;
+  z-index: 9;
+  animation: chapter1_float 30s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(31) span:nth-child(2) {
+  background-image: url("../src/images/character5.png");
+  animation: chapter1_turn5 2s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(32) {
+  width: 37.3333333333vmin;
+  height: 37.3333333333vmin;
+  z-index: 5;
+  animation: chapter1_float 11s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(32) span:nth-child(2) {
+  background-image: url("../src/images/character6.png");
+  animation: chapter1_turn6 13s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(33) {
+  width: 92vmin;
+  height: 92vmin;
+  z-index: 1;
+  animation: chapter1_float 19s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(33) span:nth-child(2) {
+  background-image: url("../src/images/character7.png");
+  animation: chapter1_turn7 13s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(34) {
+  width: 96vmin;
+  height: 96vmin;
+  z-index: 1;
+  animation: chapter1_float 22s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(34) span:nth-child(2) {
+  background-image: url("../src/images/character8.png");
+  animation: chapter1_turn8 8s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(35) {
+  width: 69.3333333333vmin;
+  height: 69.3333333333vmin;
+  z-index: 10;
+  animation: chapter1_float 8s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(35) span:nth-child(2) {
+  background-image: url("../src/images/character9.png");
+  animation: chapter1_turn9 19s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(36) {
+  width: 69.3333333333vmin;
+  height: 69.3333333333vmin;
+  z-index: 5;
+  animation: chapter1_float 22s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(36) span:nth-child(2) {
+  background-image: url("../src/images/character1.png");
+  animation: chapter1_turn1 9s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(37) {
+  width: 73.3333333333vmin;
+  height: 73.3333333333vmin;
+  z-index: 3;
+  animation: chapter1_float 9s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(37) span:nth-child(2) {
+  background-image: url("../src/images/character2.png");
+  animation: chapter1_turn2 8s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(38) {
+  width: 57.3333333333vmin;
+  height: 57.3333333333vmin;
+  z-index: 2;
+  animation: chapter1_float 1s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(38) span:nth-child(2) {
+  background-image: url("../src/images/character3.png");
+  animation: chapter1_turn3 11s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(39) {
+  width: 64vmin;
+  height: 64vmin;
+  z-index: 10;
+  animation: chapter1_float 18s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(39) span:nth-child(2) {
+  background-image: url("../src/images/character4.png");
+  animation: chapter1_turn4 5s linear forwards infinite;
+}
+.chapter-2[data-state=active] .bubble:nth-child(40) {
+  width: 37.3333333333vmin;
+  height: 37.3333333333vmin;
+  z-index: 3;
+  animation: chapter1_float 10s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards;
+}
+.chapter-2[data-state=active] .bubble:nth-child(40) span:nth-child(2) {
+  background-image: url("../src/images/character5.png");
+  animation: chapter1_turn5 3s linear forwards infinite;
 }
 .chapter-2[data-state=active] .bubble[data-state=clicked] {
   animation: fadeout 0.01s ease 0.3s forwards;
 }
 .chapter-2[data-state=active] .bubble[data-state=clicked]::before, .chapter-2[data-state=active] .bubble[data-state=clicked]::after {
   content: "";
-  display: block;
   position: absolute;
   top: 0;
   left: 0;

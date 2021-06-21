@@ -25,7 +25,7 @@
 }
 
 @for $i from 1 through 10 {
-  @keyframes turn#{$i} {
+  @keyframes chapter1_turn#{$i} {
     $random: random(10) / 10;
     from {
       transform: rotate(#{$random}turn);
@@ -33,5 +33,31 @@
     to {
       transform: rotate(#{1 + $random}turn);
     }
+  }
+}
+
+@keyframes chapter1_float {
+  0% {
+    transform: translate(-10%, 100vh);
+  }
+  100% {
+    transform: translate(0, -200vh);
+  }
+}
+
+@keyframes chapter1_float_end {
+  0% {
+    transform:translate(0, 0);
+  }
+  100% {
+    transform: translate(0, -300vh);
+  }
+}
+@keyframes chapter1_swing {
+  from {
+    transform: translateX(50px);
+  }
+  to {
+    transform: translateX(-50px);
   }
 }

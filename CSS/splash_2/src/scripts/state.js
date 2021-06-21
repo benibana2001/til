@@ -23,4 +23,4 @@ const startChapter2 = () => {
   chapter2.setAttribute("data-state", "active");
 };
 
-export { addEvent, startChapter1 };
+export { addEvent, startChapter2};
