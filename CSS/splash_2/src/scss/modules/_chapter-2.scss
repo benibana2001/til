@@ -3,7 +3,7 @@ body {
   padding: 0;
 }
 
-$max_bubble_size: 80vmin;
+$max_bubble_size: 40vmin;
 $min_bubble_size: 20vmin;
 
 $duration_floating: 3s;
@@ -99,17 +99,17 @@ $duration_float_end: 3s;
         ($max_bubble_size * (random($diff) / $diff));
       $randomZIndex: random(10);
       // TODO: vminではなくvh, vwを使用して画面いっぱいに分散させたい. unit違いにより計算できない.
-    //   $top: 100vmin * random(10) / 10;
-    //   $left: 100vmin * (random(10) / 10);
+      $top: 100vmin * random(10) / 10;
+      $left: 100vmin * (random(10) / 10);
 
       width: $randomSize;
       height: $randomSize;
       z-index: $randomZIndex;
-    //   top: $top - ($randomSize / 2);
-    //   left: $left - ($randomSize / 2);
+      top: $top - ($randomSize / 2);
+      left: $left - ($randomSize / 2);
 
       $float_time: $randomSize;
-      animation: chapter1_float #{random(30)}s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards,
+    //   animation: chapter1_float #{random(30)}s 0s cubic-bezier(0.24, 0.99, 0.79, 1.14) forwards,
     }
     .bubble:nth-child(#{$i}) span:nth-child(2){
       $turn_time: random(20);
