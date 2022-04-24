@@ -6,7 +6,7 @@ export default {
   output: [
     {
       file: "bundle.js",
-      format: "cjs",
+      format: "iife",
     },
     {
       file: "bundle.min.js",
