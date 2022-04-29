@@ -2,7 +2,7 @@
     "type": "module",
     "scripts": {
         "buildLib": "echo 'import * as tmp from \"date-fns\"; window.dateFns = tmp;' | npx esbuild --bundle --minify --charset=utf8 --outfile=date-fns.js",
-        "buildLocales": "echo 'import * as tmp from \"date-fns/locale\"; window.dateFnsLocales = tmp;' | esbuild --bundle --minify --charset=utf8 --outfile=date-fns-locales.js"
+        "buildLocales": "echo 'import * as tmp from \"date-fns/locale\"; window.dateFnsLocales = tmp;' | npx esbuild --bundle --minify --charset=utf8 --outfile=date-fns-locales.js"
     },
     "dependencies": {
         "date-fns": "^2.28.0"
