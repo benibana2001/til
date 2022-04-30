@@ -1,16 +1,16 @@
-const {transform} = require('@babel/core');
+const {transform} = require('@babel/core')
 
-const source = 'console.log(1)';
+const source = 'console.log(1)'
 
-const insertCode = 'console.log(2)';
+const insertCode = 'console.log(2)'
 
 const plugin = ({types: t, template}) => {
     return {
         visitor: {
             Program: {
                 exit: (nodePath, state) => {
-                    const newAst = template(insertCode)();
-                    nodePath.pushContainer('body', newAst);
+                    const newAst = template(insertCode)()
+                    nodePath.pushContainer('body', newAst)
                 }
             }
         }

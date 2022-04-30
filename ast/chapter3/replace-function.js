@@ -1,12 +1,11 @@
-const {transform} = require('@babel/core');
+const {transform} = require('@babel/core')
 
-const source = 'function hoge() {return 1}';
+const source = 'function hoge() {return 1}'
 
-const targetId = 'hoge';
-// const replaceCode = 'function hoge() {return 2}';
-const replaceCode = "function hoge() {return 2}";
+const targetId = 'hoge'
+const replaceCode = 'function hoge() {return 2}'
 
-const WasCreated = Symbol('WasCreated');
+const WasCreated = Symbol('WasCreated')
 
 const plugin = ({types: t, template}) => {
     return {
@@ -16,13 +15,14 @@ const plugin = ({types: t, template}) => {
                     return
                 }
                 if(nodePath.node.id.name === targetId) {
-                    const newAst = template(replaceCode)();
-                    nodePath.replaceWith(newAst);
-                    nodePath[WasCreated] = true;
+                    const newAst = template(replaceCode)()
+                    nodePath.replaceWith(newAst)
+                    nodePath[WasCreated] = true
                 }
             }
         }
     }
 }
-
-console.log(transform(source, {plugins: [plugin]}).code)
+const {code} = transform(source, {plugins: [plugin]})
+console.log(code)
+// console.log(transform(source, {plugins: [plugin]}).code)
