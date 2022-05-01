@@ -1,12 +1,13 @@
 {
   "scripts": {
-      "build": "npx esbuild --bundle ./test/sample_src/index.js --outfile=./test/sample_src/out.js --format=cjs --tree-shaking=false",
-      "build:inject": "npx esbuild --bundle ./test/esbuild_inject/index.js --outfile=./test/esbuild_inject/out.js --format=iife --tree-shaking=false"
+    "build": "npx esbuild --bundle ./test/sample_src/index.js --outfile=./test/sample_src/out.js --format=cjs --tree-shaking=false",
+    "build:inject": "npx esbuild --bundle ./test/esbuild_inject/index.js --outfile=./test/esbuild_inject/out.js --format=iife --tree-shaking=false"
   },
   "dependencies": {
     "@babel/core": "^7.17.9",
     "ast-pretty-print": "^2.0.1",
     "babel-log": "^2.0.0",
+    "babel-plugin-export-window-declarations": "^0.1.0",
     "babylon": "^6.18.0",
     "esbuild": "^0.14.38"
   }
