@@ -1,5 +1,4 @@
 {
-  "type": "module",
   "scripts": {
       "build": "npx esbuild --bundle ./test/sample_src/index.js --outfile=./test/sample_src/out.js --format=cjs --tree-shaking=false",
       "build:inject": "npx esbuild --bundle ./test/esbuild_inject/index.js --outfile=./test/esbuild_inject/out.js --format=iife --tree-shaking=false"
