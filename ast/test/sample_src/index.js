@@ -11,4 +11,4 @@ const moduleObjects = async () => {
   );
 };
 
-moduleObjects().then((res) => console.log(res));
+moduleObjects().then((res) => Object.assign(window, res));
