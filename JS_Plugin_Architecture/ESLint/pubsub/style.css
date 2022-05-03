@@ -1,0 +1,12 @@
+.flex-box {
+  display: flex;
+  gap: 10px;
+}
+.box {
+  --size: 100px;
+  display: block;
+  width: var(--size);
+  height: var(--size);
+  background-color: #888888;
+  transition: 0.4s ease-out;
+}
