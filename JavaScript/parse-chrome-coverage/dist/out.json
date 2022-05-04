@@ -1,0 +1,34 @@
+[
+  {
+    "url": "http://easecoffee.starfree.jp/css/jquery.bxslider.css",
+    "totalBytes": 3684,
+    "usedBytes": 2497,
+    "usedBytesPer": 67.77958740499457,
+    "unUsedBytes": 1187,
+    "unUsedBytesPer": 32.22041259500543
+  },
+  {
+    "url": "http://easecoffee.starfree.jp/css/style_HF.css",
+    "totalBytes": 3990,
+    "usedBytes": 2920,
+    "usedBytesPer": 73.1829573934837,
+    "unUsedBytes": 1070,
+    "unUsedBytesPer": 26.81704260651629
+  },
+  {
+    "url": "http://easecoffee.starfree.jp/css/style_HOME.css",
+    "totalBytes": 2902,
+    "usedBytes": 1438,
+    "usedBytesPer": 49.55203308063405,
+    "unUsedBytes": 1464,
+    "unUsedBytesPer": 50.44796691936595
+  },
+  {
+    "url": "https://platform.twitter.com/css/timeline.2fcb295ab98c2ce26f4cca0d2b2d0f48.light.ltr.css",
+    "totalBytes": 53760,
+    "usedBytes": 15150,
+    "usedBytesPer": 28.18080357142857,
+    "unUsedBytes": 38610,
+    "unUsedBytesPer": 71.81919642857143
+  }
+]
