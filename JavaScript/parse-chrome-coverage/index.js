@@ -49,7 +49,7 @@ fs.writeFileSync(
           usedBytes,
           usedBytesPer,
           unUsedBytes: totalBytes - usedBytes,
-          unUsedBytesPer: ((totalBytes - usedBytes) / totalBytes) * 100,
+          unUsedBytesPer: (totalBytes - usedBytes) / totalBytes * 100,
         };
       })
   )
