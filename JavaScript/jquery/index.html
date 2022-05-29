@@ -1,0 +1,35 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <p>このもじは緑色になります。</p>
+  <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+      $.fn.doSomething = function () {
+        console.log(this);
+      };
+      $.fn.hoge = function (a) {
+        console.log(a);
+      };
+      $.fn.fuga = 100;
+      $.fn.obj = {
+        x: 100,
+        y: -1,
+        say(name) {
+          console.log(`My name is ${name}`);
+        },
+      };
+      $.fn.greenify = function () {
+        this.css("color", "green");
+        return this;
+      };
+
+      $("p").greenify();
+    </script>
+  </body>
+</html>
