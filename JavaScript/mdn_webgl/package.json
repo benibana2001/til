@@ -1,0 +1,16 @@
+{
+  "name": "mdn_webgl",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "dev": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "gl-matrix": "^3.4.3",
+    "parcel-bundler": "^1.12.5"
+  }
+}
