@@ -5,6 +5,7 @@ import utilStyles from "../styles/utils.module.css";
 import { getSortedPostsDate } from "../lib/posts";
 import { Button } from "../components/Button";
 import Menu, { recipeData }  from "../components/Menu";
+import Ticket from "../components/Ticket";
 
 export async function getStaticProps() {
   const allPostsData = getSortedPostsDate();
@@ -37,6 +38,7 @@ export default function Home({ allPostsData }) {
         </ul>
         <Button text="ボタン"></Button>
       </section>
+      <Ticket title="TITLE_TICKET" />
       <Menu recipes={recipeData} />
     </Layout>
   );
