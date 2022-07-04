@@ -1,11 +1,11 @@
 import Head from "next/head";
 import Link from "next/link";
+import { useState } from "react";
 import Layout, { siteTitle } from "../components/layout";
-import utilStyles from "../styles/utils.module.css";
 import { getSortedPostsDate } from "../lib/posts";
-import { Button } from "../components/Button";
-import Menu, { recipeData }  from "../components/Menu";
-import Ticket from "../components/Ticket";
+import Column from "../components/Column";
+import { DragDropContext } from "react-beautiful-dnd";
+import { initialData } from "./initail-data";
 
 export async function getStaticProps() {
   const allPostsData = getSortedPostsDate();
@@ -17,29 +17,40 @@ export async function getStaticProps() {
 }
 
 export default function Home({ allPostsData }) {
+  const [state, setState] = useState(initialData);
+  const column = (id) => state.columns[id];
+  const tasks = (id) =>
+    column(id).ticketIds.map((ticketId) => state.tickets[ticketId]);
+  const addCount = () => {
+    setState((prevState) => ({
+      ...prevState,
+      count: prevState.count + 1,
+    }));
+  };
+
+  const onDragEnd = (result) => {
+    // TODO: reorder our column
+  };
+
   return (
     <Layout home>
       <Head>
         <title>{siteTitle}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className={utilStyles.headingLg}> Blog</h2>
-        <ul className={utilStyles.list}>
-          {allPostsData.map(({ id, date, title }) => (
-            <li className={utilStyles.listItem} key={id}>
-              {title}
-              <br />
-              {id}
-              <br />
-              {date}
-            </li>
-          ))}
-        </ul>
-        <Button text="ボタン"></Button>
-      </section>
-      <Ticket title="TITLE_TICKET" />
-      <Menu recipes={recipeData} />
+
+      <DragDropContext onDragEnd={onDragEnd}>
+        {state.coloumnOrder.map((columnId) => {
+          const column = state.columns[columnId];
+          const tickets = column.ticketIds.map(
+            (ticketId) => state.tickets[ticketId]
+          );
+          return <Column key={column.id} column={column} tickets={tickets} />;
+        })}
+      </DragDropContext>
+
+      {/* <Ticket title="TITLE_TICKET" /> */}
+      {/* <Menu recipes={recipeData} /> */}
     </Layout>
   );
 }
