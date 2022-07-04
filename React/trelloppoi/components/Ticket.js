@@ -12,15 +12,14 @@ export default function Ticket({ ticket, index }) {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          <div className={styles.title}>{ticket.content}</div>
-          {/* <div className={styles.main}>
+          <div className={styles.main}>
             <div className={styles.title}>{ticket.content}</div>
             <div className={styles.avatar}></div>
           </div>
           <div className={styles.sub}>
             <div className={styles.hours}>6</div>
             <div className={styles.hours}>24</div>
-          </div> */}
+          </div>
         </div>
       )}
     </Draggable>

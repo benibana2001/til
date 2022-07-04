@@ -29,7 +29,35 @@ export default function Home({ allPostsData }) {
   };
 
   const onDragEnd = (result) => {
-    // TODO: reorder our column
+    const { destination, source, draggableId } = result;
+    if (!destination) return;
+
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    const column = state.columns[source.droppableId];
+    const newTicketIds = Array.from(column.ticketIds); // create a copy
+    newTicketIds.splice(source.index, 1); // remove a ticket
+    newTicketIds.splice(destination.index, 0, draggableId); // add a ticket
+
+    const newColumn = {
+      ...column,
+      ticketIds: newTicketIds,
+    };
+
+    const newState = {
+      ...state,
+      columns: {
+        ...state.columns,
+        [newColumn.id]: newColumn,
+      },
+    };
+
+    setState(newState)
   };
 
   return (
