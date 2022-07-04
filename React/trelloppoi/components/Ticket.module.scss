@@ -1,20 +1,54 @@
 .ticket {
+  width: 100%;
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.25));
+}
+.wrapper {
   display: flex;
-  width: 320px;
-  filter: drop-shadow(2px 3px 2px rgba(0, 0, 0, 0.25));
+  justify-content: space-between;
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 5px;
 }
-.main {
-  background-color: red;
+.ticket__dragging > .wrapper {
+  transition: 0.1s ease-out;
+  transform: rotate(-2deg);
+  filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.25));
 }
-.sub {
-  background-color: #1f529f;
+.left {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  border-radius: inherit;
 }
-.title {
-  background-color: gray;
+.left > * + * {
+  margin-top: 4px;
+}
+.content {
+  font-size: 16px;
+  word-break: break-all;
+  overflow-wrap: break-word;
 }
 .avatar {
+  width: 28px;
+  height: 28px;
+  background-color: red;
+  border-radius: 50%;
+}
+.right {
+  background-color: #1f529f;
+  padding: 0 10px 0;
+  border-radius: inherit;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 .hours {
-  color: white;
+  text-align: end;
+  font-size: 26px;
   font-weight: bold;
+}
+.hours__consume {
+  color: white;
+}
+.hours__estimate {
+  color: #c7c7c7;
 }

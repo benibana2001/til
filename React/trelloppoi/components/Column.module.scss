@@ -1,7 +1,13 @@
 .container {
-  margin: 80x;
+  width: 320px;
+  margin: 8px;
+  background-color: #DDDDDD;
   border: 1px solid lightgray;
   border-radius: 2px;
+}
+
+.container > div > * + * {
+  margin-top: 6px;
 }
 
 .title {
