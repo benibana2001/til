@@ -5,7 +5,7 @@ import styles from "./Ticket.module.scss";
 import { Draggable } from "react-beautiful-dnd";
 import { resetServerContext } from "react-beautiful-dnd";
 
-export default function Ticket({ ticket, index, onClickConsume }) {
+export default function Ticket({ ticket, index, onClickPlusMinus }) {
   return (
     <Draggable draggableId={ticket.id} index={index}>
       {(provided, snapshot) => (
@@ -29,7 +29,7 @@ export default function Ticket({ ticket, index, onClickConsume }) {
                 <div
                   className={styles.plus}
                   onClick={() =>
-                    onClickConsume(ticket, { consume: ticket.consume + 1 })
+                    onClickPlusMinus(ticket, { consume: ticket.consume + 1 })
                   }
                 >
                   <Image src={imgPlus} />
@@ -40,7 +40,7 @@ export default function Ticket({ ticket, index, onClickConsume }) {
                 <div
                   className={styles.minus}
                   onClick={() =>
-                    onClickConsume(ticket, { consume: ticket.consume - 1 })
+                    onClickPlusMinus(ticket, { consume: ticket.consume - 1 })
                   }
                 >
                   <Image src={imgMinus} />
@@ -50,7 +50,7 @@ export default function Ticket({ ticket, index, onClickConsume }) {
                 <div
                   className={styles.plus}
                   onClick={() =>
-                    onClickConsume(ticket, { estimate: ticket.estimate + 1 })
+                    onClickPlusMinus(ticket, { estimate: ticket.estimate + 1 })
                   }
                 >
                   <Image src={imgPlus} />
@@ -61,7 +61,7 @@ export default function Ticket({ ticket, index, onClickConsume }) {
                 <div
                   className={styles.minus}
                   onClick={() =>
-                    onClickConsume(ticket, { estimate: ticket.estimate - 1 })
+                    onClickPlusMinus(ticket, { estimate: ticket.estimate - 1 })
                   }
                 >
                   <Image src={imgMinus} />

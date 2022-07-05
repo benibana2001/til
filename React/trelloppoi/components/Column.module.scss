@@ -1,19 +1,30 @@
 .container {
+  display: flex;
+  flex-direction: column;
   width: 320px;
+  flex: 0 0 320px;
   margin: 8px;
-  background-color: #DDDDDD;
+  background-color: #dddddd;
   border: 1px solid lightgray;
   border-radius: 2px;
-}
 
-.container > div > * + * {
-  margin-top: 6px;
-}
+  > div > * + * {
+    margin-top: 6px;
+  }
 
-.title {
-  padding: 8px;
-}
+  textarea {
+    width: 100%;
+    background-color: inherit;
+    resize: none;
+    border: none;
+  }
 
-.task_list {
-  padding: 8px;
+  .title {
+    padding: 8px;
+  }
+
+  .task_list {
+    padding: 8px;
+    flex: 1;
+  }
 }

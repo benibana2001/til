@@ -1,3 +1,4 @@
+import style from "../components/Index.module.scss";
 import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
@@ -18,17 +19,8 @@ export async function getStaticProps() {
 
 export default function Home({ allPostsData }) {
   const [state, setState] = useState(initialData);
-  const column = (id) => state.columns[id];
-  const tasks = (id) =>
-    column(id).ticketIds.map((ticketId) => state.tickets[ticketId]);
-  const addCount = () => {
-    setState((prevState) => ({
-      ...prevState,
-      count: prevState.count + 1,
-    }));
-  };
 
-  const onClickConsume = (ticket, obj) => {
+  const onClickPlusMinus = (ticket, obj) => {
     setState((prevState) => {
       const newState = {
         ...prevState,
@@ -41,41 +33,79 @@ export default function Home({ allPostsData }) {
           },
         },
       };
-      console.log(newState);
       return newState;
     });
+  };
+
+  const onCliceColumnTitle = () => {
+    console.log("hello");
   };
 
   const onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
     if (!destination) return;
 
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
+    const sameColumn = destination.droppableId === source.droppableId;
+    const sameIndex = destination.index === source.index;
+    if (sameColumn && sameIndex) return;
+
+    const startColumn = state.columns[source.droppableId];
+    const finishColumn = state.columns[destination.droppableId];
+
+    const setStateWithSameColumn = () => {
+      const newTicketIds = Array.from(startColumn.ticketIds); // create a copy
+
+      newTicketIds.splice(source.index, 1); // remove a ticket
+      newTicketIds.splice(destination.index, 0, draggableId); // add a ticket
+
+      const newColumn = {
+        ...startColumn,
+        ticketIds: newTicketIds,
+      };
+
+      const newState = {
+        ...state,
+        columns: {
+          ...state.columns,
+          [newColumn.id]: newColumn,
+        },
+      };
+
+      setState(newState);
+    };
+    const setStateWithAnotherColumn = () => {
+      console.log("another");
+      const startTicketIds = Array.from(startColumn.ticketIds);
+      const finishTicketIds = Array.from(finishColumn.ticketIds);
+
+      startTicketIds.splice(source.index, 1);
+      finishTicketIds.splice(destination.index, 0, draggableId);
+
+      const newStartColumn = {
+        ...startColumn,
+        ticketIds: startTicketIds,
+      };
+      const newFinishColumn = {
+        ...finishColumn,
+        ticketIds: finishTicketIds,
+      };
+      const newState = {
+        ...state,
+        columns: {
+          ...state.columns,
+          [startColumn.id]: newStartColumn,
+          [finishColumn.id]: newFinishColumn,
+        },
+      };
+      setState(newState);
+    };
+
+    if (startColumn === finishColumn) {
+      setStateWithSameColumn();
       return;
     }
 
-    const column = state.columns[source.droppableId];
-    const newTicketIds = Array.from(column.ticketIds); // create a copy
-    newTicketIds.splice(source.index, 1); // remove a ticket
-    newTicketIds.splice(destination.index, 0, draggableId); // add a ticket
-
-    const newColumn = {
-      ...column,
-      ticketIds: newTicketIds,
-    };
-
-    const newState = {
-      ...state,
-      columns: {
-        ...state.columns,
-        [newColumn.id]: newColumn,
-      },
-    };
-
-    setState(newState);
+    setStateWithAnotherColumn();
   };
 
   return (
@@ -86,20 +116,23 @@ export default function Home({ allPostsData }) {
       </Head>
 
       <DragDropContext onDragEnd={onDragEnd}>
-        {state.coloumnOrder.map((columnId) => {
-          const column = state.columns[columnId];
-          const tickets = column.ticketIds.map(
-            (ticketId) => state.tickets[ticketId]
-          );
-          return (
-            <Column
-              key={column.id}
-              column={column}
-              tickets={tickets}
-              onClickConsume={onClickConsume}
-            />
-          );
-        })}
+        <div className={style.column_container}>
+          {state.coloumnOrder.map((columnId) => {
+            const column = state.columns[columnId];
+            const tickets = column.ticketIds.map(
+              (ticketId) => state.tickets[ticketId]
+            );
+            return (
+              <Column
+                key={column.id}
+                column={column}
+                tickets={tickets}
+                onClickPlusMinus={onClickPlusMinus}
+                onCliceColumnTitle={onCliceColumnTitle}
+              />
+            );
+          })}
+        </div>
       </DragDropContext>
 
       {/* <Ticket title="TITLE_TICKET" /> */}

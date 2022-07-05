@@ -1,10 +1,21 @@
 import styles from "./Column.module.scss";
 import { Droppable } from "react-beautiful-dnd";
 import Ticket from "./Ticket";
-export default function Column({ column, tickets, onClickConsume }) {
+export default function Column({
+  column,
+  tickets,
+  onClickPlusMinus,
+  onCliceColumnTitle,
+}) {
   return (
     <div className={styles.container}>
-      <p className={styles.title}>{column.title}</p>
+      <textarea
+        onClick={onCliceColumnTitle}
+        className={styles.title}
+        placeholder="リストのタイトルを入力..."
+        defaultValue={column.title}
+        colus="1"
+      />
       <Droppable droppableId={column.id}>
         {(provided) => (
           <div
@@ -13,7 +24,12 @@ export default function Column({ column, tickets, onClickConsume }) {
             ref={provided.innerRef}
           >
             {tickets.map((ticket, index) => (
-              <Ticket key={ticket.id} ticket={ticket} index={index} onClickConsume={onClickConsume} />
+              <Ticket
+                key={ticket.id}
+                ticket={ticket}
+                index={index}
+                onClickPlusMinus={onClickPlusMinus}
+              />
             ))}
             {provided.placeholder}
           </div>
