@@ -34,7 +34,7 @@ export default function Ticket({ ticket, index, onClickPlusMinus }) {
                 >
                   <Image src={imgPlus} />
                 </div>
-                <div className={`${styles.hours} ${styles.hours__consume}`}>
+                <div className={`${styles.hours} ${ticket.consume <= ticket.estimate ? styles.hours__consume : styles.hours__consume__over}`}>
                   {ticket.consume}
                 </div>
                 <div

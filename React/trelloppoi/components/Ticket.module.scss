@@ -67,12 +67,16 @@
       .hours {
         text-align: end;
         font-weight: bold;
-      }
-      .hours__consume {
-        color: white;
-      }
-      .hours__estimate {
-        color: #c7c7c7;
+
+        &__consume {
+          color: #ffffff;
+        }
+        &__consume__over {
+          color: #ffc700;
+        }
+        &__estimate {
+          color: #c7c7c7;
+        }
       }
       .minus {
         line-height: 0.5;
