@@ -40,15 +40,29 @@
   border-radius: inherit;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-}
-.hours {
-  text-align: end;
-  font-size: 26px;
-  font-weight: bold;
-}
-.hours__consume {
-  color: white;
-}
-.hours__estimate {
-  color: #c7c7c7;
+
+  .time {
+    display: flex;
+    font-size: 26px;
+    text-align: center;
+
+    .plus {
+      font-size: 26px;
+      color: #ffffff;
+    }
+    .hours {
+      flex: 1;
+      text-align: end;
+      font-weight: bold;
+    }
+    .hours__consume {
+      color: white;
+    }
+    .hours__estimate {
+      color: #c7c7c7;
+    }
+    .minus {
+      color: #ffffff;
+    }
+  }
 }

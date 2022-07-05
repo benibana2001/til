@@ -28,6 +28,24 @@ export default function Home({ allPostsData }) {
     }));
   };
 
+  const onClickConsume = (ticket, obj) => {
+    setState((prevState) => {
+      const newState = {
+        ...prevState,
+        tickets: {
+          ...prevState.tickets,
+          [ticket.id]: {
+            ...ticket,
+            ...obj,
+            // consume: ticket.consume + 1,
+          },
+        },
+      };
+      console.log(newState);
+      return newState;
+    });
+  };
+
   const onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
     if (!destination) return;
@@ -57,7 +75,7 @@ export default function Home({ allPostsData }) {
       },
     };
 
-    setState(newState)
+    setState(newState);
   };
 
   return (
@@ -73,7 +91,14 @@ export default function Home({ allPostsData }) {
           const tickets = column.ticketIds.map(
             (ticketId) => state.tickets[ticketId]
           );
-          return <Column key={column.id} column={column} tickets={tickets} />;
+          return (
+            <Column
+              key={column.id}
+              column={column}
+              tickets={tickets}
+              onClickConsume={onClickConsume}
+            />
+          );
         })}
       </DragDropContext>
 

@@ -1,7 +1,7 @@
 import styles from "./Column.module.scss";
 import { Droppable } from "react-beautiful-dnd";
 import Ticket from "./Ticket";
-export default function Column({ column, tickets }) {
+export default function Column({ column, tickets, onClickConsume }) {
   return (
     <div className={styles.container}>
       <p className={styles.title}>{column.title}</p>
@@ -13,7 +13,7 @@ export default function Column({ column, tickets }) {
             ref={provided.innerRef}
           >
             {tickets.map((ticket, index) => (
-              <Ticket key={ticket.id} ticket={ticket} index={index} />
+              <Ticket key={ticket.id} ticket={ticket} index={index} onClickConsume={onClickConsume} />
             ))}
             {provided.placeholder}
           </div>
