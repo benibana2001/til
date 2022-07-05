@@ -1,3 +1,6 @@
+import Image from "next/image";
+import imgPlus from "../public/images/plus.svg";
+import imgMinus from "../public/images/minus.svg";
 import styles from "./Ticket.module.scss";
 import { Draggable } from "react-beautiful-dnd";
 import { resetServerContext } from "react-beautiful-dnd";
@@ -23,18 +26,46 @@ export default function Ticket({ ticket, index, onClickConsume }) {
             </div>
             <div className={styles.right}>
               <div className={styles.time}>
-                <div className={styles.plus} onClick={() => onClickConsume(ticket, {consume: ticket.consume + 1})}>＋</div>
+                <div
+                  className={styles.plus}
+                  onClick={() =>
+                    onClickConsume(ticket, { consume: ticket.consume + 1 })
+                  }
+                >
+                  <Image src={imgPlus} />
+                </div>
                 <div className={`${styles.hours} ${styles.hours__consume}`}>
                   {ticket.consume}
                 </div>
-                <div className={styles.minus} onClick={() => onClickConsume(ticket, {consume: ticket.consume - 1})}>ー</div>
+                <div
+                  className={styles.minus}
+                  onClick={() =>
+                    onClickConsume(ticket, { consume: ticket.consume - 1 })
+                  }
+                >
+                  <Image src={imgMinus} />
+                </div>
               </div>
               <div className={styles.time}>
-                <div className={styles.plus} onClick={() => onClickConsume(ticket, {estimate: ticket.estimate + 1})}>＋</div>
+                <div
+                  className={styles.plus}
+                  onClick={() =>
+                    onClickConsume(ticket, { estimate: ticket.estimate + 1 })
+                  }
+                >
+                  <Image src={imgPlus} />
+                </div>
                 <div className={`${styles.hours} ${styles.hours__estimate}`}>
                   {ticket.estimate}
                 </div>
-                <div className={styles.minus} onClick={() => onClickConsume(ticket, {estimate: ticket.estimate - 1})}>ー</div>
+                <div
+                  className={styles.minus}
+                  onClick={() =>
+                    onClickConsume(ticket, { estimate: ticket.estimate - 1 })
+                  }
+                >
+                  <Image src={imgMinus} />
+                </div>
               </div>
             </div>
           </div>
