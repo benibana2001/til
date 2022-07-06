@@ -1,6 +1,11 @@
 export const initialData = {
   tickets: {
-    ticket_1: { id: "ticket_1", content: "使っていて気持ちいUIを探る", consume: 12, estimate: 30 },
+    ticket_1: {
+      id: "ticket_1",
+      content: "使っていて気持ちいUIを探る",
+      consume: 12,
+      estimate: 30,
+    },
     ticket_2: {
       id: "ticket_2",
       content:
@@ -9,7 +14,12 @@ export const initialData = {
       estimate: 4,
     },
     ticket_3: { id: "ticket_3", content: "猫を飼う", consume: 6, estimate: 12 },
-    ticket_4: { id: "ticket_4", content: "大型二輪免許を取得する", consume: 0, estimate: 99 },
+    ticket_4: {
+      id: "ticket_4",
+      content: "大型二輪免許を取得する",
+      consume: 0,
+      estimate: 99,
+    },
   },
   columns: {
     column_1: {
@@ -28,6 +38,5 @@ export const initialData = {
       ticketIds: [],
     },
   },
-  coloumnOrder: ["column_1", "column_2", "column_3"],
-  count: 0,
+  columnOrder: ["column_1", "column_2", "column_3"],
 };

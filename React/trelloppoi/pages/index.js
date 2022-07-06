@@ -5,7 +5,7 @@ import { useState } from "react";
 import Layout, { siteTitle } from "../components/layout";
 import { getSortedPostsDate } from "../lib/posts";
 import Column from "../components/Column";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { initialData } from "./initail-data";
 
 export async function getStaticProps() {
@@ -17,7 +17,7 @@ export async function getStaticProps() {
   };
 }
 
-export default function Home({ allPostsData }) {
+export default function Home() {
   const [state, setState] = useState(initialData);
 
   const onClickPlusMinus = (ticket, obj) => {
@@ -42,7 +42,7 @@ export default function Home({ allPostsData }) {
   };
 
   const onDragEnd = (result) => {
-    const { destination, source, draggableId } = result;
+    const { destination, source, draggableId, type } = result;
     if (!destination) return;
 
     const sameColumn = destination.droppableId === source.droppableId;
@@ -52,7 +52,7 @@ export default function Home({ allPostsData }) {
     const startColumn = state.columns[source.droppableId];
     const finishColumn = state.columns[destination.droppableId];
 
-    const setStateWithSameColumn = () => {
+    const newStateWithTicketAtSameColumn = () => {
       const newTicketIds = Array.from(startColumn.ticketIds); // create a copy
 
       newTicketIds.splice(source.index, 1); // remove a ticket
@@ -71,10 +71,9 @@ export default function Home({ allPostsData }) {
         },
       };
 
-      setState(newState);
+      return newState;
     };
-    const setStateWithAnotherColumn = () => {
-      console.log("another");
+    const newStateWithTicketAtAnotherColumn = () => {
       const startTicketIds = Array.from(startColumn.ticketIds);
       const finishTicketIds = Array.from(finishColumn.ticketIds);
 
@@ -97,15 +96,32 @@ export default function Home({ allPostsData }) {
           [finishColumn.id]: newFinishColumn,
         },
       };
-      setState(newState);
+      return newState;
     };
 
-    if (startColumn === finishColumn) {
-      setStateWithSameColumn();
+    const newStateWithColumn = () => {
+      const newColumnOrder = Array.from(state.columnOrder);
+      newColumnOrder.splice(source.index, 1);
+      newColumnOrder.splice(destination.index, 0, draggableId);
+
+      const newState = {
+        ...state,
+        columnOrder: newColumnOrder,
+      };
+      return newState;
+    };
+
+    if (type === "column") {
+      setState(newStateWithColumn());
       return;
     }
 
-    setStateWithAnotherColumn();
+    if (startColumn === finishColumn) {
+      setState(newStateWithTicketAtSameColumn());
+      return;
+    }
+
+    setState(newStateWithTicketAtAnotherColumn());
   };
 
   return (
@@ -116,27 +132,38 @@ export default function Home({ allPostsData }) {
       </Head>
 
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className={style.column_container}>
-          {state.coloumnOrder.map((columnId) => {
-            const column = state.columns[columnId];
-            const tickets = column.ticketIds.map(
-              (ticketId) => state.tickets[ticketId]
-            );
-            return (
-              <Column
-                key={column.id}
-                column={column}
-                tickets={tickets}
-                onClickPlusMinus={onClickPlusMinus}
-                onCliceColumnTitle={onCliceColumnTitle}
-              />
-            );
-          })}
-        </div>
+        <Droppable
+          droppableId="all-columns"
+          direction="horizontal"
+          type="column"
+        >
+          {(provided) => (
+            <div
+              className={style.column_container}
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {state.columnOrder.map((columnId, index) => {
+                const column = state.columns[columnId];
+                const tickets = column.ticketIds.map(
+                  (ticketId) => state.tickets[ticketId]
+                );
+                return (
+                  <Column
+                    key={column.id}
+                    column={column}
+                    tickets={tickets}
+                    index={index}
+                    onClickPlusMinus={onClickPlusMinus}
+                    onCliceColumnTitle={onCliceColumnTitle}
+                  />
+                );
+              })}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
       </DragDropContext>
-
-      {/* <Ticket title="TITLE_TICKET" /> */}
-      {/* <Menu recipes={recipeData} /> */}
     </Layout>
   );
 }

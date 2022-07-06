@@ -3,7 +3,6 @@ import imgPlus from "../public/images/plus.svg";
 import imgMinus from "../public/images/minus.svg";
 import styles from "./Ticket.module.scss";
 import { Draggable } from "react-beautiful-dnd";
-import { resetServerContext } from "react-beautiful-dnd";
 
 export default function Ticket({ ticket, index, onClickPlusMinus }) {
   return (
