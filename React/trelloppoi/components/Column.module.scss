@@ -12,15 +12,29 @@
     margin-top: 6px;
   }
 
-  textarea {
-    width: 100%;
-    background-color: inherit;
-    resize: none;
-    border: none;
+  .handle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 15px;
+    border-radius: 2px;
+    &__line {
+      width: 90%;
+      height: 5px;
+    background-color: #bebebe;
+      border-radius: 3px;
+    }
+  }
+  .title_p {
+    position: absolute;
   }
 
   .title {
+    width: 100%;
     padding: 8px;
+    background-color: inherit;
+    resize: none;
+    border: none;
   }
 
   .task_list {

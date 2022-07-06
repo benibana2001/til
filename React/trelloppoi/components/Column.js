@@ -14,10 +14,13 @@ export default function Column({
         <div
           className={styles.container}
           {...provided.draggableProps}
+          {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          <p
-            {...provided.dragHandleProps}
+          <div className={styles.handle}>
+            <div className={styles.handle__line}></div>
+          </div>
+          <textarea
             onClick={onCliceColumnTitle}
             className={styles.title}
             placeholder="リストのタイトルを入力..."
