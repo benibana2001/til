@@ -1,12 +1,13 @@
 import styles from "./scss/Column.module.scss";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import Ticket from "./Ticket";
+import TicketComposer from "./TicketComposer";
 export default function Column({
   column,
   tickets,
   index,
   onClickPlusMinus,
-  onCliceColumnTitle,
+  addTicket,
 }) {
   return (
     <Draggable draggableId={column.id} index={index}>
@@ -21,7 +22,6 @@ export default function Column({
             <div className={styles.handle__line}></div>
           </div>
           <textarea
-            onClick={onCliceColumnTitle}
             className={styles.title}
             placeholder="リストのタイトルを入力..."
             defaultValue={column.title}
@@ -46,7 +46,10 @@ export default function Column({
               </div>
             )}
           </Droppable>
-          <div className={styles.add_ticket}>カードを追加</div>
+          <TicketComposer
+            column={column}
+            addTicket={addTicket}
+          ></TicketComposer>
         </div>
       )}
     </Draggable>

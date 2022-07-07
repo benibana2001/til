@@ -2,19 +2,9 @@ import styles from "../components/scss/Index.module.scss";
 import Head from "next/head";
 import { useState } from "react";
 import Layout, { siteTitle } from "../components/Layout";
-import { getSortedPostsDate } from "../lib/posts";
 import Column from "../components/Column";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { initialData } from "./initail-data";
-
-export async function getStaticProps() {
-  const allPostsData = getSortedPostsDate();
-  return {
-    props: {
-      allPostsData,
-    },
-  };
-}
 
 export default function Home() {
   const [state, setState] = useState(initialData);
@@ -28,7 +18,6 @@ export default function Home() {
           [ticket.id]: {
             ...ticket,
             ...obj,
-            // consume: ticket.consume + 1,
           },
         },
       };
@@ -36,13 +25,39 @@ export default function Home() {
     });
   };
 
-  const onCliceColumnTitle = () => {
-    console.log("hello");
-  };
+  const addTicket = (column, { content, consume, estimate }) => {
+    if (!content) {
+      console.error("Ticket Content is none");
+      return;
+    }
 
-  const onClickAddTicket = () => {
-    
-  }
+    setState((prevState) => {
+      const newTicketId = `ticket_${Object.keys(prevState.tickets).length + 1}`;
+      const newState = {
+        ...prevState,
+        tickets: {
+          ...prevState.tickets,
+          [newTicketId]: {
+            id: newTicketId,
+            content,
+            consume,
+            estimate,
+          },
+        },
+        columns: {
+          ...prevState.columns,
+          [column.id]: {
+            ...prevState.columns[column.id],
+            ticketIds: prevState.columns[column.id].ticketIds.concat([
+              newTicketId,
+            ]),
+          },
+        },
+      };
+      console.log(newState);
+      return newState;
+    });
+  };
 
   const onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result;
@@ -158,7 +173,7 @@ export default function Home() {
                     tickets={tickets}
                     index={index}
                     onClickPlusMinus={onClickPlusMinus}
-                    onCliceColumnTitle={onCliceColumnTitle}
+                    addTicket={addTicket}
                   />
                 );
               })}
