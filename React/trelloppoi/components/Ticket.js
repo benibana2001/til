@@ -1,7 +1,7 @@
 import Image from "next/image";
 import imgPlus from "../public/images/plus.svg";
 import imgMinus from "../public/images/minus.svg";
-import styles from "./Ticket.module.scss";
+import styles from "./scss/Ticket.module.scss";
 import { Draggable } from "react-beautiful-dnd";
 
 export default function Ticket({ ticket, index, onClickPlusMinus }) {

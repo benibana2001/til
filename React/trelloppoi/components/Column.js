@@ -1,4 +1,4 @@
-import styles from "./Column.module.scss";
+import styles from "./scss/Column.module.scss";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import Ticket from "./Ticket";
 export default function Column({
@@ -46,6 +46,7 @@ export default function Column({
               </div>
             )}
           </Droppable>
+          <div className={styles.add_ticket}>カードを追加</div>
         </div>
       )}
     </Draggable>

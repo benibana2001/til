@@ -1,8 +1,7 @@
-import style from "../components/Index.module.scss";
+import styles from "../components/scss/Index.module.scss";
 import Head from "next/head";
-import Link from "next/link";
 import { useState } from "react";
-import Layout, { siteTitle } from "../components/layout";
+import Layout, { siteTitle } from "../components/Layout";
 import { getSortedPostsDate } from "../lib/posts";
 import Column from "../components/Column";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
@@ -40,6 +39,10 @@ export default function Home() {
   const onCliceColumnTitle = () => {
     console.log("hello");
   };
+
+  const onClickAddTicket = () => {
+    
+  }
 
   const onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result;
@@ -139,7 +142,7 @@ export default function Home() {
         >
           {(provided) => (
             <div
-              className={style.column_container}
+              className={styles.column_container}
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
