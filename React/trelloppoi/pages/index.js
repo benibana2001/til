@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useState } from "react";
 import Layout, { siteTitle } from "../components/Layout";
 import Column from "../components/Column";
+import ColumnComposer from "../components/ColumnComposer";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { initialData } from "./initail-data";
 
@@ -55,6 +56,24 @@ export default function Home() {
         },
       };
       return newState;
+    });
+  };
+
+  const addColumn = ({ title }) => {
+    const newColumnId = `column_${Object.keys(prevState.columns).length + 1}`;
+    setState((prevState) => {
+      const newState = {
+        ...prevState,
+        columns: {
+          ...prevState.columns,
+          [newColumnId]: {
+            id: newColumnId,
+            title,
+            ticketIds: [],
+          },
+        },
+        columnOrder: prevState.columnOrder.concat([newColumnId]),
+      };
     });
   };
 
@@ -148,39 +167,42 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable
-          droppableId="all-columns"
-          direction="horizontal"
-          type="column"
-        >
-          {(provided) => (
-            <div
-              className={styles.column_container}
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {state.columnOrder.map((columnId, index) => {
-                const column = state.columns[columnId];
-                const tickets = column.ticketIds.map(
-                  (ticketId) => state.tickets[ticketId]
-                );
-                return (
-                  <Column
-                    key={column.id}
-                    column={column}
-                    tickets={tickets}
-                    index={index}
-                    onClickPlusMinus={onClickPlusMinus}
-                    addTicket={addTicket}
-                  />
-                );
-              })}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+      <div className={styles.container}>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable
+            droppableId="all-columns"
+            direction="horizontal"
+            type="column"
+          >
+            {(provided) => (
+              <div
+                className={styles.column_container}
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {state.columnOrder.map((columnId, index) => {
+                  const column = state.columns[columnId];
+                  const tickets = column.ticketIds.map(
+                    (ticketId) => state.tickets[ticketId]
+                  );
+                  return (
+                    <Column
+                      key={column.id}
+                      column={column}
+                      tickets={tickets}
+                      index={index}
+                      onClickPlusMinus={onClickPlusMinus}
+                      addTicket={addTicket}
+                    />
+                  );
+                })}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+        <ColumnComposer></ColumnComposer>
+      </div>
     </Layout>
   );
 }

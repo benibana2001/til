@@ -2,7 +2,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  width: 320px;
+  width: variables.$size-column;
   flex: 0 0 320px;
   margin: 8px;
   background-color: #dddddd;

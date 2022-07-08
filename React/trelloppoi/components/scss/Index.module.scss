@@ -1,3 +1,8 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
 .column_container {
   display: flex;
   align-items: flex-start;
