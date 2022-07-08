@@ -39,7 +39,7 @@ export default function TicketComposer({ column, addTicket }) {
             value={content}
             onChange={onChangeTextArea}
             onKeyDown={onKeyDownEnter(onRegister)}
-            // onBlur={() => setVisiblity(false)}
+            onBlur={() => setVisiblity(false)}
             autoFocus
           ></textarea>
           <div className={styles.register_new_ticket} onClick={onRegister}>
