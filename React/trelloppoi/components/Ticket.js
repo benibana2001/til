@@ -1,6 +1,7 @@
 import Image from "next/image";
 import imgPlus from "../public/images/plus.svg";
 import imgMinus from "../public/images/minus.svg";
+import Plus from "./Image/Plus";
 import styles from "./scss/Ticket.module.scss";
 import { Draggable } from "react-beautiful-dnd";
 
@@ -27,13 +28,20 @@ export default function Ticket({ ticket, index, onClickPlusMinus }) {
               <div className={styles.time}>
                 <div
                   className={styles.plus}
-                  onClick={() =>
-                    onClickPlusMinus(ticket, { consume: ticket.consume + 1 })
-                  }
+                  onClick={(e) => {
+                    onClickPlusMinus(ticket, { consume: ticket.consume + 1 });
+                  }}
                 >
-                  <Image src={imgPlus} />
+                  {/* <Image src={imgPlus} /> */}
+                  <Plus size={"12"} fillColor={"#63E17F"} />
                 </div>
-                <div className={`${styles.hours} ${ticket.consume <= ticket.estimate ? styles.hours__consume : styles.hours__consume__over}`}>
+                <div
+                  className={`${styles.hours} ${
+                    ticket.consume <= ticket.estimate
+                      ? styles.hours__consume
+                      : styles.hours__consume__over
+                  }`}
+                >
                   {ticket.consume}
                 </div>
                 <div

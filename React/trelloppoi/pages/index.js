@@ -54,7 +54,6 @@ export default function Home() {
           },
         },
       };
-      console.log(newState);
       return newState;
     });
   };
