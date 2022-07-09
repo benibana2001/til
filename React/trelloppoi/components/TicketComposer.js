@@ -6,7 +6,7 @@ import Button from "./Button";
 export default function TicketComposer({ column, addTicket }) {
   const [content, setContent] = useState("");
   const [isVisible, setVisiblity] = useState(false);
-  const textarea = useRef();
+  const textArea = useRef(null);
 
   const onChangeTextArea = (event) => {
     setContent(event.target.value);
@@ -21,6 +21,7 @@ export default function TicketComposer({ column, addTicket }) {
       estimate: 0,
     });
     setContent("");
+    textArea.current.focus();
   };
   const onKeyDownEnter = (func) => (e) => {
     if (e.nativeEvent.isComposing) return;
@@ -32,25 +33,31 @@ export default function TicketComposer({ column, addTicket }) {
   return (
     <div className={styles.container}>
       {isVisible ? (
-      <div>
-        <textarea
-          placeholder="このチケットのタイトルを入力..."
-          className={styles.new_ticket}
-          ref={textarea}
-          value={content}
-          onChange={onChangeTextArea}
-          onKeyDown={onKeyDownEnter(onRegister)}
-          onBlur={() => setVisiblity(false)}
-          autoFocus
-        ></textarea>
-        <Button text={"チケットを追加"} onClick={onRegister} />
-      </div>
-      ) : null}
-      <div className={styles.show_new_ticket} onClick={showNewTicket}>
-        <div className={styles.plus_wrapper}>
-          <Plus size={"24"} fillColor={"#dddddd"} />
+        <div>
+          <textarea
+            placeholder="このチケットのタイトルを入力..."
+            ref={textArea}
+            className={styles.new_ticket}
+            value={content}
+            onChange={onChangeTextArea}
+            onKeyDown={onKeyDownEnter(onRegister)}
+            onBlur={(event) => {
+              const blurTarget = event.relatedTarget;
+              if (!blurTarget) {
+                setVisiblity(false);
+              }
+            }}
+            autoFocus
+          ></textarea>
+          <Button text={"チケットを追加"} onClick={onRegister} />
         </div>
-      </div>
+      ) : (
+        <div className={styles.show_new_ticket} onClick={showNewTicket}>
+          <div className={styles.plus_wrapper}>
+            <Plus size={"24"} fillColor={"#dddddd"} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

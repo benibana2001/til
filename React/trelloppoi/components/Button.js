@@ -5,8 +5,8 @@ export default function ({ text, color, backgroundColor, ...props }) {
     backgroundColor: backgroundColor || "#45a445",
   };
   return (
-    <div style={style} className={styles.container} {...props}>
+    <button style={style} className={styles.container} {...props}>
       <span>{text}</span>
-    </div>
+    </button>
   );
 }

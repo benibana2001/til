@@ -28,7 +28,7 @@ export default function Home() {
 
   const addTicket = (column, { content, consume, estimate }) => {
     if (!content) {
-      console.error("Ticket Content is none");
+      console.error("Ticket content is none");
       return;
     }
 
@@ -59,9 +59,14 @@ export default function Home() {
     });
   };
 
-  const addColumn = ({ title }) => {
-    const newColumnId = `column_${Object.keys(prevState.columns).length + 1}`;
+  const addColumn = (title) => {
+    if(!title) {
+        console.error("Column title is none")
+        return;
+    }
+
     setState((prevState) => {
+      const newColumnId = `column_${Object.keys(prevState.columns).length + 1}`;
       const newState = {
         ...prevState,
         columns: {
@@ -74,6 +79,7 @@ export default function Home() {
         },
         columnOrder: prevState.columnOrder.concat([newColumnId]),
       };
+      return newState;
     });
   };
 
@@ -201,7 +207,7 @@ export default function Home() {
             )}
           </Droppable>
         </DragDropContext>
-        <ColumnComposer></ColumnComposer>
+        <ColumnComposer addColumn={addColumn} />
       </div>
     </Layout>
   );

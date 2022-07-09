@@ -1,5 +1,6 @@
 .container {
   display: inline-block;
+  border: none;
   border-radius: 4px;
   font-size: 14px;
   padding: 8px;
@@ -7,5 +8,6 @@
 
   &:hover {
     opacity: 0.7;
+    cursor: pointer;
   }
 }
