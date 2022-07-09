@@ -1,6 +1,7 @@
 import Plus from "./Image/Plus";
 import styles from "./scss/TicketComposer.module.scss";
 import { useState, useRef } from "react";
+import Button from "./Button";
 
 export default function TicketComposer({ column, addTicket }) {
   const [content, setContent] = useState("");
@@ -31,21 +32,19 @@ export default function TicketComposer({ column, addTicket }) {
   return (
     <div className={styles.container}>
       {isVisible ? (
-        <div>
-          <textarea
-            placeholder="このチケットのタイトルを入力..."          
-            className={styles.new_ticket}
-            ref={textarea}
-            value={content}
-            onChange={onChangeTextArea}
-            onKeyDown={onKeyDownEnter(onRegister)}
-            onBlur={() => setVisiblity(false)}
-            autoFocus
-          ></textarea>
-          <div className={styles.register_new_ticket} onClick={onRegister}>
-            <div>チケットを追加</div>
-          </div>
-        </div>
+      <div>
+        <textarea
+          placeholder="このチケットのタイトルを入力..."
+          className={styles.new_ticket}
+          ref={textarea}
+          value={content}
+          onChange={onChangeTextArea}
+          onKeyDown={onKeyDownEnter(onRegister)}
+          onBlur={() => setVisiblity(false)}
+          autoFocus
+        ></textarea>
+        <Button text={"チケットを追加"} onClick={onRegister} />
+      </div>
       ) : null}
       <div className={styles.show_new_ticket} onClick={showNewTicket}>
         <div className={styles.plus_wrapper}>
