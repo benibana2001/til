@@ -25,12 +25,12 @@ export default function Column({
             className={styles.title}
             placeholder="リストのタイトルを入力..."
             defaultValue={column.title}
-            colus="1"
+            rows="1"
           />
           <Droppable droppableId={column.id} type="ticket">
             {(provided) => (
               <div
-                className={styles.task_list}
+                className={styles.ticket_list}
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >

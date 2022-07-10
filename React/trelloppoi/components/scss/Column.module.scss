@@ -36,13 +36,16 @@
 
   .title {
     width: 100%;
-    padding: 8px;
+    padding: 0 8px;
     background-color: inherit;
+    font-size: 16px;
+    font-weight: bold;
+    color: #1C1B35;
     resize: none;
     border: none;
   }
 
-  .task_list {
+  .ticket_list {
     padding: 8px;
     flex: 1;
   }
