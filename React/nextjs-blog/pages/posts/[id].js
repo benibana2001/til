@@ -21,6 +21,8 @@ export default function Post({ postData }) {
   );
 }
 
+// 開発環境ではリクエストがとぶがプロダクション環境ではビルド時のみ実行される
+// https://nextjs.org/learn/basics/dynamic-routes/dynamic-routes-details
 export async function getStaticPaths() {
   const paths = getAllPostIds();
   return {

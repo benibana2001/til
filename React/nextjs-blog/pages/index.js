@@ -5,6 +5,7 @@ import Layout, { siteTitle } from "../components/layout";
 import utilStyles from "../styles/utils.module.css";
 import { getSortedPostsDate } from "../lib/posts";
 
+// runs at build time
 export async function getStaticProps() {
   const allPostsData = getSortedPostsDate();
   return {
