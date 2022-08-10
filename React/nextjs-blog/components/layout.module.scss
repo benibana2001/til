@@ -1,0 +1,25 @@
+@use "./variables.module";
+.container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.userHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2.4rem;
+  background: linear-gradient(180deg, #00538f 0%, #d99e9e 100%);
+}
+.nav {
+  display: flex;
+  background-color: variables.$black2;
+  overflow-x: scroll;
+
+  li {
+    background-color: variables.$black2;
+    color: variables.$white;
+    font-size: 0.8rem;
+    padding: 0.6rem 1.4rem;
+  }
+}
