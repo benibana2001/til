@@ -3,6 +3,7 @@ body,
 ul,
 li,
 div,
+p,
 a {
   padding: 0;
   margin: 0;
@@ -11,6 +12,7 @@ a {
   line-height: 1.6;
   font-size: 18px;
   list-style: none;
+  line-height: 1;
   /*  */
   color: #ffffff;
 }

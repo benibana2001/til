@@ -2,7 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import Date from "../../components/date";
 import Layout, { SITE_TITLE } from "../../components/layout";
-import utilStyles from "../../styles/utils.module.css";
+import styles from "../../components/contents.module.scss";
 import { getSortedPostsDate } from "../../lib/posts";
 
 // runs at build time
@@ -22,17 +22,20 @@ export default function PostIndex({ allPostsData }) {
         <title>{SITE_TITLE}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className="">
-        <ul className={utilStyles.list}>
+      <section className={`${styles.contents} ${styles.posts}`}>
+        <ul>
           {allPostsData.map(({ id, date, title }) => (
             <li key={id}>
-              <Link href={`/posts/${id}`}>
-                <a>{title}</a>
-              </Link>
-              <br />
-              <small>
-                <Date dateString={date} />
-              </small>
+              <div>
+                <Link href={`/posts/${id}`}>
+                  <a className={styles.title}>{title}</a>
+                </Link>
+              </div>
+              <div>
+                <small>
+                  <Date dateString={date} />
+                </small>
+              </div>
             </li>
           ))}
         </ul>

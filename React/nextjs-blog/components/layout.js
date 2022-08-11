@@ -32,6 +32,8 @@ export default function Layout({ children, home }) {
 function UserHeader() {
   return (
     <header className={styles.userHeader}>
+    <div>
+
       <Link href="/">
         <a>
           <Image
@@ -44,6 +46,13 @@ function UserHeader() {
           />
         </a>
       </Link>
+    </div>
+      <div>
+        <div style={{ fontSize: "1.6rem" }}>{NAME}</div>
+        {/* GitHub */}
+        <div>https://github.com/benibana2001</div>
+        {/* Twitter */}
+      </div>
     </header>
   );
 }
