@@ -1,8 +1,7 @@
 import Layout from "../../components/layout";
 import Head from "next/head";
-import { getAllPostIds, getPostData } from "../../lib/posts";
+import { getAllPostIds, getPostData, POST_DIRECTORY } from "../../lib/posts";
 import Date from "../../components/date";
-import utilStyles from "../../styles/utils.module.css";
 
 export default function Post({ postData }) {
   return (
@@ -24,7 +23,7 @@ export default function Post({ postData }) {
 // 開発環境ではリクエストがとぶがプロダクション環境ではビルド時のみ実行される
 // https://nextjs.org/learn/basics/dynamic-routes/dynamic-routes-details
 export async function getStaticPaths() {
-  const paths = getAllPostIds();
+  const paths = getAllPostIds(POST_DIRECTORY);
   return {
     paths,
     fallback: false,
@@ -32,7 +31,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const postData = await getPostData(params.id);
+  const postData = await getPostData(POST_DIRECTORY, `${params.id}`);
   return {
     props: {
       postData,

@@ -3,11 +3,11 @@ import Link from "next/link";
 import Date from "../../components/date";
 import Layout, { SITE_TITLE } from "../../components/layout";
 import styles from "../../components/contents.module.scss";
-import { getSortedPostsDate } from "../../lib/posts";
+import { getSortedPostsDate, POST_DIRECTORY } from "../../lib/getMdData";
 
 // runs at build time
 export async function getStaticProps() {
-  const allPostsData = getSortedPostsDate();
+  const allPostsData = getSortedPostsDate(POST_DIRECTORY);
   return {
     props: {
       allPostsData,
@@ -32,9 +32,9 @@ export default function PostIndex({ allPostsData }) {
                 </Link>
               </div>
               <div>
-                <small>
-                  <Date dateString={date} />
-                </small>
+                <div className={styles.misc}>
+                  <Date dateString={date} className={styles.misc} />
+                </div>
               </div>
             </li>
           ))}

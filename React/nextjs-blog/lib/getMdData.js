@@ -4,15 +4,16 @@ import matter from "gray-matter";
 import { remark } from "remark";
 import html from "remark-html";
 
-const postsDirectory = path.join(process.cwd(), "pages/posts");
+export const POST_DIRECTORY = path.join(process.cwd(), "pages/posts");
+export const APP_DIRECTORY = path.join(process.cwd(), "pages/apps");
 
-export function getSortedPostsDate() {
-  const fileNames = fs.readdirSync(postsDirectory);
+export function getSortedPostsDate(dir) {
+  const fileNames = fs.readdirSync(dir);
   const allPostsData = fileNames
     .filter((filename) => filename.includes(".md"))
     .map((fileName) => {
       const id = fileName.replace(/\.md$/, "");
-      const fullPath = path.join(postsDirectory, fileName);
+      const fullPath = path.join(dir, fileName);
       const fileContents = fs.readFileSync(fullPath, "utf8");
       /**
        * Use gray-matter to parse the post metadata section
@@ -37,8 +38,8 @@ export function getSortedPostsDate() {
   });
 }
 
-export function getAllPostIds() {
-  const fileNames = fs.readdirSync(postsDirectory);
+export function getAllPostIds(dir) {
+  const fileNames = fs.readdirSync(dir);
 
   return fileNames.map((fileName) => {
     return {
@@ -54,8 +55,8 @@ export function getAllPostIds() {
  * @param {number} id 
  * @returns 
  */
-export async function getPostData(id) {
-  const fullPath = path.join(postsDirectory, `${id}.md`);
+export async function getPostData(dir, id) {
+  const fullPath = path.join(dir, `${id}.md`);
   const fileContents = fs.readFileSync(fullPath, "utf8");
 
   const matterResult = matter(fileContents);

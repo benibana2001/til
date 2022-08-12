@@ -1,8 +1,8 @@
+import path from 'path';
 import Layout from "../../components/layout";
 import Head from "next/head";
-import { getAllPostIds, getPostData } from "../../lib/posts";
+import { getAllPostIds, getPostData, POST_DIRECTORY } from "../../lib/getMdData";
 import Date from "../../components/date";
-import utilStyles from "../../styles/utils.module.css";
 
 export default function Post({ postData }) {
   return (
@@ -11,8 +11,8 @@ export default function Post({ postData }) {
         <title>{postData.title}</title>
       </Head>
       <article>
-        <h1 className="">{postData.title}</h1>
-        <div className="">
+        <h1>{postData.title}</h1>
+        <div>
           <Date dateString={postData.date} />
         </div>
         <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
@@ -21,18 +21,26 @@ export default function Post({ postData }) {
   );
 }
 
-// 開発環境ではリクエストがとぶがプロダクション環境ではビルド時のみ実行される
-// https://nextjs.org/learn/basics/dynamic-routes/dynamic-routes-details
+/**
+ * パスを生成
+ * 開発環境ではリクエストがとぶがプロダクション環境ではビルド時のみ実行される
+ * https://nextjs.org/learn/basics/dynamic-routes/dynamic-routes-details
+ * @returns {Object}
+ */
 export async function getStaticPaths() {
-  const paths = getAllPostIds();
+  const paths = getAllPostIds(POST_DIRECTORY);
   return {
     paths,
     fallback: false,
   };
 }
-
+/**
+ * propsを渡す
+ * @param {*} 
+ * @returns  {Object}
+ */
 export async function getStaticProps({ params }) {
-  const postData = await getPostData(params.id);
+  const postData = await getPostData(POST_DIRECTORY, `${params.id}`);
   return {
     props: {
       postData,
