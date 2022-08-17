@@ -1,7 +1,8 @@
 import Layout from "../../components/layout";
 import Head from "next/head";
-import { getAllPostIds, getPostData, POST_DIRECTORY } from "../../lib/posts";
+import { getAllPostIds, getPostData, POST_DIRECTORY } from "../../lib/getMdData";
 import Date from "../../components/date";
+import PostsCard from "../../components/PostsCard";
 
 export default function Post({ postData }) {
   return (
@@ -9,6 +10,7 @@ export default function Post({ postData }) {
       <Head>
         <title>{postData.title}</title>
       </Head>
+      <PostsCard />
       <article>
         <h1 className="">{postData.title}</h1>
         <div className="">

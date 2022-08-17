@@ -3,6 +3,9 @@
   width: 100%;
   margin: 0 auto;
 }
+.main {
+  background-color: variables.$black;
+}
 
 .userHeader {
   display: flex;

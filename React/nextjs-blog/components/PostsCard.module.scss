@@ -1,26 +1,21 @@
 @use "./variables.module";
-.contents {
-  background-color: variables.$black;
-}
-.posts {
+.posts_card {
+  padding: 1.4rem;
+  border-bottom: 2px solid variables.$black3;
+
   div + div {
     margin-top: 0.6rem;
   }
-  li {
-    padding: 1.4rem;
-    border-bottom: 2px solid variables.$black3;
-  }
+
   .title {
     color: variables.$white;
     font-size: 1.1rem;
     font-weight: bold;
     line-height: 1.2;
   }
+
   .misc {
     font-size: 0.8rem;
     color: variables.$gray01;
   }
 }
-// .apps {
-//   li{}
-// }

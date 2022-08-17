@@ -1,0 +1,9 @@
+@use "./variables.module";
+.posts_id {
+  .article {
+    color: variables.$white;
+    .contentHtml {
+      padding: 1rem;
+    }
+  }
+}

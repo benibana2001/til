@@ -1,9 +1,7 @@
 import Head from "next/head";
-import Link from "next/link";
-import Date from "../../components/date";
 import Layout, { SITE_TITLE } from "../../components/layout";
-import styles from "../../components/contents.module.scss";
 import { getSortedPostsDate, POST_DIRECTORY } from "../../lib/getMdData";
+import PostsCard from "../../components/PostsCard";
 
 // runs at build time
 export async function getStaticProps() {
@@ -22,21 +20,10 @@ export default function PostIndex({ allPostsData }) {
         <title>{SITE_TITLE}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className={`${styles.contents} ${styles.posts}`}>
+      <section>
         <ul>
-          {allPostsData.map(({ id, date, title }) => (
-            <li key={id}>
-              <div>
-                <Link href={`/posts/${id}`}>
-                  <a className={styles.title}>{title}</a>
-                </Link>
-              </div>
-              <div>
-                <div className={styles.misc}>
-                  <Date dateString={date} className={styles.misc} />
-                </div>
-              </div>
-            </li>
+          {allPostsData.map((props) => (
+            <PostsCard key={props.id} {...props} />
           ))}
         </ul>
       </section>

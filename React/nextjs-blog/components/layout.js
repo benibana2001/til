@@ -24,7 +24,7 @@ export default function Layout({ children, home }) {
       </Head>
       <UserHeader />
       <Nav />
-      <main>{children}</main>
+      <main className={styles.main}>{children}</main>
     </div>
   );
 }
