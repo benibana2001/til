@@ -1,9 +1,28 @@
 @use "./variables.module";
-.posts_id {
-  .article {
-    color: variables.$white;
-    .contentHtml {
-      padding: 1rem;
-    }
+.article {
+  padding: 1rem;
+  p {
+  color: variables.$gray03;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+  li {
+    margin-bottom: 0.4rem;
+    margin-left: 2rem;
+    line-height: 1.6;
+    list-style-type: disc;
+  }
+  a {
+    color: #0cc9f3;
+  }
+  h2 {
+    color: #C0C31A;
+  }
+  pre {
+    padding: 1rem;
+    color: #eee;
+    background: #171f2e;
+  }
+  .contentHtml {
   }
 }
