@@ -12,7 +12,6 @@ void main() {
   );
 
   pos.x *= 2.0;//x座標空間を[0, 2]区間にスケール
-
   int ind = int(pos.x);
   vec3 col = mix(col3[ind], col3[ind + 1], fract(pos.x));
   flagColor = vec4(col, 1.0);
