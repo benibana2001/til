@@ -1,5 +1,9 @@
 (async () => {
   const FILE_PATH = "./walking.json";
+  const client = {
+    width: document.body.clientWidth,
+    height: document.body.clientHeight,
+  }
 
   // CSVをfetch
   const fetchJson = async () => {
@@ -44,10 +48,16 @@
       }
     }
   }
-  console.log(points)
-  console.log(MAX_SIZE)
-  console.log(MIN_SIZE)
 
   // 二次元配列を0~1の範囲で正規化
+  points = points.map(row => {
+     return row.map(point => {
+      return [
+        point[0] - MIN_SIZE.x,
+        point[1] - MIN_SIZE.y
+      ]
+     })
+  })
 
+  console.log(points)
 })();
