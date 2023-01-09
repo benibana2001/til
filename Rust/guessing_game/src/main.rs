@@ -6,25 +6,34 @@ fn main() {
 
     let secret_number = rand::thread_rng().gen_range(1..101); //range 1以上101未満
 
-    println!("The secret number is: {}", secret_number);
+    // println!("The secret number is: {}", secret_number);
 
-    println!("Please input your guess.");
+    loop {
+        println!("Please input your guess.");
 
-    let mut guess = String::new(); // `mut` means mutable.
+        let mut guess = String::new(); // `mut` means mutable.
 
-    // let apples = 5; // immutable
+        // let apples = 5; // immutable
 
-    io::stdin()
-        .read_line(&mut guess) // `&`はこの引数が参照であることを示す
-        .expect("Failed to read line");
+        io::stdin()
+            .read_line(&mut guess) // `&`はこの引数が参照であることを示す
+            .expect("Failed to read line");
 
-    let guess: u32 = guess.trim().parse().expect("Please type a number"); //shadowing シャドーイング
+        //shadowing シャドーイング
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
 
-    println!("You guessed: {}", guess);
+        println!("You guessed: {}", guess);
 
-    match guess.cmp(&secret_number) {
-        Ordering::Less => println!("Too small!"), // Orderingもenumの一つ
-        Ordering::Greater => println!("Too big!"),
-        Ordering::Equal => println!("You win!"),
+        match guess.cmp(&secret_number) {
+            Ordering::Less => println!("Too small!"), // Orderingもenumの一つ
+            Ordering::Greater => println!("Too big!"),
+            Ordering::Equal => {
+                println!("You win!");
+                break;
+            }
+        }
     }
 }
