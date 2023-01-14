@@ -22,4 +22,14 @@ fn main() {
 
     // let mut spaces = "    ";
     // spaces = spaces.len(); // mutは型を維持するためエラーになる
+
+    let tup = (500, 6.4, 1);
+    let (x, y, z) = tup;
+    let five_hundred = tup.0;
+    println!("The value of y is: {}", y);
+    println!("The value of 'five_hundred' is: {}", five_hundred);
+
+    let a: [i32; 5] = [1, 2, 3, 4, 5];
+
+    println!("The value of a[2] is: {}", a[2]);
 }
