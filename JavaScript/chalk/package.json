@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "chalk": "^5.2.0",
+    "esbuild": "^0.17.19"
+  },
+  "scripts": {
+    "build" : "npx esbuild index.mjs --bundle --outfile=out.js"
+  },
+  "type": "module"
+}
