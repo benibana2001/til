@@ -10,7 +10,7 @@ class Player {
     this.scale = 2;
     this.playerMoveRange = floorSize / 2 - 14;
     this.inputMaterial = null; // gltfを参照
-    this.PLAYER_SPEED = 2.0;
+    this.PLAYER_SPEED = 4.0;
   }
   hitMaterial = new THREE.MeshStandardMaterial({ color: 'red' })
   meshInit() {

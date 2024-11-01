@@ -23,7 +23,9 @@ class Gun {
     const bulletMaterial = new THREE.MeshStandardMaterial()
     const newBullet = new THREE.Mesh(bulletGeometry, bulletMaterial);
     newBullet.name = 'BULLET'
-    newBullet.position.set(Math.random() * floorSize - floorSize / 2, 1, floorSize / 2)
+
+    const moveRange = floorSize / 2 - 14
+    newBullet.position.set(moveRange * 2 * Math.random() -moveRange, 1, floorSize / 2)
 
     newBullet.geometry.computeBoundingSphere();//コライダーを生成
     newBullet.collider = new THREE.Sphere(newBullet.position, newBullet.geometry.boundingSphere.radius)

@@ -6,7 +6,7 @@ class Blocker{
     this.elem.style.display = 'none'
   }
   show(){
-    this.elem.style.display = 'block'
+    this.elem.style.display = 'flex'
   }
 }
 

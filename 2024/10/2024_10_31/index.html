@@ -16,18 +16,26 @@
 
   <div class="blocker-stop">
     <div class="instructions centerized">
-      <p>RESULT</p>
+      <p>GAME OVER</p>
+      <p><span class="score"></span>pt</p>
     </div>
   </div>
-
+  <div class="header">
+    <p><span class="header-score"></span>pt</p>
+  </div>
 <canvas class="webgl"></canvas>
   <script type="module" src="./script.js"></script>
 
 </body>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
   :root{
     --canvas-width:600px;
     --canvas-height:600px;
+    --header-height: 50px;
+    font-family: "DotGothic16", sans-serif;
+    font-weight: 400;
+    font-style: normal;
   }
   .lil-gui {
     --background-color: rgba(0, 0, 0, 0.2);
@@ -51,6 +59,9 @@
     padding: 0;
   }
 
+  canvas.webgl {
+    cursor: pointer;
+  }
   [class^=blocker]{
     display: none;
     position:absolute;
@@ -59,10 +70,22 @@
     background-color: rgba(0, 0, 0, 0.5);
   }
 
+  .header {
+    width: var(--canvas-width);
+    height: var(--header-height);
+    /* background-color: rgba(0, 0, 0, 0.5); */
+    position: absolute;
+    box-sizing: border-box;
+    text-align: right;
+    padding: 0.5rem;
+    color: #eeeeee;
+  }
+
   .centerized{
     width: var(--canvas-width);
     height: var(--canvas-height);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     cursor: pointer;

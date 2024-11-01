@@ -14,6 +14,10 @@ class Game {
     this.blockerStart.show();
     this.blockerStop = new Blocker('.blocker-stop')
 
+    this.domHeaderScore = document.querySelector('.header-score');
+    this.domResultScore = document.querySelector('.score');
+    this.domHeaderScore.textContent = 0;
+
     this.running = false;
     this.isOver = false;
 
@@ -33,6 +37,10 @@ class Game {
     this.player.update()
     this.gun.update()
 
+    // scoreの更新
+    this.score = Math.floor(this.clock.getElapsedTime() * 100)
+    this.domHeaderScore.textContent = this.score
+
     // judge hit collision
     if (this.player._judgeCollistion(this.gun)) {
       this.player.hit()
@@ -40,18 +48,22 @@ class Game {
     } else {
       this.player.mesh.material = this.player._getDefaultMaterial()
     }
-    console.log(this.clock.getElapsedTime())
   }
+
   start() {
     this.running = true;
     this.player.start()
     this.gun.start()
     this.clock.start()
   }
+
   _stop() {
     this.running = false;
     this.player.stop()
     this.gun.stop()
+
+    this.domResultScore.textContent = this.score
+
     this.blockerStop.show()
     this.clock.stop()
     this.isOver = true;
