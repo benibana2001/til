@@ -17,7 +17,8 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 let 
   game,
-  hiScore = 0; // TODO: not implemented yet
+  hiScore = 0,
+  ElemHighScore = document.querySelector('.high-score')
 
 // scene
 const scene = new THREE.Scene()
@@ -78,6 +79,17 @@ const gameFunctions = {
 function animate() {
   if (game && game.running) {
     game.update()
+  }
+
+  // update hi-score
+  const lastScore = game.getScore()
+  if(lastScore > hiScore) {
+    hiScore = lastScore
+  }
+
+  if(game.isOver) {
+    console.log('update high-socre !') // render hi-score
+    ElemHighScore.textContent = hiScore
   }
 
   renderer.render(scene, Objects.camera)

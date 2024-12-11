@@ -68,6 +68,9 @@ class Game {
     this.clock.stop()
     this.isOver = true;
   }
+  getScore() {
+    return this.score
+  }
 
   clickCanvas() {
     if (this.player.running) {
