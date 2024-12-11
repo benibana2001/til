@@ -96,10 +96,7 @@ function initMusic() {
   const audioContext = new AudioContext()
   const audioElement = document.querySelector("audio")
   audioElement.loop = true;
-  console.dir(audioContext)
-  console.dir(audioElement)
   const track = audioContext.createMediaElementSource(audioElement)
-  console.dir(track)
   track.connect(audioContext.destination);
 
   const playButton = document.querySelector("button")

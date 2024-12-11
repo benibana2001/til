@@ -42,7 +42,7 @@ class Game {
     this.domHeaderScore.textContent = this.score
 
     // judge hit collision
-    if (this.player._judgeCollistion(this.gun)) {
+    if (this.player.judgeCollistion(this.gun)) {
       this.player.hit()
       this._stop()
     } else {

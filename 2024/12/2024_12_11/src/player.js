@@ -11,6 +11,7 @@ class Player {
     this.playerMoveRange = floorSize / 2 - 14;
     this.inputMaterial = null; // gltfを参照
     this.PLAYER_SPEED = 4.0;
+    this.audioContext = new AudioContext() // HIT時のサウンド再生
   }
   hitMaterial = new THREE.MeshStandardMaterial({ color: 'red' })
   meshInit() {
@@ -40,7 +41,7 @@ class Player {
     this.mesh.position.x = this.playerMoveRange * Math.sin(this.clock.getElapsedTime()* this.PLAYER_SPEED)
     this.mesh.collider.center.set = (this.mesh.position.x, this.mesh.position.y, this.mesh.position.z);
   }
-  _judgeCollistion(gun) {
+  judgeCollistion(gun) {
     let hit = false;
     gun.bullets.forEach(bullet => {
       if (this.mesh.collider.intersectsSphere(bullet.collider)) {
@@ -49,9 +50,23 @@ class Player {
     })
     return hit;
   }
-  hit() {
+
+  async hit() {
     console.log('HIT')
     this.mesh.material = this.hitMaterial
+
+    const audioBuffer = await this._fetchAudioAsBuffer()
+    const source = this.audioContext.createBufferSource()
+    source.buffer = audioBuffer;
+
+    source.connect(this.audioContext.destination)
+    source.start();
+  }
+
+  async _fetchAudioAsBuffer() {
+    const res = await fetch("/audio/hit.mp3");
+    const arrayBuffer = await res.arrayBuffer()
+    return await this.audioContext.decodeAudioData(arrayBuffer)
   }
 }
 
