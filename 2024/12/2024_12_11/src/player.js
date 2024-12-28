@@ -2,8 +2,8 @@ import * as THREE from "three"
 import {width, height, floorSize} from './constants'
 
 class Player {
-  constructor() {
-    this.mesh = null; // gltfを参照
+  constructor(mesh) {
+    this.mesh = mesh; // gltfを参照
     this.clock = new THREE.Clock()
     this.clock.prev = 0;
     this.running = false;
