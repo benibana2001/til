@@ -1,0 +1,35 @@
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>XSS検証ページ</title>
+</head>
+<body>
+  <h1>XSS検証ページ</h1>
+  <div id="result"></div>
+  <p>
+    このぺーじにたいしてクエリを?message=<img%20src%20onerror=alert%27'xss'%27>と与えてアクセスする
+  </p>
+  <!-- ?message=<img%20src%20onerror=alert(%27xss%27)> -->
+  <a href="#" id="link">リンクをクリック</a>
+
+  <script>
+    // innerHTMLによるXSS脆弱性
+    const url = new URL(location.href)
+    const message = url.searchParams.get("message")
+    if(message !== null) {
+      console.log(message)
+      document.querySelector("#result").innerHTML = message;
+    }
+
+    // href属性書き換えによるXSS脆弱性
+    // ?url=javascript:alert(%27xss%20by%20javascript:%27)
+    const urlStr = url.searchParams.get('url')
+    if(urlStr !==null) {
+      const linkUrl = new URL(urlStr, url.origin)
+      document.querySelector("#link").href=linkUrl
+    }
+
+  </script>
+  
+</body>
+</html>

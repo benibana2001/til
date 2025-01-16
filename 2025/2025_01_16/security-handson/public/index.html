@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <title>Top Page</title>
+    <meta http-equv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'">
+  </head>
+  <body>
+    <h1>Top Page</h1>
+    <iframe
+      id="iframe" 
+      onload="load()"
+      src="https://example.com"
+    ></iframe>
+
+    <script>
+      function load() {
+        const iframe = document.querySelector('#iframe');
+
+        // next line is Error.
+        const iframeDoc = iframe.contentWindow.document;
+        console.log(iframeDoc);
+      }
+    </script>
+  </body>
+</html>

